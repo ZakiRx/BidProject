@@ -2,7 +2,7 @@ package zoz.bidproject.model;
 
 import java.util.Date;
 
-public class Subcription {
+public class Subscription {
 	private Long id;
 	private String name;
 	private Date createdAt;
@@ -10,7 +10,7 @@ public class Subcription {
 	private Boolean enabled;
 	private Seller seller;
 	private Pack pack;
-	public Subcription(Long id, String name, Date createdAt, Date endAt, Boolean enabled,Seller seller,Pack pack) {
+	public Subscription(Long id, String name, Date createdAt, Date endAt, Boolean enabled,Seller seller,Pack pack) {
 		this.id = id;
 		this.name = name;
 		this.createdAt = createdAt;

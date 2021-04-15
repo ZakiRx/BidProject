@@ -5,7 +5,8 @@ import java.util.List;
 public class Seller extends Buyer {
 	private List<Follow> follows;
 	private List<Offre> offres;
-
+	
+	
 	public List<Follow> getFollows() {
 		return follows;
 	}

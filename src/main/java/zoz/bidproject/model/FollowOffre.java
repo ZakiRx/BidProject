@@ -6,16 +6,16 @@ public class FollowOffre {
 	private Long id;
 	private Date followOffreAt;
 	private Buyer buyer;
-
+	private Offre offre;
 	public FollowOffre() {
 
 	}
 
-	public FollowOffre(Long id, Date followOffreAt, Buyer buyer) {
-		super();
+	public FollowOffre(Long id, Date followOffreAt, Buyer buyer,Offre offre) {
 		this.id = id;
 		this.followOffreAt = followOffreAt;
 		this.buyer = buyer;
+		this.offre=offre;
 	}
 
 	public Long getId() {
@@ -41,5 +41,14 @@ public class FollowOffre {
 	public void setBuyer(Buyer buyer) {
 		this.buyer = buyer;
 	}
+
+	public Offre getOffre() {
+		return offre;
+	}
+
+	public void setOffre(Offre offre) {
+		this.offre = offre;
+	}
+	
 
 }
