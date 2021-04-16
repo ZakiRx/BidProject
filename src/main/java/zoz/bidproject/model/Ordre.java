@@ -7,14 +7,18 @@ public class Ordre {
 	private Date createdAt;
 	private Date updatedAt;
 	private ShippingProof shippingProof;
+	private Seller seller;
+	private Purchase purchase;
 	
 	public Ordre() {
 		
 	}
-	public Ordre(Long id, Date createdAt, Date updatedAt) {
+	public Ordre(Long id, Date createdAt, Date updatedAt,Seller seller,Purchase purchase) {
 		this.id = id;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
+		this.seller=seller;
+		this.purchase=purchase;
 	}
 	public Long getId() {
 		return id;
@@ -40,5 +44,20 @@ public class Ordre {
 	public void setShippingProof(ShippingProof shippingProof) {
 		this.shippingProof = shippingProof;
 	}
+	public Seller getSeller() {
+		return seller;
+	}
+	public void setSeller(Seller seller) {
+		this.seller = seller;
+	}
+	public Purchase getPurchase() {
+		return purchase;
+	}
+	public void setPurchase(Purchase purchase) {
+		this.purchase = purchase;
+	}
+	
+	
+	
 	
 }

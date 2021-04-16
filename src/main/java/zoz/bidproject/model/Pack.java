@@ -5,16 +5,18 @@ import java.util.List;
 public class Pack {
 	private Long id;
 	private String name;
+	private Integer nbrDays;
 	private String details;
 	private List<Subscription> subcriptions;
 	
 	public  Pack() {
 		
 	}
-	public Pack(Long id, String name, String details) {
+	public Pack(Long id, String name,Integer nbrDays, String details) {
 		
 		this.id = id;
 		this.name = name;
+		this.nbrDays=nbrDays;
 		this.details = details;
 	}
 	public Long getId() {

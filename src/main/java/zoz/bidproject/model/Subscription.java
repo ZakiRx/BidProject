@@ -4,15 +4,13 @@ import java.util.Date;
 
 public class Subscription {
 	private Long id;
-	private String name;
 	private Date createdAt;
 	private Date endAt;
 	private Boolean enabled;
 	private Seller seller;
 	private Pack pack;
-	public Subscription(Long id, String name, Date createdAt, Date endAt, Boolean enabled,Seller seller,Pack pack) {
+	public Subscription(Long id, Date createdAt, Date endAt, Boolean enabled,Seller seller,Pack pack) {
 		this.id = id;
-		this.name = name;
 		this.createdAt = createdAt;
 		this.endAt = endAt;
 		this.enabled = enabled;
@@ -27,14 +25,6 @@ public class Subscription {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public Date getCreatedAt() {

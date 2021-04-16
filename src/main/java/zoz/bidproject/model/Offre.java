@@ -22,7 +22,6 @@ public class Offre {
 	
 	public Offre(Long id, String name, String description, Double startPrice, Double augmentationPrice, Date startedAt,
 			Date endAt, Boolean verified, Boolean enabled, Seller seller) {
-		super();
 		this.id = id;
 		this.name = name;
 		this.description = description;
