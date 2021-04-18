@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import zoz.bidproject.model.Buyer;
 import zoz.bidproject.model.FollowOffre;
+import zoz.bidproject.model.Seller;
 import zoz.bidproject.repositories.jpa.FollowOfferRepository;
 
 
@@ -31,6 +32,14 @@ public class FollowOfferService {
 		return buyer.getFollowOffres();
 	}
 	
+	/**
+	 * @author Zaki_Guemi
+	 * @param buyer
+	 * @return
+	 */
+	public List<FollowOffre> getAllFolowersOffreBySeller(Seller seller){
+		return seller.getFollowOffres();
+	}
 	
 	/**
 	 * 

@@ -6,14 +6,21 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import zoz.bidproject.model.Follow;
 import zoz.bidproject.model.Offer;
-import zoz.bidproject.dto.OffreDto;
+import zoz.bidproject.model.Ordre;
+import zoz.bidproject.dto.OfferDto;
 import zoz.bidproject.model.Pack;
 import zoz.bidproject.model.Product;
 import zoz.bidproject.model.Seller;
 import zoz.bidproject.model.Subscription;
+import zoz.bidproject.repositories.jpa.FollowRepository;
 import zoz.bidproject.repositories.jpa.SellerRepository;
 
+/**
+ * @author Zaki_Rx
+ *
+ */
 @Service
 public class SellerService {
 
@@ -23,71 +30,121 @@ public class SellerService {
 	private SubscriptionService subscriptionService;
 	@Autowired
 	private OfferService offerService;
+
 	@Autowired
 	private ProductService productService;
 	@Autowired
 	private OrdreService ordreService;
 
+	@Autowired
+	private FollowService followService;
+
+	/**
+	 * check Seller is connected by id stored in Session
+	 * 
+	 * @param id
+	 * @return {@link Seller}
+	 */
 	public Seller getSeller(Long id) {
 		return sellerRepository.getOne(id);// 1L id seller get in session
 	}
 
-	public Subscription newSubscription(Pack pack) {
-		Subscription subscription = subscriptionService.newSubscription(pack, 1L); // 1L id seller get in session
+	/**
+	 * Subscribe Seller with select One pack
+	 * 
+	 * @param {@link   Pack}
+	 * @param idSeller
+	 * @return
+	 */
+	public Subscription newSubscription(Pack pack, Long idSeller) {
+		Seller seller = getSeller(idSeller);
+		Subscription subscription = subscriptionService.newSubscription(pack, seller);
 		return subscription;
 	}
 
-	public List<Offer> getOffres(Long idSeller) {
+	/**
+	 * Get all offers seller
+	 * 
+	 * @param idSeller
+	 * @return
+	 */
+	public List<Offer> getOffers(Long idSeller) {
 
 		Seller seller = getSeller(idSeller);
 		return offerService.getAllOffresBySeller(seller);
 	}
 
-	public Offer createOffre(Long idSeller) {// OffreDto
+	/**
+	 * when seller want to create offer first time, without products
+	 * 
+	 * @param idSeller
+	 * @param offerDto
+	 * @return
+	 */
+	public Offer createOffer(Long idSeller, OfferDto offerDto) {
 		Seller seller = getSeller(idSeller);
-		Offer offre = new Offer(null, "offre1", "bla bla", 500.0, 100.0, new Date(), new Date(), false, false, seller);
+		Offer offre = new Offer(null, offerDto.getName(), offerDto.getDescription(), offerDto.getStartPrice(),
+				offerDto.getAugmentationPrice(), new Date(), new Date(), false, false, seller);
 		return offre;
 	}
 
-	public Offer createOffre(Long idSeller, OffreDto offreDto) {
-		Seller seller = getSeller(idSeller);
-		Offer offre = new Offer(null, offreDto.getName(), offreDto.getDescription(), offreDto.getStartPrice(),
-				offreDto.getAugmentationPrice(), new Date(), new Date(), false, false, seller);
-		return offre;
-	}
-
-	public Offer addProductForOffre(Offer offre, Product product) {
-		List<Product> productsInOffre = offre.getProducts();
+	/**
+	 * add products to offer and turn true to enabled
+	 * 
+	 * @param offer
+	 * @param product
+	 * @return
+	 */
+	public Offer addProductForOffer(Offer offer, Product product) {
+		List<Product> productsInOffre = offer.getProducts();
 		productsInOffre.add(product);
-		offre.setProducts(productsInOffre);
-		offre.setEnabled(true);
-		return offre;
+		offer.setProducts(productsInOffre);
+		offer.setEnabled(true);
+		return offer;
 	}
 
-	public Offer newOffre(Offer offre) {
-		return offerService.saveOffre(offre);
+	public Offer newOffer(Offer offer) {
+		return offerService.saveOffre(offer);
 	}
 
-	public Offer updateOffre(Offer offre, Long idSeller) {
+	public Offer updateOffer(Offer offer, Long idSeller) {
 		Seller seller = getSeller(idSeller);// 1L id seller get in session (Seller connect)
-		if (offre.getSeller().equals(seller)) {
-			return offerService.saveOffre(offre);
+		if (offer.getSeller().equals(seller)) {
+			return offerService.saveOffre(offer);
 		}
 		return null;
 	}
 
-	public Offer updateProductInOffre(Offer offre, Product newProduct, Long idSeller) {
+	public Offer updateProductInOffer(Offer offer, Product newProduct, Long idSeller) {
 		Seller seller = getSeller(idSeller);// 1L id seller get in session (Seller connect)
-		if (offre.getSeller().equals(seller)) {
-
-			offre.getProducts().set(newProduct.getId().intValue(), newProduct);
+		if (offer.getSeller().equals(seller)) {
+			offer.getProducts().set(newProduct.getId().intValue(), newProduct);
 		}
 
-		return offre;
+		return offer;
 	}
 
-	public List<Product> getProductsInOffre(Offer offre) {
-		return productService.getProductsByOffre(offre);
+	public List<Product> getProductsInOffer(Offer offer) {
+		return productService.getProductsByOffre(offer);
+	}
+
+	public List<Ordre> getOrdersSeller(Long id) {
+		return ordreService.getOrdersBySeller(id);
+	}
+
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public boolean checkSubscription(Long id) {
+		Seller seller = getSeller(id);
+		return subscriptionService.checkSubscription(seller);
+	}
+
+	public List<Follow> getFollowers(Long id) {
+		Seller seller = getSeller(id);
+		return followService.getFollowersBySeller(seller);
 	}
 
 }

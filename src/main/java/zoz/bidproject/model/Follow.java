@@ -9,7 +9,6 @@ public class Follow {
 	private Seller seller;
 	
 	public Follow(Long id, Date followedAt, Buyer buyer, Seller seller) {
-		super();
 		this.id = id;
 		this.followedAt = followedAt;
 		this.buyer = buyer;

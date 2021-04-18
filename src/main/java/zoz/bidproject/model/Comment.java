@@ -12,7 +12,6 @@ public class Comment {
 	private Offer offer;
 	
 	public Comment(Long id, String comment, Date createdAt, Date updatedAt, Boolean actif, Buyer buyer,Offer offer) {
-		super();
 		this.id = id;
 		this.comment = comment;
 		this.createdAt = createdAt;
@@ -23,8 +22,7 @@ public class Comment {
 	}
 
 	public Comment() {
-		super();
-		// TODO Auto-generated constructor stub
+		
 	}
 	
 

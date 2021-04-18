@@ -13,7 +13,6 @@ import zoz.bidproject.model.FollowOffre;
 import zoz.bidproject.model.Offer;
 import zoz.bidproject.model.Seller;
 import zoz.bidproject.repositories.jpa.BuyerRepository;
-import zoz.bidproject.repositories.jpa.SellerRepository;
 
 /**
  * 
@@ -86,7 +85,7 @@ public class BuyerService {
 	public Comment makeComment(Long idBuyer,long idOffer ,String commentText) {
 		Buyer buyer = getBuyer(idBuyer);
 		Offer offer = offerService.getOfferById(idOffer);
-		return commentService.SaveComment(new Comment(null,commentText,new Date(),new Date(),false,buyer,offer));
+		return commentService.saveComment(new Comment(null,commentText,new Date(),new Date(),false,buyer,offer));
 	}
 
 	/**
@@ -95,12 +94,21 @@ public class BuyerService {
 	 * @param idSeller
 	 * @return Follow
 	 */
-	public Follow FollowSeller(Long idBuyer,Long idSeller) {
+	public Follow followSeller(Long idBuyer,Long idSeller) {
 		Buyer buyer = getBuyer(idBuyer);
 		Seller seller = sellerService.getSeller(idSeller); // should to communicate with the service
 		return followService.saveFollow(new Follow(null,new Date(),buyer,seller));
 	}
 	
+	/**
+	 * @author Zaki_Guemi
+	 * @param idBuyer
+	 * @return
+	 */
+	public List<Follow> getFollowing(Long idBuyer){
+		Buyer buyer = getBuyer(idBuyer);
+		return followService.getFollowingByBuyer(buyer);
+	}
 	
 	
 	

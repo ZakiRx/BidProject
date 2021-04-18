@@ -1,12 +1,16 @@
 package zoz.bidproject.dto;
-
-public class OffreDto {
+/**
+ * 
+ * @author Zaki_Guemi
+ *
+ */
+public class OfferDto {
 	private String name;
 	private String description;
 	private Double startPrice;
 	private Double augmentationPrice;
 
-	public OffreDto(String name, String description, Double startPrice, Double augmentationPrice) {
+	public OfferDto(String name, String description, Double startPrice, Double augmentationPrice) {
 
 		this.name = name;
 		this.description = description;
