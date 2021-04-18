@@ -20,10 +20,10 @@ public class SubscriptionService {
 	@Autowired
 	private PackRepository packRepository;
 	@Autowired
-	private SellerRepository sellerRepository;
+	private SellerService sellerService;
 	
 	public Subscription newSubscription(Pack pack,Long id) {
-		Seller seller =sellerRepository.getOne(id);                 
+		Seller seller =sellerService.getSeller(id);                 
 		Subscription subscription = new Subscription(null, new Date(), new Date(), true, seller, pack);
 	 	subscriptionRepository.save(subscription);
 		return subscription;

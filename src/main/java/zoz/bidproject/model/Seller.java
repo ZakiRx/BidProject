@@ -40,6 +40,15 @@ public class Seller extends Buyer {
 		this.subscription = subscription;
 	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		if(this==obj) return true;
+		if(obj instanceof Seller) {
+		  return ((Seller)obj).getId()==this.getId();
+		}
+		return false;
+	}
+	
 	
 	
 }

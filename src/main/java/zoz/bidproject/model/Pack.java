@@ -43,5 +43,12 @@ public class Pack {
 	public void setSubcriptions(List<Subscription> subcriptions) {
 		this.subcriptions = subcriptions;
 	}
+	public Integer getNbrDays() {
+		return nbrDays;
+	}
+	public void setNbrDays(Integer nbrDays) {
+		this.nbrDays = nbrDays;
+	}
+	
 	
 }
