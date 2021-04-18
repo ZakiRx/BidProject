@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import zoz.bidproject.model.Buyer;
-import zoz.bidproject.model.FollowOffer;
+import zoz.bidproject.model.FollowOffre;
 import zoz.bidproject.repositories.jpa.FollowOfferRepository;
 
 
@@ -27,7 +27,7 @@ public class FollowOfferService {
 	 * @param buyer
 	 * @return List of FollowdOffers
 	 */
-	public List<FollowOffer> getAllFollowedOfferByBuyer(Buyer buyer){
+	public List<FollowOffre> getAllFollowedOfferByBuyer(Buyer buyer){
 		return buyer.getFollowOffres();
 	}
 	
@@ -37,7 +37,7 @@ public class FollowOfferService {
 	 * @param followOffer
 	 * @return followOffer
 	 */
-	public FollowOffer saveFollowOffer(FollowOffer followOffer) {
+	public FollowOffre saveFollowOffer(FollowOffre followOffer) {
 		
 		return  followOfferRepository.save(followOffer);
 	}

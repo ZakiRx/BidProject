@@ -14,7 +14,5 @@ public class OrdreService {
 	@Autowired
 	private OrdreRepository ordreRepository;
 	
-	public List<Ordre>  getOrdersBySeller(Seller seller){
-		
-	}
+	
 }

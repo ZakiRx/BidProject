@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import zoz.bidproject.model.Offre;
+import zoz.bidproject.model.Offer;
 import zoz.bidproject.model.Product;
 import zoz.bidproject.repositories.jpa.ProductRepository;
 
@@ -19,7 +19,7 @@ public class ProductService {
 		return productRepository.save(product);
 	}
 	
-	public List<Product> getProductsByOffre(Offre offre){
+	public List<Product> getProductsByOffre(Offer offre){
 		return offre.getProducts();
 	}
 	

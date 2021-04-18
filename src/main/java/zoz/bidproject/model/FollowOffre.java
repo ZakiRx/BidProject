@@ -2,16 +2,16 @@ package zoz.bidproject.model;
 
 import java.util.Date;
 
-public class FollowOffer {
+public class FollowOffre {
 	private Long id;
 	private Date followOffreAt;
 	private Buyer buyer;
 	private Offer offre;
-	public FollowOffer() {
+	public FollowOffre() {
 
 	}
 
-	public FollowOffer(Long id, Date followOffreAt, Buyer buyer,Offer offre) {
+	public FollowOffre(Long id, Date followOffreAt, Buyer buyer,Offer offre) {
 		this.id = id;
 		this.followOffreAt = followOffreAt;
 		this.buyer = buyer;

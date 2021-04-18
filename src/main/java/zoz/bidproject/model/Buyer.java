@@ -7,7 +7,7 @@ public class Buyer extends User {
 	private double balance;
 	private boolean verified;
 	private List<Follow> follows;
-	private List<FollowOffer> followOffres;
+	private List<FollowOffre> followOffres;
 	private List<Purchase> purchases;
 	private List<Comment> comments;
 
@@ -54,11 +54,11 @@ public class Buyer extends User {
 		this.verified = verified;
 	}
 
-	public List<FollowOffer> getFollowOffres() {
+	public List<FollowOffre> getFollowOffres() {
 		return followOffres;
 	}
 
-	public void setFollowOffres(List<FollowOffer> followOffres) {
+	public void setFollowOffres(List<FollowOffre> followOffres) {
 		this.followOffres = followOffres;
 	}
 
