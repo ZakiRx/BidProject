@@ -9,6 +9,24 @@ public class Comment {
 	private Date updatedAt;
 	private Boolean actif;
 	private Buyer buyer;
+	private Offer offer;
+	
+	public Comment(Long id, String comment, Date createdAt, Date updatedAt, Boolean actif, Buyer buyer,Offer offer) {
+		super();
+		this.id = id;
+		this.comment = comment;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
+		this.actif = actif;
+		this.buyer = buyer;
+		this.offer = offer;
+	}
+
+	public Comment() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	
 
 	public Long getId() {
 		return id;
@@ -21,6 +39,8 @@ public class Comment {
 	public String getComment() {
 		return comment;
 	}
+
+
 
 	public void setComment(String comment) {
 		this.comment = comment;
@@ -55,6 +75,13 @@ public class Comment {
 	}
 	public void setBuyer(Buyer buyer) {
 		this.buyer = buyer;
+	}
+	
+	public Offer getOffer() {
+		return offer;
+	}
+	public void setOffer(Offer offer) {
+		this.offer = offer;
 	}
 
 }

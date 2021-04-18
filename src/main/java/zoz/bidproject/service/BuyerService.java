@@ -1,5 +1,126 @@
 package zoz.bidproject.service;
 
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import zoz.bidproject.model.Buyer;
+import zoz.bidproject.model.Comment;
+import zoz.bidproject.model.Follow;
+import zoz.bidproject.model.FollowOffer;
+import zoz.bidproject.model.Offer;
+import zoz.bidproject.model.Seller;
+import zoz.bidproject.repositories.jpa.BuyerRepository;
+import zoz.bidproject.repositories.jpa.CommentRepository;
+import zoz.bidproject.repositories.jpa.FollowOfferRepository;
+import zoz.bidproject.repositories.jpa.FollowRepository;
+import zoz.bidproject.repositories.jpa.OfferRepository;
+import zoz.bidproject.repositories.jpa.SellerRepository;
+
+/**
+ * 
+ * @author othmane
+ *
+ */
+@Service
 public class BuyerService {
+	
+	@Autowired
+	private BuyerRepository buyerRepository;
+	
+	@Autowired
+	private FollowService followService;
+	
+	@Autowired
+	private SellerRepository sellerRepository; // should to declare SellerService Here !!
+	
+	@Autowired
+	private OfferService offerService;
+	
+	@Autowired
+	private FollowOfferService followOfferService;
+	
+	@Autowired
+	private CommentService commentService;
+	
+	
+	/**
+	 * 
+	 * @param id buyer
+	 * @return buyer
+	 */
+	public Buyer getBuyer(Long id) {
+		return buyerRepository.getOne(id);
+	}
+	
+	
+	/**
+	 * get list of Offers
+	 * @param id buyer 
+	 * @return list of followedOffer
+	 */
+	public List<FollowOffer> getFollowedOffers(Long id){
+		Buyer buyer = getBuyer(id);
+		return followOfferService.getAllFollowedOfferByBuyer(buyer);
+	}
+	
+	
+	/**
+	 * Follow An Offer
+	 * @param idBuyer
+	 * @param idOffer
+	 * @return FollowedOffer
+	 */
+	public FollowOffer followAnOffer(long idBuyer , Long idOffer) {
+		Buyer buyer = getBuyer(idBuyer);
+		Offer offer = offerService.getOfferById(idOffer);
+		return followOfferService.saveFollowOffer(new FollowOffer(null,new Date(),buyer,offer));
+	}
+	
+	
+	/**-
+	 * Make a Comment 
+	 * @param idBuyer
+	 * @param idOffer
+	 * @param commentText
+	 * @return Comment
+	 */
+	public Comment makeComment(Long idBuyer,long idOffer ,String commentText) {
+		Buyer buyer = getBuyer(idBuyer);
+		Offer offer = offerService.getOfferById(idOffer);
+		return commentService.SaveComment(new Comment(null,commentText,new Date(),new Date(),false,buyer,offer));
+	}
+
+	/**
+	 * 
+	 * @param idBuyer
+	 * @param idSeller
+	 * @return Follow
+	 */
+	public Follow FollowSeller(Long idBuyer,Long idSeller) {
+		Buyer buyer = getBuyer(idBuyer);
+		Seller seller = sellerRepository.getOne(idSeller); // should to communicate with the service
+		return followService.saveFollow(new Follow(null,new Date(),buyer,seller));
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }

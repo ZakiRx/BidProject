@@ -12,11 +12,11 @@ public class Product {
 	private Date updatedAt;
 	private Boolean virified;
 	private String tags;
-	private Offre offre;
+	private Offer offre;
 	private SubCategory subCategory;
 	
 	public Product(Long id, String name, String description, String image, String images, Date createdAt,
-			Date updatedAt, Boolean virified, String tags, Offre offre) {
+			Date updatedAt, Boolean virified, String tags, Offer offre) {
 
 		this.id = id;
 		this.name = name;
@@ -102,11 +102,11 @@ public class Product {
 		this.tags = tags;
 	}
 
-	public Offre getOffre() {
+	public Offer getOffre() {
 		return offre;
 	}
 
-	public void setOffre(Offre offre) {
+	public void setOffre(Offer offre) {
 		this.offre = offre;
 	}
 	public SubCategory getSubCategory() {

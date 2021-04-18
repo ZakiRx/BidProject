@@ -9,7 +9,7 @@ public class Purchase {
 	private Boolean state; // must be state enum
 	private String error;
 	private Buyer buyer;
-	private Offre offre;
+	private Offer offre;
 	private ShippingDetails shippingDetails;
 	
 
@@ -68,11 +68,11 @@ public class Purchase {
 		this.shippingDetails = shippingDetails;
 	}
 
-	public Offre getOffre() {
+	public Offer getOffre() {
 		return offre;
 	}
 
-	public void setOffre(Offre offre) {
+	public void setOffre(Offer offre) {
 		this.offre = offre;
 	}
 	

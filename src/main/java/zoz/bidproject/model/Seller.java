@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Seller extends Buyer {
 	private List<Follow> follows;
-	private List<Offre> offres;
+	private List<Offer> offres;
 	private List<Ordre> ordres;
 	private Subscription subscription ;
 	
@@ -16,11 +16,11 @@ public class Seller extends Buyer {
 		this.follows = follows;
 	}
 
-	public List<Offre> getOffres() {
+	public List<Offer> getOffres() {
 		return offres;
 	}
 
-	public void setOffres(List<Offre> offres) {
+	public void setOffres(List<Offer> offres) {
 		this.offres = offres;
 	}
 

@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import zoz.bidproject.model.Offre;
+import zoz.bidproject.model.Offer;
 import zoz.bidproject.model.Pack;
 import zoz.bidproject.model.Product;
 import zoz.bidproject.model.Seller;
@@ -22,7 +22,7 @@ public class SellerService {
 	@Autowired
 	private SubscriptionService subscriptionService;
 	@Autowired
-	private OffreService offreService;
+	private OfferService offerService;
 	@Autowired
 	private ProductService productService;
 	@Autowired
@@ -36,24 +36,24 @@ public class SellerService {
 		Subscription subscription = subscriptionService.newSubscription(pack, 1L); //1L id seller get in session 
 		return subscription;
 	}
-	public List<Offre> getOffres(Long idSeller){
+	public List<Offer> getOffres(Long idSeller){
 		Seller seller = getSeller(idSeller);
-		return offreService.getAllOffresBySeller(seller);
+		return offerService.getAllOffresBySeller(seller);
 	}
-	public Offre createOffre(Long idSeller)  {//OffreDto
+	public Offer createOffre(Long idSeller)  {//OffreDto
 		Seller seller = getSeller(idSeller);
-		Offre offre = new Offre(null, "offre1", "bla bla", 500.0, 100.0, new Date(), new Date(), false, false, seller);
+		Offer offre = new Offer(null, "offre1", "bla bla", 500.0, 100.0, new Date(), new Date(), false, false, seller);
 		return offre;
 	}
 
-	public Offre addProductForOffre(Offre offre , Product product) {
-		List<Product> productsInOffre = offre.getProducts();
+	public Offer addProductForOffre(Offer offer , Product product) {
+		List<Product> productsInOffre = offer.getProducts();
 		productsInOffre.add(product);
-		offre.setProducts(productsInOffre);
-		return offre;
+		offer.setProducts(productsInOffre);
+		return offer;
 	}
-	public Offre saveOffre(Offre offre) {
-		return offreService.saveOffre(offre);
+	public Offer saveOffre(Offer offer) {
+		return offerService.saveOffre(offer);
 	}
 	
 

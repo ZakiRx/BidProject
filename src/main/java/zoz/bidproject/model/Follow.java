@@ -8,13 +8,29 @@ public class Follow {
 	private Buyer buyer;
 	private Seller seller;
 	
+	public Follow(Long id, Date followedAt, Buyer buyer, Seller seller) {
+		super();
+		this.id = id;
+		this.followedAt = followedAt;
+		this.buyer = buyer;
+		this.seller = seller;
+	}
+	
+	public Follow() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	
 	public Long getId() {
 		return id;
 	}
 
+
 	public void setId(Long id) {
 		this.id = id;
 	}
+
 
 	public Date getFollowedAt() {
 		return followedAt;

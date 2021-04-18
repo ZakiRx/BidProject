@@ -3,7 +3,7 @@ package zoz.bidproject.model;
 import java.util.Date;
 import java.util.List;
 
-public class Offre {
+public class Offer {
 	private Long id;
 	private String name;
 	private String description;
@@ -15,12 +15,12 @@ public class Offre {
 	private Boolean enabled;
 	private Seller seller;
 	private Purchase purchase;
-	private List<FollowOffre> followesOffre;
+	private List<FollowOffer> followesOffre;
 	private List<Comment> comment;
 	private List<Product> products;
 	
 	
-	public Offre(Long id, String name, String description, Double startPrice, Double augmentationPrice, Date startedAt,
+	public Offer(Long id, String name, String description, Double startPrice, Double augmentationPrice, Date startedAt,
 			Date endAt, Boolean verified, Boolean enabled, Seller seller) {
 		this.id = id;
 		this.name = name;
@@ -99,10 +99,10 @@ public class Offre {
 	public void setPurchase(Purchase purchase) {
 		this.purchase = purchase;
 	}
-	public List<FollowOffre> getFollowesOffre() {
+	public List<FollowOffer> getFollowesOffre() {
 		return followesOffre;
 	}
-	public void setFollowesOffre(List<FollowOffre> followesOffre) {
+	public void setFollowesOffre(List<FollowOffer> followesOffre) {
 		this.followesOffre = followesOffre;
 	}
 	public List<Comment> getComment() {
