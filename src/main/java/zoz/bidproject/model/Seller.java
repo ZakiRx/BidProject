@@ -2,11 +2,21 @@ package zoz.bidproject.model;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+
+@Entity
 public class Seller extends Buyer {
+	@OneToMany(mappedBy = "seller")
 	private List<Follow> follows;
+	@OneToMany(mappedBy = "seller")
 	private List<Offer> offres;
+	@OneToMany(mappedBy = "seller")
 	private List<Ordre> ordres;
-	private Subscription subscription ;
+	@OneToOne(mappedBy = "seller")
+	private Subscription subscription;
 	
 	public List<Follow> getFollows() {
 		return follows;

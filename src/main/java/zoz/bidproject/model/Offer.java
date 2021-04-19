@@ -4,9 +4,22 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+
+@Entity
 public class Offer {
+	@Id @GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	private String name;
+	 @Column(columnDefinition = "text")
 	private String description;
 	private Double startPrice;
 	private Double augmentationPrice;
@@ -14,10 +27,15 @@ public class Offer {
 	private Date endAt;
 	private Boolean verified;
 	private Boolean enabled;
+	@ManyToOne
 	private Seller seller;
+	@OneToOne(mappedBy = "offer")
 	private Purchase purchase;
+	@OneToMany(mappedBy = "offer")
 	private List<FollowOffre> followesOffre;
+	@OneToMany(mappedBy = "offer")
 	private List<Comment> comment;
+	@OneToMany(mappedBy = "offer")
 	private List<Product> products;
 
 	public Offer() {

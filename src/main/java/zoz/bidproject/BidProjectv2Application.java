@@ -4,11 +4,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class BidProjectApplication {
+public class BidProjectv2Application {
 
 	public static void main(String[] args) {
-		SpringApplication.run(BidProjectApplication.class, args);
-		System.out.println("nice");
+		SpringApplication.run(BidProjectv2Application.class, args);
+		System.out.println("good");
 	}
 
 }

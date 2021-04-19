@@ -2,15 +2,29 @@ package zoz.bidproject.model;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+
+@Entity
 public class Purchase {
+	@Id @GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	private Date createdAt;
 	private Date updatedAt;
 	private Boolean state; // must be state enum
 	private String error;
+	@ManyToOne()
 	private Buyer buyer;
-	private Offer offre;
+	@OneToOne
+	private Offer offer;
+	@OneToOne(mappedBy = "purchase")
 	private ShippingDetails shippingDetails;
+	@OneToOne
+	private Ordre ordre;
 	
 
 	public Long getId() {
@@ -69,11 +83,19 @@ public class Purchase {
 	}
 
 	public Offer getOffre() {
-		return offre;
+		return offer;
 	}
 
 	public void setOffre(Offer offre) {
-		this.offre = offre;
+		this.offer = offre;
+	}
+	
+	public Ordre getOrdre() {
+		return ordre;
+	}
+	
+	public void setOrdre(Ordre ordre) {
+		this.ordre = ordre;
 	}
 	
 

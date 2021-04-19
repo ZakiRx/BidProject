@@ -1,5 +1,8 @@
 package zoz.bidproject.model;
 
+import javax.persistence.Entity;
+
+@Entity
 public class Company extends Seller {
 	private String name;
 

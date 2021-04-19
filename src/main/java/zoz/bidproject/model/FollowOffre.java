@@ -2,20 +2,31 @@ package zoz.bidproject.model;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
+@Entity
 public class FollowOffre {
+	@Id @GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	private Date followOffreAt;
+	@ManyToOne
 	private Buyer buyer;
-	private Offer offre;
+	@ManyToOne
+	private Offer offer;
+
 	public FollowOffre() {
 
 	}
 
-	public FollowOffre(Long id, Date followOffreAt, Buyer buyer,Offer offre) {
+	public FollowOffre(Long id, Date followOffreAt, Buyer buyer, Offer offre) {
 		this.id = id;
 		this.followOffreAt = followOffreAt;
 		this.buyer = buyer;
-		this.offre=offre;
+		this.offer = offre;
 	}
 
 	public Long getId() {
@@ -43,12 +54,11 @@ public class FollowOffre {
 	}
 
 	public Offer getOffre() {
-		return offre;
+		return offer;
 	}
 
 	public void setOffre(Offer offre) {
-		this.offre = offre;
+		this.offer = offre;
 	}
-	
 
 }

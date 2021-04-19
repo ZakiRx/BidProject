@@ -1,11 +1,21 @@
 package zoz.bidproject.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+
+@Entity
 public class ShippingProof {
+	@Id @GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	private String image;
 	private String trackNumber;
 	private String numPackage;
 	private Boolean verified;
+	@OneToOne
+	private Ordre ordre;
 	public Long getId() {
 		return id;
 	}
@@ -36,6 +46,13 @@ public class ShippingProof {
 	public void setVerified(Boolean verified) {
 		this.verified = verified;
 	}
+	public Ordre getOrdre() {
+		return ordre;
+	}
+	public void setOrdre(Ordre ordre) {
+		this.ordre = ordre;
+	}
+	
 	
 	
 }

@@ -2,12 +2,25 @@ package zoz.bidproject.model;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+
+@Entity
 public class Ordre {
+	@Id @GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	private Date createdAt;
 	private Date updatedAt;
+	@OneToOne(mappedBy = "ordre")
 	private ShippingProof shippingProof;
+	@ManyToOne
 	private Seller seller;
+	@OneToOne(mappedBy = "ordre")
 	private Purchase purchase;
 	
 	public Ordre() {

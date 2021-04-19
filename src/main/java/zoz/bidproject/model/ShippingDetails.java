@@ -1,7 +1,14 @@
 package zoz.bidproject.model;
 
-public class ShippingDetails {
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
+@Entity
+public class ShippingDetails {
+	@Id @GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	private String billingEmail;
 	private String billingName;
@@ -11,6 +18,7 @@ public class ShippingDetails {
 	private String billingPostalCode;
 	private String billingPhone;
 	private Boolean shipped;
+	@OneToOne
 	private Purchase purchase;
 
 	public ShippingDetails(Long id, String billingEmail, String billingName, String country, String billingAdress,

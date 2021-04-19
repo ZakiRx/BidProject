@@ -2,22 +2,31 @@ package zoz.bidproject.model;
 
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.OneToMany;
+
+@Entity
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 public class Buyer extends User {
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long accountId;
 	private double balance;
 	private boolean verified;
+	@OneToMany(mappedBy = "buyer")
 	private List<Follow> follows;
+	@OneToMany(mappedBy = "buyer")
 	private List<FollowOffre> followOffres;
+	@OneToMany(mappedBy = "buyer")
 	private List<Purchase> purchases;
+	@OneToMany(mappedBy = "buyer")
 	private List<Comment> comments;
 
-	public List<Follow> getFollows() {
-		return follows;
-	}
-
-	public void setFollows(List<Follow> follows) {
-		this.follows = follows;
-	}
+	
 
 	public Buyer() {
 
@@ -76,6 +85,13 @@ public class Buyer extends User {
 
 	public void setComments(List<Comment> comments) {
 		this.comments = comments;
+	}
+	public List<Follow> getFollows() {
+		return follows;
+	}
+
+	public void setFollows(List<Follow> follows) {
+		this.follows = follows;
 	}
 	
 

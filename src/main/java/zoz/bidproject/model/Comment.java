@@ -2,13 +2,23 @@ package zoz.bidproject.model;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
+@Entity
 public class Comment {
+	@Id @GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	private String comment;
 	private Date createdAt;
 	private Date updatedAt;
 	private Boolean actif;
+	@ManyToOne
 	private Buyer buyer;
+	@ManyToOne
 	private Offer offer;
 	
 	public Comment(Long id, String comment, Date createdAt, Date updatedAt, Boolean actif, Buyer buyer,Offer offer) {

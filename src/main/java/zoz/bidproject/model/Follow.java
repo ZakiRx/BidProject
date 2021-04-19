@@ -2,10 +2,21 @@ package zoz.bidproject.model;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
+@Entity
 public class Follow {
+	@Id @GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	private Date followedAt;
+	@ManyToOne
 	private Buyer buyer;
+	@ManyToOne
 	private Seller seller;
 	
 	public Follow(Long id, Date followedAt, Buyer buyer, Seller seller) {

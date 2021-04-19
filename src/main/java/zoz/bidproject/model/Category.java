@@ -2,8 +2,13 @@ package zoz.bidproject.model;
 
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+
+@Entity
 public class Category extends CategoryInfo {
 
+	@OneToMany(mappedBy = "category")
 	private List<SubCategory> subCategories;
 	
 	public Category(Long id, String slug, String name) {

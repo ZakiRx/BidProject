@@ -2,12 +2,23 @@ package zoz.bidproject.model;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+
+@Entity
 public class Subscription {
+	@Id @GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	private Date createdAt;
 	private Date endAt;
 	private Boolean enabled;
+	@OneToOne
 	private Seller seller;
+	@ManyToOne
 	private Pack pack;
 	public Subscription(Long id, Date createdAt, Date endAt, Boolean enabled,Seller seller,Pack pack) {
 		this.id = id;
