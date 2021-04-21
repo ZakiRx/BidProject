@@ -1,5 +1,7 @@
 package zoz.bidproject.model;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -7,7 +9,11 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import org.hibernate.annotations.Proxy;
+import org.springframework.context.annotation.Lazy;
+
 @Entity
+@Proxy(lazy = false)
 public class Seller extends Buyer {
 	@OneToMany(mappedBy = "seller")
 	private List<Follow> follows;
@@ -17,7 +23,17 @@ public class Seller extends Buyer {
 	private List<Ordre> ordres;
 	@OneToOne(mappedBy = "seller")
 	private Subscription subscription;
-	
+
+	public Seller() {
+	     offres= new ArrayList<Offer>();
+	}
+	public Seller(Long id, String userName, String firstName, String lastName, Date dateBirth, String email,
+			String phoneNumber, String password, Boolean enabled, Boolean actif, Long accountId, double balance,
+			boolean verified) {
+		super(id, userName, firstName, lastName, dateBirth, email, phoneNumber, password, enabled, actif, accountId,
+				balance, verified);
+	}
+
 	public List<Follow> getFollows() {
 		return follows;
 	}
@@ -49,16 +65,15 @@ public class Seller extends Buyer {
 	public void setSubscription(Subscription subscription) {
 		this.subscription = subscription;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
-		if(this==obj) return true;
-		if(obj instanceof Seller) {
-		  return ((Seller)obj).getId()==this.getId();
+		if (this == obj)
+			return true;
+		if (obj instanceof Seller) {
+			return ((Seller) obj).getId() == this.getId();
 		}
 		return false;
 	}
-	
-	
-	
+
 }

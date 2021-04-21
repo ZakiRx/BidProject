@@ -2,16 +2,17 @@ package zoz.bidproject.model;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+
 
 @Entity
 public class Product {
-	@Id @GeneratedValue(strategy = GenerationType.AUTO)
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;
 	private String description;
@@ -26,8 +27,11 @@ public class Product {
 	@ManyToOne
 	private SubCategory subCategory;
 	
+	public Product() {
+		
+	}
 	public Product(Long id, String name, String description, String image, String images, Date createdAt,
-			Date updatedAt, Boolean virified, String tags, Offer offre) {
+			Date updatedAt, Boolean virified, String tags, Offer offre,SubCategory subCategory) {
 
 		this.id = id;
 		this.name = name;
@@ -39,6 +43,7 @@ public class Product {
 		this.virified = virified;
 		this.tags = tags;
 		this.offer = offre;
+		this.subCategory=subCategory;
 	}
 
 	public Long getId() {

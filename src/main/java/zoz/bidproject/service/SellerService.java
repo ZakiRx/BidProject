@@ -1,11 +1,16 @@
 package zoz.bidproject.service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
+import net.bytebuddy.implementation.bytecode.Throw;
 import zoz.bidproject.model.Follow;
 import zoz.bidproject.model.Offer;
 import zoz.bidproject.model.Ordre;
@@ -22,6 +27,7 @@ import zoz.bidproject.repositories.jpa.SellerRepository;
  *
  */
 @Service
+
 public class SellerService {
 
 	@Autowired
@@ -46,7 +52,13 @@ public class SellerService {
 	 * @return {@link Seller}
 	 */
 	public Seller getSeller(Long id) {
-		return sellerRepository.getOne(id);// 1L id seller get in session
+		Seller seller = sellerRepository.getOne(id);
+		System.out.println(seller.getFirstName());
+		return seller;// 1L id seller get in session
+	}
+	
+	public Seller newSeller(Seller seller) {
+		return sellerRepository.save(seller);
 	}
 
 	/**
@@ -56,8 +68,11 @@ public class SellerService {
 	 * @param idSeller
 	 * @return
 	 */
-	public Subscription newSubscription(Pack pack, Long idSeller) {
+	public Subscription newSubscription(Pack pack, Long idSeller) throws  Exception {
 		Seller seller = getSeller(idSeller);
+		if(seller==null) {
+			 new Exception("\"User not found\"");
+		}
 		Subscription subscription = subscriptionService.newSubscription(pack, seller);
 		return subscription;
 	}
@@ -68,9 +83,7 @@ public class SellerService {
 	 * @param idSeller
 	 * @return
 	 */
-	public List<Offer> getOffers(Long idSeller) {
-
-		Seller seller = getSeller(idSeller);
+	public List<Offer> getOffers(Seller seller) {
 		return offerService.getAllOffresBySeller(seller);
 	}
 
@@ -81,11 +94,15 @@ public class SellerService {
 	 * @param offerDto
 	 * @return
 	 */
-	public Offer createOffer(Long idSeller, OfferDto offerDto) {
-		Seller seller = getSeller(idSeller);
-		Offer offre = new Offer(null, offerDto.getName(), offerDto.getDescription(), offerDto.getStartPrice(),
-				offerDto.getAugmentationPrice(), new Date(), new Date(), false, false, seller);
-		return offre;
+	public Offer createOffer(Seller seller, OfferDto offerDto) {
+		if(getSeller(seller.getId())!=null) {
+			Offer offer = new Offer(null, offerDto.getName(), offerDto.getDescription(), offerDto.getStartPrice(),
+					offerDto.getAugmentationPrice(), new Date(), new Date(), false, false, seller);
+			offerService.saveOffre(offer);
+			return offer; 
+		}
+	
+		return null;
 	}
 
 	/**
@@ -97,14 +114,18 @@ public class SellerService {
 	 */
 	public Offer addProductForOffer(Offer offer, Product product) {
 		List<Product> productsInOffre = offer.getProducts();
+		if(productsInOffre==null) {
+			productsInOffre= new ArrayList<Product>();
+		}
 		productsInOffre.add(product);
 		offer.setProducts(productsInOffre);
 		offer.setEnabled(true);
+		productService.saveProduct(product);
 		return offer;
 	}
 
 	public Offer newOffer(Offer offer) {
-		return offerService.saveOffre(offer);
+		return null;
 	}
 
 	public Offer updateOffer(Offer offer, Long idSeller) {

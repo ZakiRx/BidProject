@@ -3,10 +3,12 @@ package zoz.bidproject.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import zoz.bidproject.model.Pack;
 import zoz.bidproject.repositories.jpa.PackRepository;
 
+@Service
 public class PackService {
 
 	@Autowired

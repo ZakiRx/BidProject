@@ -16,7 +16,7 @@ import javax.persistence.OneToOne;
 
 @Entity
 public class Offer {
-	@Id @GeneratedValue(strategy = GenerationType.AUTO)
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;
 	 @Column(columnDefinition = "text")
@@ -35,7 +35,7 @@ public class Offer {
 	private List<FollowOffre> followesOffre;
 	@OneToMany(mappedBy = "offer")
 	private List<Comment> comment;
-	@OneToMany(mappedBy = "offer")
+	@OneToMany(mappedBy = "offer",cascade = CascadeType.REMOVE)
 	private List<Product> products;
 
 	public Offer() {
