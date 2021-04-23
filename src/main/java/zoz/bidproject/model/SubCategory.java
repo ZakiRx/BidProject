@@ -14,6 +14,9 @@ public class SubCategory extends CategoryInfo {
 	@OneToMany(mappedBy = "subCategory")
 	private List<Product> products;
 	
+	public SubCategory(){
+		super();
+	}
 	public SubCategory(Long id, String slug, String name, Category category) {
 		super(id, slug, name);
 		this.category = category;

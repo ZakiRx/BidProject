@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import zoz.bidproject.model.Ordre;
 
-public interface OrdreRepository extends JpaRepository<Ordre, Long> {
+public interface OrderRepository extends JpaRepository<Ordre, Long> {
 
 	/*@Query("select * from Ordre o inner join Seller s where s.id like :idSeller")
 	public List<Ordre> getOrdreBySeller(@Param(":idSeller") Long idSeller);*/

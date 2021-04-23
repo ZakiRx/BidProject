@@ -22,6 +22,7 @@ public class Offer {
 	 @Column(columnDefinition = "text")
 	private String description;
 	private Double startPrice;
+	private Double currentPrice;
 	private Double augmentationPrice;
 	private Date startedAt;
 	private Date endAt;
@@ -37,9 +38,9 @@ public class Offer {
 	private List<Comment> comment;
 	@OneToMany(mappedBy = "offer",cascade = CascadeType.REMOVE)
 	private List<Product> products;
-
+	@OneToMany(mappedBy = "offer",cascade = CascadeType.REMOVE)
+	private List<Bid> bids;
 	public Offer() {
-		products= new ArrayList<Product>();
 	}
 
 	public Offer(Long id, String name, String description, Double startPrice, Double augmentationPrice, Date startedAt,
@@ -166,6 +167,21 @@ public class Offer {
 
 	public void setProducts(List<Product> products) {
 		this.products = products;
+	}
+
+	public Double getCurrentPrice() {
+		return currentPrice;
+	}
+
+	public void setCurrentPrice(Double currentPrice) {
+		this.currentPrice = currentPrice;
+	}
+	public List<Bid> getBids() {
+		return bids;
+	}
+	
+	public void setBids(List<Bid> bids) {
+		this.bids = bids;
 	}
 
 }

@@ -8,6 +8,10 @@ import javax.persistence.OneToMany;
 @Entity
 public class Category extends CategoryInfo {
 
+	
+	public Category() {
+		super();
+	}
 	@OneToMany(mappedBy = "category")
 	private List<SubCategory> subCategories;
 	

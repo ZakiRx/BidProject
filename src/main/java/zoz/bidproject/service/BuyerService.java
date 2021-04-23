@@ -41,6 +41,8 @@ public class BuyerService {
 	@Autowired
 	private CommentService commentService;
 
+	@Autowired
+	private SubscriptionService subscriptionService;
 	/**
 	 * 
 	 * @param id buyer
@@ -49,7 +51,29 @@ public class BuyerService {
 	public Buyer getBuyer(Long id) {
 		return buyerRepository.getOne(id);
 	}
+	
+	/**
+	 * @author Zaki_Guemi
+	 * @param id
+	 * @return
+	 */
+	public Buyer newBuyer(Buyer buyer) {
+		return buyerRepository.save(buyer);
+	}
+	
+	public void deleteBuyer(Buyer buyer) {
+		 Seller seller = sellerService.getSeller(buyer.getAccountId());
+		 sellerService.deleteSeller(seller);
+		 buyerRepository.delete(buyer);
+		
+		 
+	}
 
+	public Boolean IsSeller(Long accountId) {
+		if( sellerService.getSeller(accountId)!=null)
+			return true;
+		return false;
+	}
 	/**
 	 * get list of Offers
 	 * 
@@ -110,4 +134,17 @@ public class BuyerService {
 		return followService.getFollowingByBuyer(buyer);
 	}
 
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public boolean checkSubscription(Long accountId) {
+		Seller seller = sellerService.getSeller(accountId);
+		if(seller !=null) {
+			return subscriptionService.checkSubscription(seller);
+		}
+		return false;
+		
+	}
 }

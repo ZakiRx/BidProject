@@ -17,7 +17,7 @@ public class Purchase {
 	private Date updatedAt;
 	private Boolean state; // must be state enum
 	private String error;
-	@ManyToOne()
+	@ManyToOne
 	private Buyer buyer;
 	@OneToOne
 	private Offer offer;
@@ -27,6 +27,9 @@ public class Purchase {
 	private Ordre ordre;
 	
 
+	public Purchase() {
+		
+	}
 	public Long getId() {
 		return id;
 	}

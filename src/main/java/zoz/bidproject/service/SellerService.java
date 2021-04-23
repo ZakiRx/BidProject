@@ -51,14 +51,16 @@ public class SellerService {
 	 * @param id
 	 * @return {@link Seller}
 	 */
-	public Seller getSeller(Long id) {
-		Seller seller = sellerRepository.getOne(id);
-		System.out.println(seller.getFirstName());
-		return seller;// 1L id seller get in session
+	public Seller getSeller(Long accountId) {
+		Seller seller = sellerRepository.getOne(accountId);
+		return seller;
 	}
 	
 	public Seller newSeller(Seller seller) {
 		return sellerRepository.save(seller);
+	}
+	public void deleteSeller(Seller seller) {
+		sellerRepository.delete(seller);
 	}
 
 	/**
@@ -68,8 +70,8 @@ public class SellerService {
 	 * @param idSeller
 	 * @return
 	 */
-	public Subscription newSubscription(Pack pack, Long idSeller) throws  Exception {
-		Seller seller = getSeller(idSeller);
+	public Subscription newSubscription(Pack pack, Long accountId) throws  Exception {
+		Seller seller = getSeller(accountId);
 		if(seller==null) {
 			 new Exception("\"User not found\"");
 		}
@@ -95,10 +97,10 @@ public class SellerService {
 	 * @return
 	 */
 	public Offer createOffer(Seller seller, OfferDto offerDto) {
-		if(getSeller(seller.getId())!=null) {
+		if(getSeller(seller.getAccountId())!=null) {
 			Offer offer = new Offer(null, offerDto.getName(), offerDto.getDescription(), offerDto.getStartPrice(),
 					offerDto.getAugmentationPrice(), new Date(), new Date(), false, false, seller);
-			offerService.saveOffre(offer);
+			saveOffer(offer);
 			return offer; 
 		}
 	
@@ -121,23 +123,24 @@ public class SellerService {
 		offer.setProducts(productsInOffre);
 		offer.setEnabled(true);
 		productService.saveProduct(product);
+		saveOffer(offer);
 		return offer;
 	}
 
-	public Offer newOffer(Offer offer) {
-		return null;
+	public void saveOffer(Offer offer) {
+		offerService.saveOffre(offer);
 	}
 
-	public Offer updateOffer(Offer offer, Long idSeller) {
-		Seller seller = getSeller(idSeller);// 1L id seller get in session (Seller connect)
+	public Offer updateOffer(Offer offer, Long accountId) {
+		Seller seller = getSeller(accountId);// 1L Accountid seller get in session (Seller connect)
 		if (offer.getSeller().equals(seller)) {
 			return offerService.saveOffre(offer);
 		}
 		return null;
 	}
 
-	public Offer updateProductInOffer(Offer offer, Product newProduct, Long idSeller) {
-		Seller seller = getSeller(idSeller);// 1L id seller get in session (Seller connect)
+	public Offer updateProductInOffer(Offer offer, Product newProduct, Long accountId) {
+		Seller seller = getSeller(accountId);
 		if (offer.getSeller().equals(seller)) {
 			offer.getProducts().set(newProduct.getId().intValue(), newProduct);
 		}
@@ -153,19 +156,12 @@ public class SellerService {
 		return ordreService.getOrdersBySeller(id);
 	}
 
-	/**
-	 * 
-	 * @param id
-	 * @return
-	 */
-	public boolean checkSubscription(Long id) {
-		Seller seller = getSeller(id);
-		return subscriptionService.checkSubscription(seller);
-	}
+
 
 	public List<Follow> getFollowers(Long id) {
 		Seller seller = getSeller(id);
 		return followService.getFollowersBySeller(seller);
 	}
+	
 
 }

@@ -17,12 +17,11 @@ import org.springframework.context.annotation.Lazy;
 public class Seller extends Buyer {
 	@OneToMany(mappedBy = "seller")
 	private List<Follow> follows;
-	@OneToMany(mappedBy = "seller")
+	@OneToMany(mappedBy = "seller",cascade = CascadeType.ALL)
 	private List<Offer> offres;
-	@OneToMany(mappedBy = "seller")
+	@OneToMany(mappedBy = "seller",cascade = CascadeType.ALL)
 	private List<Ordre> ordres;
-	@OneToOne(mappedBy = "seller")
-	private Subscription subscription;
+	
 
 	public Seller() {
 	     offres= new ArrayList<Offer>();
@@ -58,13 +57,7 @@ public class Seller extends Buyer {
 		this.ordres = ordres;
 	}
 
-	public Subscription getSubscription() {
-		return subscription;
-	}
 
-	public void setSubscription(Subscription subscription) {
-		this.subscription = subscription;
-	}
 
 	@Override
 	public boolean equals(Object obj) {

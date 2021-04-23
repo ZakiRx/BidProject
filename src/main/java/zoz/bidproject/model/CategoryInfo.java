@@ -11,6 +11,10 @@ public abstract class CategoryInfo {
 	private Long id;
 	private String slug;
 	private String name;
+	
+	public CategoryInfo() {
+		
+	}
 	public CategoryInfo(Long id, String slug, String name) {
 		this.id = id;
 		this.slug = slug;

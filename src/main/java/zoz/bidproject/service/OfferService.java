@@ -46,8 +46,6 @@ public class OfferService {
 	public List<Offer> getAllOffresBySeller(Seller seller){
 		return seller.getOffres();
 	}
-	
-	
 	/**
 	 * 
 	 * @param offer
