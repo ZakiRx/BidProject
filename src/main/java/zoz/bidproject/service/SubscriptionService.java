@@ -45,14 +45,22 @@ public class SubscriptionService {
 
 	public Boolean checkSubscription(Seller seller) {
 		if (seller.getSubscription() != null) {
+			if(seller.getSubscription().isEnabled()) {
 			return true;
+			}
+			return false;
 		}
 		return false;
 	}
 
-	public Subscription getSubscription(Seller seller) {
-		if (seller.getSubscription() != null) {
-			return seller.getSubscription();
+	public Subscription getSubscription(Seller seller) throws Exception {
+		if (seller.getSubscription() != null ) {
+			if(seller.getSubscription().isEnabled()) {
+				return seller.getSubscription();
+			}else {
+				throw new Exception("Your Subscripe is Expired");
+			}
+			
 		}
 		return null;
 	}

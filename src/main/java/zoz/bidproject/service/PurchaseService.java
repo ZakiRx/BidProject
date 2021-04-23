@@ -25,4 +25,8 @@ public class PurchaseService {
 	public Purchase getPurchasesByOrder(Ordre order){
 		 return order.getPurchase();
 	}
+	
+	public Purchase newPurchase(Purchase purchase) {
+		return purchaseRepository.save(purchase);
+	}
 }

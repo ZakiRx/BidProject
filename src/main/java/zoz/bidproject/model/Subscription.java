@@ -59,7 +59,7 @@ public class Subscription {
 		this.endAt = endAt;
 	}
 
-	public Boolean getEnabled() {
+	public Boolean isEnabled() {
 		return enabled;
 	}
 

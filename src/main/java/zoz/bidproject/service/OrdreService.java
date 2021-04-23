@@ -17,8 +17,7 @@ public class OrdreService {
 	@Autowired
 	private SellerService sellerService;
 	
-	public List<Ordre> getOrdersBySeller(Long idSeller){
-		Seller seller = sellerService.getSeller(idSeller);
+	public List<Ordre> getOrdersBySeller(Seller seller){
 		return seller.getOrdres();
 	}
 	

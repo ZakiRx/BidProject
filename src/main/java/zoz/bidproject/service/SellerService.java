@@ -55,6 +55,10 @@ public class SellerService {
 		Seller seller = sellerRepository.getOne(accountId);
 		return seller;
 	}
+	public Seller getSellerByOffer(Offer offer) {
+		Seller seller = offer.getSeller();
+		return seller;
+	}
 	
 	public Seller newSeller(Seller seller) {
 		return sellerRepository.save(seller);
@@ -97,7 +101,7 @@ public class SellerService {
 	 * @return
 	 */
 	public Offer createOffer(Seller seller, OfferDto offerDto) {
-		if(getSeller(seller.getAccountId())!=null) {
+		if(getSeller(seller.getAccountId())!=null && subscriptionService.checkSubscription(seller)) {
 			Offer offer = new Offer(null, offerDto.getName(), offerDto.getDescription(), offerDto.getStartPrice(),
 					offerDto.getAugmentationPrice(), new Date(), new Date(), false, false, seller);
 			saveOffer(offer);
@@ -152,8 +156,9 @@ public class SellerService {
 		return productService.getProductsByOffre(offer);
 	}
 
-	public List<Ordre> getOrdersSeller(Long id) {
-		return ordreService.getOrdersBySeller(id);
+	public List<Ordre> getOrdersSeller(Seller seller) {
+		
+		return ordreService.getOrdersBySeller(seller);
 	}
 
 
