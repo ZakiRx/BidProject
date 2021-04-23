@@ -7,10 +7,14 @@ import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
 public abstract class CategoryInfo {
-	@Id @GeneratedValue(strategy = GenerationType.AUTO)
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String slug;
 	private String name;
+	
+	public CategoryInfo() {
+		
+	}
 	public CategoryInfo(Long id, String slug, String name) {
 		this.id = id;
 		this.slug = slug;

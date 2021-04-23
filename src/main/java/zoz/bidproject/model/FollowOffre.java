@@ -10,7 +10,7 @@ import javax.persistence.ManyToOne;
 
 @Entity
 public class FollowOffre {
-	@Id @GeneratedValue(strategy = GenerationType.AUTO)
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private Date followOffreAt;
 	@ManyToOne

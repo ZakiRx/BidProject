@@ -7,18 +7,17 @@ import org.springframework.stereotype.Service;
 
 import zoz.bidproject.model.Ordre;
 import zoz.bidproject.model.Seller;
-import zoz.bidproject.repositories.jpa.OrdreRepository;
+import zoz.bidproject.repositories.jpa.OrderRepository;
 
 @Service
 public class OrdreService {
 	@Autowired
-	private OrdreRepository ordreRepository;
+	private OrderRepository ordreRepository;
 	
 	@Autowired
 	private SellerService sellerService;
 	
-	public List<Ordre> getOrdersBySeller(Long idSeller){
-		Seller seller = sellerService.getSeller(idSeller);
+	public List<Ordre> getOrdersBySeller(Seller seller){
 		return seller.getOrdres();
 	}
 	

@@ -1,8 +1,5 @@
 package zoz.bidproject.model;
 
-import java.util.Date;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,44 +7,43 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class Follow {
+public class Bid {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private Date followedAt;
+	private Double price;
 	@ManyToOne
 	private Buyer buyer;
 	@ManyToOne
-	private Seller seller;
-	
-	public Follow(Long id, Date followedAt, Buyer buyer, Seller seller) {
-		this.id = id;
-		this.followedAt = followedAt;
-		this.buyer = buyer;
-		this.seller = seller;
-	}
-	
-	public Follow() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+	private Offer offer;
 
 	
+	public Bid() {
+
+	}
+
+	public Bid(Long id, Double price, Buyer buyer, Offer offer) {
+		this.id = id;
+		this.price = price;
+		this.buyer = buyer;
+		this.offer = offer;
+	}
+
+
+
 	public Long getId() {
 		return id;
 	}
-
 
 	public void setId(Long id) {
 		this.id = id;
 	}
 
-
-	public Date getFollowedAt() {
-		return followedAt;
+	public Double getPrice() {
+		return price;
 	}
 
-	public void setFollowedAt(Date followedAt) {
-		this.followedAt = followedAt;
+	public void setPrice(Double price) {
+		this.price = price;
 	}
 
 	public Buyer getBuyer() {
@@ -58,13 +54,12 @@ public class Follow {
 		this.buyer = buyer;
 	}
 
-	public Seller getSeller() {
-		return seller;
+	public Offer getOffer() {
+		return offer;
 	}
 
-	public void setSeller(Seller seller) {
-		this.seller = seller;
+	public void setOffer(Offer offer) {
+		this.offer = offer;
 	}
-	
 
 }

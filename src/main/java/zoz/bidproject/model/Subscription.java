@@ -2,6 +2,7 @@ package zoz.bidproject.model;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,21 +12,25 @@ import javax.persistence.OneToOne;
 
 @Entity
 public class Subscription {
-	@Id @GeneratedValue(strategy = GenerationType.AUTO)
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private Date createdAt;
 	private Date endAt;
 	private Boolean enabled;
 	@OneToOne
-	private Seller seller;
+	private Buyer buyer;
 	@ManyToOne
 	private Pack pack;
-	public Subscription(Long id, Date createdAt, Date endAt, Boolean enabled,Seller seller,Pack pack) {
+	
+	public Subscription() {
+		
+	}
+	public Subscription(Long id, Date createdAt, Date endAt, Boolean enabled,Buyer buyer,Pack pack) {
 		this.id = id;
 		this.createdAt = createdAt;
 		this.endAt = endAt;
 		this.enabled = enabled;
-		this.seller=seller;
+		this.buyer=buyer;
 		this.pack=pack;
 	}
 
@@ -54,7 +59,7 @@ public class Subscription {
 		this.endAt = endAt;
 	}
 
-	public Boolean getEnabled() {
+	public Boolean isEnabled() {
 		return enabled;
 	}
 
@@ -62,12 +67,12 @@ public class Subscription {
 		this.enabled = enabled;
 	}
 
-	public Seller getSeller() {
-		return seller;
+	public Buyer getBuyer() {
+		return buyer;
 	}
 
-	public void setSeller(Seller seller) {
-		this.seller = seller;
+	public void setBuyer(Buyer buyer) {
+		this.buyer = buyer;
 	}
 
 

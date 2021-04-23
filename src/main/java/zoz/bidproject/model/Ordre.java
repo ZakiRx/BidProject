@@ -12,7 +12,7 @@ import javax.persistence.OneToOne;
 
 @Entity
 public class Ordre {
-	@Id @GeneratedValue(strategy = GenerationType.AUTO)
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private Date createdAt;
 	private Date updatedAt;

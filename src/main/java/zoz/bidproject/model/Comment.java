@@ -10,7 +10,7 @@ import javax.persistence.ManyToOne;
 
 @Entity
 public class Comment {
-	@Id @GeneratedValue(strategy = GenerationType.AUTO)
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String comment;
 	private Date createdAt;
