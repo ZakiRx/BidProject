@@ -12,28 +12,29 @@ import javax.persistence.OneToOne;
 
 @Entity
 public class Subscription {
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private Date createdAt;
 	private Date endAt;
 	private Boolean enabled;
 	@OneToOne
-	private Buyer buyer;
+	private Seller seller;
 	@ManyToOne
 	private Pack pack;
-	
+
 	public Subscription() {
-		
+
 	}
-	public Subscription(Long id, Date createdAt, Date endAt, Boolean enabled,Buyer buyer,Pack pack) {
+
+	public Subscription(Long id, Date createdAt, Date endAt, Boolean enabled, Seller seller, Pack pack) {
 		this.id = id;
 		this.createdAt = createdAt;
 		this.endAt = endAt;
 		this.enabled = enabled;
-		this.buyer=buyer;
-		this.pack=pack;
+		this.seller = seller;
+		this.pack = pack;
 	}
-
 
 	public Long getId() {
 		return id;
@@ -67,24 +68,12 @@ public class Subscription {
 		this.enabled = enabled;
 	}
 
-	public Buyer getBuyer() {
-		return buyer;
-	}
-
-	public void setBuyer(Buyer buyer) {
-		this.buyer = buyer;
-	}
-
-
 	public Pack getPack() {
 		return pack;
 	}
 
-
 	public void setPack(Pack pack) {
 		this.pack = pack;
 	}
-	
-	
 
 }

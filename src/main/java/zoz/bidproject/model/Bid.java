@@ -6,6 +6,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Bid {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,6 +16,7 @@ public class Bid {
 	@ManyToOne
 	private Buyer buyer;
 	@ManyToOne
+	@JsonIgnore
 	private Offer offer;
 
 	

@@ -8,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Pack {
 	@Id
@@ -16,7 +18,9 @@ public class Pack {
 	private String name;
 	private Integer nbrDays;
 	private String details;
+	
 	@OneToMany(mappedBy = "pack")
+	@JsonIgnore
 	private List<Subscription> subcriptions;
 
 	public Pack() {

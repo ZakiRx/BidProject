@@ -10,12 +10,18 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.MappedSuperclass;
 
+import org.hibernate.annotations.DiscriminatorFormula;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
 
 @MappedSuperclass
-@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+
 public abstract class User {
 
-	@Id @GeneratedValue(strategy = GenerationType.AUTO)
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@Column(length = 25)
 	private String userName;
@@ -33,10 +39,9 @@ public abstract class User {
 	public User() {
 
 	}
-
+	  @JsonCreator
 	public User(Long id, String userName, String firstName, String lastName, Date dateBirth, String email,
 			String phoneNumber, String password, Boolean enabled, Boolean actif) {
-		super();
 		this.id = id;
 		this.userName = userName;
 		this.firstName = firstName;

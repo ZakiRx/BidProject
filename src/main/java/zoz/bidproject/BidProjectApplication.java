@@ -45,6 +45,8 @@ public class BidProjectApplication {
 		SubCategoryService subCategoryService = applicationContext.getBean("subCategoryService",SubCategoryService.class);
 		Buyer buyer = new Buyer(null, "zaki", "zakaria", "Guemi", new Date(), "zaki@gmail.com", "065231489", "123",
 				true, true, 1542L, 50000, true);
+		Buyer buyer2 = new Buyer(null, "med", "med", "Guemi", new Date(), "med@gmail.com", "063336489", "123",
+				true, true, 1582L, 32600, true);
 		OfferDto offerDto = new OfferDto("offer1", "no duscription", 100.0, 500.0);
 		Category category = new Category(null,"HardwareSlug1","Hardware PC");
 		SubCategory subCategory=new SubCategory(null, "slugRam", "Ram", category);
@@ -59,28 +61,32 @@ public class BidProjectApplication {
 		packService.newPack(pack);
 		// Added New Buyer to Db
 		buyerService.newBuyer(buyer);
-		System.out.println("check buyer is seller :"+buyerService.IsSeller(1542L));
+		buyerService.newBuyer(buyer2);
+		System.out.println("check buyer is seller :"+buyerService.IsSeller(1L));
 		// Added New Subscription & seller  to Db and change status buyer to seller 
 		subscriptionService.newSubscription(pack, buyer);
 		
-		System.out.println("check buyer is seller :"+buyerService.IsSeller(1542L));
+		System.out.println("check buyer is seller (after subscripe) :"+buyerService.IsSeller(1L));
+		
+		///System.out.println(buyerService.getBuyer(1L)); 
 		// Added New Offre to Db
-		Seller sellerInDb = sellerService.getSeller(1542L);//accountId
+	    Seller sellerInDb = sellerService.getSeller(1L);//accountId
 		 System.out.println(sellerInDb.getFirstName());
 		
 
-		// add products to offer
-		Offer offer = sellerService.createOffer(sellerInDb, offerDto);
-		for (int i = 0; i < 6; i++) {
-			Product product = new Product(null, "produit"+i, "description"+i, "image"+i, "images"+i, new Date(), new Date(), true, "tags", offer,subCategory);
-			sellerService.addProductForOffer(offer, product);
-		}
+		
+	
 		//buyerService.deleteBuyer(buyer);
 		//offerService.deleteOffre(offer);
 		
 		try {
 			
-		
+			Offer offer = sellerService.createOffer(sellerInDb, offerDto);
+		  // add products to offer
+			for (int i = 0; i < 6; i++) {
+				Product product = new Product(null, "produit"+i, "description"+i, "image"+i, "images"+i, new Date(), new Date(), true, "tags", offer,subCategory);
+				sellerService.addProductForOffer(offer, product);
+			}
 		Bid bid = new Bid(null,1500.0,buyer,offer);
 		bidService.newBid(bid);
 		bidService.getBidsByOffer(offer).forEach(b->System.out.println(b.getId()+"-"+b.getPrice()));

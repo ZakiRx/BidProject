@@ -37,5 +37,8 @@ public class FollowService {
 	public List<Follow> getFollowingByBuyer(Buyer buyer){
 		return buyer.getFollows();
 	}
+	public void deleteFollow(Follow follow) {
+		followRepository.delete(follow);
+	}
 
 }

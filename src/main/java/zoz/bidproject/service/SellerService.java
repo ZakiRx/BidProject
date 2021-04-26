@@ -11,6 +11,7 @@ import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import net.bytebuddy.implementation.bytecode.Throw;
+import zoz.bidproject.model.Buyer;
 import zoz.bidproject.model.Follow;
 import zoz.bidproject.model.Offer;
 import zoz.bidproject.model.Ordre;
@@ -45,15 +46,30 @@ public class SellerService {
 	@Autowired
 	private FollowService followService;
 
+	
+	
+	
+	
+	public List<Seller>  getSellers(){
+		return sellerRepository.findAll();
+	}
 	/**
 	 * check Seller is connected by id stored in Session
 	 * 
 	 * @param id
 	 * @return {@link Seller}
 	 */
-	public Seller getSeller(Long accountId) {
-		Seller seller = sellerRepository.getOne(accountId);
-		return seller;
+	public Seller getSeller(Long id) {
+		
+		try {
+			Seller seller = sellerRepository.getOne(id);
+			return seller;
+		}catch (Exception e) {
+			System.out.println("Seller not found with this id");
+			return null;
+		}
+		
+		
 	}
 	public Seller getSellerByOffer(Offer offer) {
 		Seller seller = offer.getSeller();
@@ -77,7 +93,7 @@ public class SellerService {
 	public Subscription newSubscription(Pack pack, Long accountId) throws  Exception {
 		Seller seller = getSeller(accountId);
 		if(seller==null) {
-			 new Exception("\"User not found\"");
+			throw new Exception("\"User not found\"");
 		}
 		Subscription subscription = subscriptionService.newSubscription(pack, seller);
 		return subscription;
@@ -101,7 +117,8 @@ public class SellerService {
 	 * @return
 	 */
 	public Offer createOffer(Seller seller, OfferDto offerDto) {
-		if(getSeller(seller.getAccountId())!=null && subscriptionService.checkSubscription(seller)) {
+		System.out.println(subscriptionService.checkSubscription(seller));
+		if(seller!=null && subscriptionService.checkSubscription(seller)) {
 			Offer offer = new Offer(null, offerDto.getName(), offerDto.getDescription(), offerDto.getStartPrice(),
 					offerDto.getAugmentationPrice(), new Date(), new Date(), false, false, seller);
 			saveOffer(offer);
@@ -166,6 +183,18 @@ public class SellerService {
 	public List<Follow> getFollowers(Long id) {
 		Seller seller = getSeller(id);
 		return followService.getFollowersBySeller(seller);
+	}
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public boolean checkSubscription(Seller seller) {
+		if(seller.getSubscription() !=null) {
+			return true;
+		}
+		return false;
+		
 	}
 	
 

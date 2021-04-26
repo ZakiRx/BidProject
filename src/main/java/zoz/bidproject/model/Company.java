@@ -12,7 +12,6 @@ public class Company extends Seller {
 
 	public Company(Long id, String userName, String firstName, String lastName, Date dateBirth, String email,
 			String phoneNumber, String password, Boolean enabled, Boolean actif, Long accountId, double balance, String name,boolean verified) {
-		super(id, userName, firstName, lastName, dateBirth, email, phoneNumber, password, enabled, actif, accountId, balance,verified);
 		this.name=name;
 	}
 

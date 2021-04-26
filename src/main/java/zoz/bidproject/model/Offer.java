@@ -14,7 +14,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import org.hibernate.annotations.Proxy;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
+@Proxy(lazy = false)
 public class Offer {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -31,6 +36,7 @@ public class Offer {
 	@ManyToOne
 	private Seller seller;
 	@OneToOne(mappedBy = "offer")
+	@JsonIgnore
 	private Purchase purchase;
 	@OneToMany(mappedBy = "offer")
 	private List<FollowOffre> followesOffre;

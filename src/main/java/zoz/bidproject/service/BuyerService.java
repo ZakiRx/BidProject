@@ -43,6 +43,12 @@ public class BuyerService {
 
 	@Autowired
 	private SubscriptionService subscriptionService;
+	
+	
+	public List<Buyer> getBuyers() {
+		return buyerRepository.findAll();
+	}
+	
 	/**
 	 * 
 	 * @param id buyer
@@ -60,7 +66,7 @@ public class BuyerService {
 	public Buyer newBuyer(Buyer buyer) {
 		return buyerRepository.save(buyer);
 	}
-	
+
 	public void deleteBuyer(Buyer buyer) {
 		 Seller seller = sellerService.getSeller(buyer.getAccountId());
 		 sellerService.deleteSeller(seller);
@@ -69,8 +75,8 @@ public class BuyerService {
 		 
 	}
 
-	public Boolean IsSeller(Long accountId) {
-		if( sellerService.getSeller(accountId)!=null)
+	public Boolean IsSeller(Long id) {
+		if( sellerService.getSeller(id)!=null)
 			return true;
 		return false;
 	}
@@ -134,17 +140,11 @@ public class BuyerService {
 		return followService.getFollowingByBuyer(buyer);
 	}
 
-	/**
-	 * 
-	 * @param id
-	 * @return
-	 */
-	public boolean checkSubscription(Long accountId) {
-		Seller seller = sellerService.getSeller(accountId);
-		if(seller !=null) {
-			return subscriptionService.checkSubscription(seller);
-		}
-		return false;
-		
+
+	
+	public void editTypeAccount(String type,Buyer buyer) {
+		buyerRepository.editTypeAccount(type, buyer.getId());
 	}
+	
+
 }

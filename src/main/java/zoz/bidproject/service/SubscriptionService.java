@@ -3,8 +3,13 @@ package zoz.bidproject.service;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import zoz.bidproject.model.Buyer;
 import zoz.bidproject.model.Pack;
@@ -26,15 +31,16 @@ public class SubscriptionService {
 	private PackRepository packRepository;
 	@Autowired
 	private SellerService sellerService;
-
+	@Autowired
+	private BuyerService buyerService;
+	
 	public Subscription newSubscription(Pack pack, Buyer buyer) {
-		Subscription subscription = new Subscription(null, new Date(), new Date(), true, buyer, pack);
+		Seller seller = new Seller(buyer);
+		Subscription subscription = new Subscription(null, new Date(), new Date(), true, seller, pack);
+		seller.setSubscription(subscription);
+		buyerService.editTypeAccount("Seller", buyer);
 		subscriptionRepository.save(subscription);
-		Seller seller = new Seller(null, buyer.getUserName(), buyer.getFirstName(), buyer.getLastName(),
-				buyer.getDateBirth(), buyer.getEmail(), buyer.getPhoneNumber(), buyer.getPassword(), buyer.isEnabled(),
-				buyer.isActif(), buyer.getAccountId(), buyer.getBalance(), buyer.isVerified());
-		sellerService.newSeller(seller);
-		buyer.setSubscription(subscription);
+		
 		return subscription;
 	}
 
@@ -44,9 +50,10 @@ public class SubscriptionService {
 	}
 
 	public Boolean checkSubscription(Seller seller) {
+		System.out.println("check in:"+seller.getSubscription());
 		if (seller.getSubscription() != null) {
-			if(seller.getSubscription().isEnabled()) {
-			return true;
+			if (seller.getSubscription().isEnabled()) {
+				return true;
 			}
 			return false;
 		}
@@ -54,13 +61,13 @@ public class SubscriptionService {
 	}
 
 	public Subscription getSubscription(Seller seller) throws Exception {
-		if (seller.getSubscription() != null ) {
-			if(seller.getSubscription().isEnabled()) {
+		if (seller.getSubscription() != null) {
+			if (seller.getSubscription().isEnabled()) {
 				return seller.getSubscription();
-			}else {
+			} else {
 				throw new Exception("Your Subscripe is Expired");
 			}
-			
+
 		}
 		return null;
 	}
@@ -71,12 +78,10 @@ public class SubscriptionService {
 		}
 		return null;
 	}
-	
-	public void deleteSubscription(Buyer buyer) {
-		
-		subscriptionRepository.delete(buyer.getSubscription());
+
+	public void deleteSubscription(Seller seller) {
+
+		subscriptionRepository.delete(seller.getSubscription());
 	}
-	
-	
 
 }
