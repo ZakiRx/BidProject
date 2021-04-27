@@ -12,9 +12,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import zoz.bidproject.model.Bid;
 import zoz.bidproject.model.Buyer;
+import zoz.bidproject.model.Offer;
+import zoz.bidproject.model.Ordre;
+import zoz.bidproject.model.Product;
 import zoz.bidproject.model.Seller;
+import zoz.bidproject.service.BidService;
 import zoz.bidproject.service.BuyerService;
+import zoz.bidproject.service.OrderService;
+import zoz.bidproject.service.ProductService;
 import zoz.bidproject.service.SellerService;
 
 @RestController
@@ -22,6 +29,11 @@ import zoz.bidproject.service.SellerService;
 public class SellerController {
 	@Autowired
 	private SellerService sellerService;
+	@Autowired
+	private ProductService productService;
+	@Autowired
+	private OrderService orderService;
+
 
 	@GetMapping
 	@RequestMapping("/")
@@ -48,9 +60,26 @@ public class SellerController {
 	}
 
 	@DeleteMapping
-	@RequestMapping("/delete")
+	@RequestMapping("/delete/{id}")
 	public void deleteSeller(@PathVariable Long id) {
-		Seller seller=sellerService.getSeller(id);
-		 sellerService.deleteSeller(seller);
+		Seller seller = sellerService.getSeller(id);
+		sellerService.deleteSeller(seller);
 	}
+
+	@GetMapping
+	@RequestMapping("/{id}/products")
+	public List<Product> getProductsOffer(@PathVariable Long id) {
+		Seller seller = sellerService.getSeller(id);
+		return productService.getProductsBySeller(seller);
+	}
+
+	@GetMapping
+	@RequestMapping("/{id}/order")
+	public List<Ordre> getOrders(@PathVariable Long id) {
+		Seller seller = sellerService.getSeller(id);
+		return orderService.getOrdersBySeller(seller);
+	}
+	
+
+	
 }

@@ -13,10 +13,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import zoz.bidproject.model.Bid;
 import zoz.bidproject.model.Buyer;
 import zoz.bidproject.model.Comment;
 import zoz.bidproject.model.Pack;
+import zoz.bidproject.model.Seller;
 import zoz.bidproject.model.User;
+import zoz.bidproject.service.BidService;
 import zoz.bidproject.service.BuyerService;
 import zoz.bidproject.service.CommentService;
 import zoz.bidproject.service.PackService;
@@ -28,6 +31,9 @@ public class BuyerController {
 	private BuyerService buyerService;
 	@Autowired
 	private CommentService commentService;
+	@Autowired
+	private BidService bidService;
+
 	@GetMapping
 	@RequestMapping("/")
 	public List<Buyer> getBuyers() {
@@ -55,14 +61,22 @@ public class BuyerController {
 	@DeleteMapping
 	@RequestMapping("/delete/{id}")
 	public void deleteBuyer(@PathVariable Long id) {
-		Buyer buyer=buyerService.getBuyer(id);
-		 buyerService.deleteBuyer(buyer);
+		Buyer buyer = buyerService.getBuyer(id);
+		buyerService.deleteBuyer(buyer);
 	}
+
 	@GetMapping
 	@RequestMapping("/{id}/comments")
-	public List<Comment> getCommentsBuyer(@PathVariable Long id) {
-		Buyer buyer=buyerService.getBuyer(id);
+	public List<Comment> getComments(@PathVariable Long id) {
+		Buyer buyer = buyerService.getBuyer(id);
 		return commentService.getCommentsByBuyer(buyer);
+	}
+
+	@GetMapping
+	@RequestMapping("/{id}/bid")
+	public List<Bid> getBids(@PathVariable Long id) {
+		Buyer buyer = buyerService.getBuyer(id);
+		return bidService.getBidsByBuyer(buyer);
 	}
 
 }

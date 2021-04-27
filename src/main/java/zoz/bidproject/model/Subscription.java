@@ -76,4 +76,15 @@ public class Subscription {
 		this.pack = pack;
 	}
 
+	public Seller getSeller() {
+		return seller;
+	}
+
+	public void setSeller(Seller seller) {
+		this.seller = seller;
+	}
+
+
+	
+
 }

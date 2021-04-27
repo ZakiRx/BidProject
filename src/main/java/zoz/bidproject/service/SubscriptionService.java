@@ -83,5 +83,10 @@ public class SubscriptionService {
 
 		subscriptionRepository.delete(seller.getSubscription());
 	}
+	public Subscription disabelSubscription(Subscription subscription) {
+
+		subscription.setEnabled(false);
+		return subscriptionRepository.save(subscription);
+	}
 
 }
