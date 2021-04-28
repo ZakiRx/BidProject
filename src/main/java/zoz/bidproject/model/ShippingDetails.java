@@ -36,6 +36,10 @@ public class ShippingDetails {
 		this.purchase = purchase;
 	}
 
+	public ShippingDetails() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public Long getId() {
 		return id;
 	}
