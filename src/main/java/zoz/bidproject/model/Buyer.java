@@ -1,5 +1,6 @@
 package zoz.bidproject.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -9,21 +10,13 @@ import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
-import org.hibernate.annotations.DiscriminatorFormula;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.Proxy;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @Entity
 @Proxy(lazy = false)
@@ -35,9 +28,9 @@ public class Buyer extends User {
 	private Long accountId;
 	private double balance;
 	private boolean verified;
-	@Column(name = "type",insertable = false,updatable = false)
+	@Column(name = "type", insertable = false, updatable = false)
 	private String type;
-	
+
 	@OneToMany(mappedBy = "buyer")
 	@JsonIgnore
 	private List<Follow> follows;
@@ -50,8 +43,8 @@ public class Buyer extends User {
 	@OneToMany(mappedBy = "buyer")
 	@JsonIgnore
 	private List<Comment> comments;
-
-
+	@ManyToMany(fetch = FetchType.EAGER)
+	private List<Role> roles;
 	@OneToMany(mappedBy = "buyer", cascade = CascadeType.ALL)
 	@JsonIgnore
 	private List<Bid> bids;
@@ -125,7 +118,13 @@ public class Buyer extends User {
 		this.follows = follows;
 	}
 
+	public List<Role> getRoles() {
+		return roles;
+	}
 
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
+	}
 
 	public List<Bid> getBids() {
 		return bids;
@@ -135,7 +134,6 @@ public class Buyer extends User {
 		this.bids = bids;
 	}
 
-
 	public String getType() {
 		return type;
 	}
@@ -143,9 +141,5 @@ public class Buyer extends User {
 	public void setType(String type) {
 		this.type = type;
 	}
-
-
-	
-	
 
 }

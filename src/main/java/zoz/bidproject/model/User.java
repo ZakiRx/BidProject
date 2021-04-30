@@ -1,6 +1,7 @@
 package zoz.bidproject.model;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
@@ -8,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.ManyToMany;
 import javax.persistence.MappedSuperclass;
 
 import org.hibernate.annotations.DiscriminatorFormula;
@@ -34,7 +36,8 @@ public abstract class User {
 	private String phoneNumber;
 	private String password;
 	private Boolean enabled;
-	private Boolean actif;
+	private Boolean active;
+	
 
 	public User() {
 
@@ -51,7 +54,7 @@ public abstract class User {
 		this.phoneNumber = phoneNumber;
 		this.password = password;
 		this.enabled = enabled;
-		this.actif = actif;
+		this.active = actif;
 	}
 
 	public Long getId() {
@@ -126,12 +129,12 @@ public abstract class User {
 		this.enabled = enabled;
 	}
 
-	public Boolean isActif() {
-		return actif;
+	public Boolean isActive() {
+		return active;
 	}
 
-	public void setActif(Boolean actif) {
-		this.actif = actif;
+	public void setActive(Boolean active) {
+		this.active = active;
 	}
 
 }

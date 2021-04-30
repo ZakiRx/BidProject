@@ -37,7 +37,7 @@ public class Seller extends Buyer {
 	     offres= new ArrayList<Offer>();
 	}
 	public Seller(Buyer buyer) {
-		super(buyer.getId(), buyer.getUserName(), buyer.getFirstName(), buyer.getLastName(), buyer.getDateBirth(), buyer.getEmail(), buyer.getPhoneNumber(), buyer.getPassword(), buyer.isEnabled(), buyer.isActif(), buyer.getAccountId(),
+		super(buyer.getId(), buyer.getUserName(), buyer.getFirstName(), buyer.getLastName(), buyer.getDateBirth(), buyer.getEmail(), buyer.getPhoneNumber(), buyer.getPassword(), buyer.isEnabled(), buyer.isActive(), buyer.getAccountId(),
 				buyer.getBalance(), buyer.isVerified());
 	}
 

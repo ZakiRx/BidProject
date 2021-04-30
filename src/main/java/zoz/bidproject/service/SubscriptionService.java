@@ -2,6 +2,7 @@ package zoz.bidproject.service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import zoz.bidproject.model.Buyer;
 import zoz.bidproject.model.Pack;
+import zoz.bidproject.model.Role;
 import zoz.bidproject.model.Seller;
 import zoz.bidproject.model.Subscription;
 import zoz.bidproject.repositories.jpa.PackRepository;
@@ -30,6 +32,8 @@ public class SubscriptionService {
 	@Autowired
 	private PackRepository packRepository;
 	@Autowired
+	private RoleService roleService;
+	@Autowired
 	private SellerService sellerService;
 	@Autowired
 	private BuyerService buyerService;
@@ -38,6 +42,13 @@ public class SubscriptionService {
 		Seller seller = new Seller(buyer);
 		Subscription subscription = new Subscription(null, new Date(), new Date(), true, seller, pack);
 		seller.setSubscription(subscription);
+		
+		Role role = roleService.getRoleByName("SELLER");
+		if(role==null) {
+			 role  = new Role(null,"SELLER");
+			 roleService.newRole(role);
+		}
+		buyerService.addBuyerToRole(buyer, role);
 		buyerService.editTypeAccount("Seller", buyer);
 		subscriptionRepository.save(subscription);
 		

@@ -1,5 +1,7 @@
 package zoz.bidproject.repositories.jpa;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -16,4 +18,7 @@ public interface BuyerRepository extends JpaRepository<Buyer, Long> {
 	@Modifying
 	@Query("Update Buyer set type=:typeAccount where id=:idBuyer")
 	void editTypeAccount(@Param("typeAccount") String type, @Param("idBuyer") Long id);
+	
+	@Query("select b from Buyer b where b.userName like :username")
+	Optional<Buyer> findOneByUsername(@Param("username")String username);
 }

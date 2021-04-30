@@ -49,7 +49,6 @@ public class BidService {
 		// update current Price
 		offer.setCurrentPrice(bid.getPrice());
 		offerService.saveOffre(offer);
-
 		return newBid;
 	}
 }
