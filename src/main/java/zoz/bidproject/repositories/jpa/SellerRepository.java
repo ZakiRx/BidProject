@@ -6,10 +6,11 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import zoz.bidproject.model.Seller;
+import zoz.bidproject.model.User;
 
 @Repository
 public interface SellerRepository extends JpaRepository<Seller, Long> {
 
-	@Query("select s from Seller s where s.accountId like :accountId")
-	Seller getOne(@Param("accountId") Long accountId);
+	/*@Query("select s from Seller s where s.accountId like :accountId")
+	Seller getOne(@Param("accountId") Long accountId);*/
 }

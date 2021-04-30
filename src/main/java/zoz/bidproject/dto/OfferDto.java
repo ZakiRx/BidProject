@@ -18,6 +18,10 @@ public class OfferDto {
 		this.augmentationPrice = augmentationPrice;
 	}
 
+	public OfferDto() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public String getName() {
 		return name;
 	}

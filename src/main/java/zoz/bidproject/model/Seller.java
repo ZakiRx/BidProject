@@ -5,6 +5,9 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -12,25 +15,30 @@ import javax.persistence.OneToOne;
 import org.hibernate.annotations.Proxy;
 import org.springframework.context.annotation.Lazy;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 @Entity
 @Proxy(lazy = false)
 public class Seller extends Buyer {
 	@OneToMany(mappedBy = "seller")
+	@JsonIgnore
 	private List<Follow> follows;
 	@OneToMany(mappedBy = "seller",cascade = CascadeType.ALL)
+	@JsonIgnore
 	private List<Offer> offres;
 	@OneToMany(mappedBy = "seller",cascade = CascadeType.ALL)
+	@JsonIgnore
 	private List<Ordre> ordres;
-	
-
+	@OneToOne(mappedBy = "seller", cascade = CascadeType.ALL)
+	@JsonIgnore
+	private Subscription subscription;
 	public Seller() {
 	     offres= new ArrayList<Offer>();
 	}
-	public Seller(Long id, String userName, String firstName, String lastName, Date dateBirth, String email,
-			String phoneNumber, String password, Boolean enabled, Boolean actif, Long accountId, double balance,
-			boolean verified) {
-		super(id, userName, firstName, lastName, dateBirth, email, phoneNumber, password, enabled, actif, accountId,
-				balance, verified);
+	public Seller(Buyer buyer) {
+		super(buyer.getId(), buyer.getUserName(), buyer.getFirstName(), buyer.getLastName(), buyer.getDateBirth(), buyer.getEmail(), buyer.getPhoneNumber(), buyer.getPassword(), buyer.isEnabled(), buyer.isActive(), buyer.getAccountId(),
+				buyer.getBalance(), buyer.isVerified());
 	}
 
 	public List<Follow> getFollows() {
@@ -59,6 +67,12 @@ public class Seller extends Buyer {
 
 
 
+	public Subscription getSubscription() {
+		return subscription;
+	}
+	public void setSubscription(Subscription subscription) {
+		this.subscription = subscription;
+	}
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

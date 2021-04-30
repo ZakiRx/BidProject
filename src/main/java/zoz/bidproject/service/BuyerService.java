@@ -1,10 +1,15 @@
 package zoz.bidproject.service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import zoz.bidproject.model.Buyer;
@@ -12,6 +17,7 @@ import zoz.bidproject.model.Comment;
 import zoz.bidproject.model.Follow;
 import zoz.bidproject.model.FollowOffre;
 import zoz.bidproject.model.Offer;
+import zoz.bidproject.model.Role;
 import zoz.bidproject.model.Seller;
 import zoz.bidproject.repositories.jpa.BuyerRepository;
 
@@ -37,12 +43,19 @@ public class BuyerService {
 
 	@Autowired
 	private FollowOfferService followOfferService;
-
+	@Autowired
+	private RoleService roleService;
 	@Autowired
 	private CommentService commentService;
 
 	@Autowired
 	private SubscriptionService subscriptionService;
+	
+	
+	public List<Buyer> getBuyers() {
+		return buyerRepository.findAll();
+	}
+	
 	/**
 	 * 
 	 * @param id buyer
@@ -58,9 +71,21 @@ public class BuyerService {
 	 * @return
 	 */
 	public Buyer newBuyer(Buyer buyer) {
-		return buyerRepository.save(buyer);
-	}
+		Role role =roleService.getRoleByName("BUYER");
+		if(role==null) {
+			 role  = new Role(null,"BUYER");
+			 roleService.newRole(role);
+		}
+		addBuyerToRole(buyer, role);
+		String passwordEncode=passwordEncoder().encode(buyer.getPassword());
+		buyer.setPassword(passwordEncode);
+			buyerRepository.save(buyer);
+			
+		return buyer;
 	
+		
+	}
+
 	public void deleteBuyer(Buyer buyer) {
 		 Seller seller = sellerService.getSeller(buyer.getAccountId());
 		 sellerService.deleteSeller(seller);
@@ -69,8 +94,8 @@ public class BuyerService {
 		 
 	}
 
-	public Boolean IsSeller(Long accountId) {
-		if( sellerService.getSeller(accountId)!=null)
+	public Boolean IsSeller(Long id) {
+		if( sellerService.getSeller(id)!=null)
 			return true;
 		return false;
 	}
@@ -133,18 +158,32 @@ public class BuyerService {
 		Buyer buyer = getBuyer(idBuyer);
 		return followService.getFollowingByBuyer(buyer);
 	}
-
-	/**
-	 * 
-	 * @param id
-	 * @return
-	 */
-	public boolean checkSubscription(Long accountId) {
-		Seller seller = sellerService.getSeller(accountId);
-		if(seller !=null) {
-			return subscriptionService.checkSubscription(seller);
+	
+	public void addBuyerToRole(Buyer buyer,Role role) {
+	
+		if(buyer.getRoles()!=null) {
+			List<Role> roles =buyer.getRoles();
+			roles.add(role);
+			buyer.setRoles(roles);
+		}else {
+			List<Role> roles = new ArrayList<Role>();
+			roles.add(role);
+			buyer.setRoles(roles);	
 		}
-		return false;
 		
+		buyerRepository.save(buyer);
 	}
+
+	
+	public void editTypeAccount(String type,Buyer buyer) {
+		buyerRepository.editTypeAccount(type, buyer.getId());
+	}
+	
+
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+	
+
 }

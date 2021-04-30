@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity
 public class Product {
@@ -22,7 +24,9 @@ public class Product {
 	private Date updatedAt;
 	private Boolean virified;
 	private String tags;
+	
 	@ManyToOne
+	@JsonIgnore
 	private Offer offer;
 	@ManyToOne
 	private SubCategory subCategory;
@@ -117,8 +121,8 @@ public class Product {
 	public void setTags(String tags) {
 		this.tags = tags;
 	}
-
-	public Offer getOffre() {
+	@JsonIgnore
+	public Offer getOffer() {
 		return offer;
 	}
 

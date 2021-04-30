@@ -7,13 +7,12 @@ import javax.persistence.Entity;
 @Entity
 public class Company extends Seller {
 
-
 	private String name;
 
 	public Company(Long id, String userName, String firstName, String lastName, Date dateBirth, String email,
-			String phoneNumber, String password, Boolean enabled, Boolean actif, Long accountId, double balance, String name,boolean verified) {
-		super(id, userName, firstName, lastName, dateBirth, email, phoneNumber, password, enabled, actif, accountId, balance,verified);
-		this.name=name;
+			String phoneNumber, String password, Boolean enabled, Boolean actif, Long accountId, double balance,
+			String name, boolean verified) {
+		this.name = name;
 	}
 
 	public String getName() {
@@ -23,5 +22,5 @@ public class Company extends Seller {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 }

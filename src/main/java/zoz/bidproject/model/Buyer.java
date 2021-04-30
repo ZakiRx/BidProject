@@ -1,48 +1,61 @@
 package zoz.bidproject.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.annotations.Proxy;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Proxy(lazy = false)
+@DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
+@DiscriminatorValue(value = "Buyer")
+
 public class Buyer extends User {
 
-	@Column(unique = true)
 	private Long accountId;
 	private double balance;
 	private boolean verified;
+	@Column(name = "type", insertable = false, updatable = false)
+	private String type;
+
 	@OneToMany(mappedBy = "buyer")
+	@JsonIgnore
 	private List<Follow> follows;
 	@OneToMany(mappedBy = "buyer")
+	@JsonIgnore
 	private List<FollowOffre> followOffres;
 	@OneToMany(mappedBy = "buyer")
+	@JsonIgnore
 	private List<Purchase> purchases;
 	@OneToMany(mappedBy = "buyer")
+	@JsonIgnore
 	private List<Comment> comments;
-	@OneToOne(mappedBy = "buyer",cascade = CascadeType.ALL)
-	private Subscription subscription;
-	@OneToMany(mappedBy = "buyer",cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER)
+	private List<Role> roles;
+	@OneToMany(mappedBy = "buyer", cascade = CascadeType.ALL)
+	@JsonIgnore
 	private List<Bid> bids;
+
 	public Buyer() {
 
 	}
 
 	public Buyer(Long id, String userName, String firstName, String lastName, Date dateBirth, String email,
-			String phoneNumber, String password, Boolean enabled, Boolean actif, Long accountId, double balance, boolean verified) {
+			String phoneNumber, String password, Boolean enabled, Boolean actif, Long accountId, double balance,
+			boolean verified) {
 		super(id, userName, firstName, lastName, dateBirth, email, phoneNumber, password, enabled, actif);
 		this.accountId = accountId;
 		this.balance = balance;
@@ -105,19 +118,28 @@ public class Buyer extends User {
 		this.follows = follows;
 	}
 
-	public Subscription getSubscription() {
-		
-		return subscription;
+	public List<Role> getRoles() {
+		return roles;
 	}
-	public void setSubscription(Subscription subscription) {
-		this.subscription = subscription;
+
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
 	}
-	
+
 	public List<Bid> getBids() {
 		return bids;
 	}
+
 	public void setBids(List<Bid> bids) {
 		this.bids = bids;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 }

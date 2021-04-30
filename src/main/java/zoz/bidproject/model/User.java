@@ -1,6 +1,7 @@
 package zoz.bidproject.model;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
@@ -8,14 +9,21 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.ManyToMany;
 import javax.persistence.MappedSuperclass;
+
+import org.hibernate.annotations.DiscriminatorFormula;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 
 @MappedSuperclass
-@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+
 public abstract class User {
 
-	@Id @GeneratedValue(strategy = GenerationType.AUTO)
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@Column(length = 25)
 	private String userName;
@@ -28,15 +36,15 @@ public abstract class User {
 	private String phoneNumber;
 	private String password;
 	private Boolean enabled;
-	private Boolean actif;
+	private Boolean active;
+	
 
 	public User() {
 
 	}
-
+	  @JsonCreator
 	public User(Long id, String userName, String firstName, String lastName, Date dateBirth, String email,
 			String phoneNumber, String password, Boolean enabled, Boolean actif) {
-		super();
 		this.id = id;
 		this.userName = userName;
 		this.firstName = firstName;
@@ -46,7 +54,7 @@ public abstract class User {
 		this.phoneNumber = phoneNumber;
 		this.password = password;
 		this.enabled = enabled;
-		this.actif = actif;
+		this.active = actif;
 	}
 
 	public Long getId() {
@@ -121,12 +129,12 @@ public abstract class User {
 		this.enabled = enabled;
 	}
 
-	public Boolean isActif() {
-		return actif;
+	public Boolean isActive() {
+		return active;
 	}
 
-	public void setActif(Boolean actif) {
-		this.actif = actif;
+	public void setActive(Boolean active) {
+		this.active = active;
 	}
 
 }
