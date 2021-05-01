@@ -15,6 +15,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public class BuyerDetails implements UserDetails {
+	
+	private static final long serialVersionUID = 1L;
 	private String userName;
 	private String firstName;
 	private String LastName;

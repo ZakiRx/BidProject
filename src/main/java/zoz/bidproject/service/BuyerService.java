@@ -3,6 +3,7 @@ package zoz.bidproject.service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -50,7 +51,8 @@ public class BuyerService {
 
 	@Autowired
 	private SubscriptionService subscriptionService;
-	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 	
 	public List<Buyer> getBuyers() {
 		return buyerRepository.findAll();
@@ -63,6 +65,9 @@ public class BuyerService {
 	 */
 	public Buyer getBuyer(Long id) {
 		return buyerRepository.getOne(id);
+	}
+	public Optional<Buyer> getBuyerByUserName(String username) {
+		return buyerRepository.findOneByUsername(username);
 	}
 	
 	/**
@@ -77,7 +82,7 @@ public class BuyerService {
 			 roleService.newRole(role);
 		}
 		addBuyerToRole(buyer, role);
-		String passwordEncode=passwordEncoder().encode(buyer.getPassword());
+		String passwordEncode=passwordEncoder.encode(buyer.getPassword());
 		buyer.setPassword(passwordEncode);
 			buyerRepository.save(buyer);
 			
@@ -180,10 +185,7 @@ public class BuyerService {
 	}
 	
 
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+	
 	
 
 }

@@ -20,7 +20,9 @@ public class BuyerDetailsService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		Optional<Buyer> buyer = buyerRepository.findOneByUsername(username);
-		buyer.orElseThrow(()->new UsernameNotFoundException("User Not Found: "+username));
+		if(buyer==null) {
+			throw new UsernameNotFoundException("User Not Found");
+		}
 	
 		return buyer.map(BuyerDetails::new).get();
 	}
