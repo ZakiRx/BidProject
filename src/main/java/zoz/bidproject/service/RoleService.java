@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import zoz.bidproject.model.Buyer;
 import zoz.bidproject.model.Manager;
 import zoz.bidproject.model.Role;
 import zoz.bidproject.repositories.jpa.RoleRepository;
@@ -30,6 +31,10 @@ public class RoleService {
 	
 	public Role getRoleByName(String name) {
 		return roleRepository.findByName(name);
+	}
+	public List<Role> getRolesByBuyer(Buyer buyer) {
+		
+		return buyer.getRoles();
 	}
 	
 }
