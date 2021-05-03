@@ -1,4 +1,4 @@
-package zoz.bidproject.controller;
+package zoz.bidproject.controller.admin;
 
 import java.util.List;
 
@@ -23,8 +23,8 @@ import zoz.bidproject.service.OfferService;
 import zoz.bidproject.service.OrderService;
 import zoz.bidproject.service.ProductService;
 
-@RestController
-@RequestMapping("/offer")
+@RestController("adminOfferController")
+@RequestMapping("/admin/offer")
 public class OfferController {
 
 	@Autowired
@@ -49,45 +49,12 @@ public class OfferController {
 		return offerService.getOfferById(id);
 	}
 	@PostMapping
-	@RequestMapping("/new")
-	public Offer newOffer(@RequestBody Offer offer) {
-		return offerService.saveOffre(offer);
-	}
-	@PutMapping
-	@RequestMapping("/edit")
-	public Offer editOffer(@RequestBody Offer offer) {
-		return offerService.saveOffre(offer);
-	}
-	@DeleteMapping
-	@RequestMapping("/delete")
-	public void deleteOffer(@PathVariable Long id) {
+	@RequestMapping("/{id}/verified")
+	public boolean verifiedOffer(@PathVariable Long id) {
 		Offer offer = offerService.getOfferById(id);
-		 offerService.deleteOffre(offer);
+		return offerService.verifedOffer(offer);
+		
 	}
 	
-	@GetMapping
-	@RequestMapping("/{id}/comments")
-	public List<Comment> getCommentsOffer(@PathVariable Long id) {
-		Offer offer = offerService.getOfferById(id);
-		return commentService.getCommentsByOffer(offer);
-	}
-	@GetMapping
-	@RequestMapping("/{id}/products")
-	public List<Product> getProductsOffer(Long id) {
-		Offer offer = offerService.getOfferById(id);
-		return productService.getProductsByOffre(offer);
-	}
-	@GetMapping
-	@RequestMapping("/{id}/order")
-	public Ordre  getOrders(@PathVariable Long id){
-		Offer offer=offerService.getOfferById(id);
-		return orderService.getOrderByOffer(offer);
-	}
-	@GetMapping
-	@RequestMapping("/{id}/bid")
-	public List<Bid>  getBids(@PathVariable Long id){
-		Offer offer=offerService.getOfferById(id);
-		return bidService.getBidsByOffer(offer);
-	}
 	
 }

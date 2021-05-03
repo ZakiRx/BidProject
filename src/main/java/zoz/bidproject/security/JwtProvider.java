@@ -1,5 +1,6 @@
 package zoz.bidproject.security;
 
+import java.net.http.HttpHeaders;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
@@ -40,8 +41,12 @@ public class JwtProvider {
 		claims.put("auth", roles);
 		Date dateNow = new Date();
 		Date dateExp = new Date(dateNow.getTime() + durationTime);
-		return Jwts.builder().setClaims(claims).setIssuedAt(dateNow).setExpiration(dateExp)
+		String jwtToken= Jwts.builder().setClaims(claims).setIssuedAt(dateNow).setExpiration(dateExp)
 				.signWith(SignatureAlgorithm.HS256, secretKey).compact();
+		System.out.println(jwtToken);
+		return jwtToken;
+				
+		
 	}
 
 	//check is valid or no expired 

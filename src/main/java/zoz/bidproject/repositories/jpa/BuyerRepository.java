@@ -1,5 +1,6 @@
 package zoz.bidproject.repositories.jpa;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -21,4 +22,5 @@ public interface BuyerRepository extends JpaRepository<Buyer, Long> {
 	
 	@Query("select b from Buyer b where b.userName like :username")
 	Optional<Buyer> findOneByUsername(@Param("username")String username);
+	
 }

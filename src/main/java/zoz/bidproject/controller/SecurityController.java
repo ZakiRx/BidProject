@@ -1,5 +1,6 @@
 package zoz.bidproject.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -10,15 +11,18 @@ import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import zoz.bidproject.dto.UserAuthenticationDto;
+import zoz.bidproject.model.Buyer;
 import zoz.bidproject.model.Role;
 import zoz.bidproject.repositories.jpa.BuyerRepository;
 import zoz.bidproject.security.JwtProvider;
@@ -43,9 +47,9 @@ public class SecurityController {
 		try {
 			Authentication authentication = authenticationManager
 					.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
-		
+
 			if (authentication.isAuthenticated()) {
-				
+
 				String username = user.getUsername();
 				List<Role> roles = buyerService.getBuyerByUserName(username).get().getRoles();
 				json.put("token", jwtProvider.createToken(username, roles));
@@ -62,6 +66,18 @@ public class SecurityController {
 		}
 		return null;
 
+	}
+
+	@PostMapping
+	@RequestMapping("/signup")
+	public Buyer signUp(HttpServletResponse response, @RequestBody Buyer buyer) throws IOException {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		System.out.println(authentication.getPrincipal());
+		if (authentication != null && authentication.isAuthenticated() && !(authentication instanceof AnonymousAuthenticationToken)) {
+			response.sendRedirect("/buyer/profile/");
+			return null;
+		}
+		return buyerService.newBuyer(buyer);
 	}
 
 }

@@ -184,6 +184,15 @@ public class BuyerService {
 		buyerRepository.editTypeAccount(type, buyer.getId());
 	}
 	
+	
+	public void disableAccount(Buyer buyer) {
+		buyer.setEnabled(false);
+		buyerRepository.save(buyer);
+	}
+	public List<Buyer> getBuyersByRole(Role role){
+		return role.getBuyers();
+	}
+	
 
 	
 	
