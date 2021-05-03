@@ -11,6 +11,6 @@ import zoz.bidproject.model.User;
 @Repository
 public interface SellerRepository extends JpaRepository<Seller, Long> {
 
-	/*@Query("select s from Seller s where s.accountId like :accountId")
-	Seller getOne(@Param("accountId") Long accountId);*/
+	@Query("select s from Seller s where s.username like :username")
+	Seller getSellerByUserName(@Param("username") String username);
 }

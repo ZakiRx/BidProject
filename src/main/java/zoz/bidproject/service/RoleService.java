@@ -46,13 +46,5 @@ public class RoleService {
 		return buyer.getRoles();
 	}
 	
-	public List<Manager> getManagersInRole(Role role){
-		return role.getManagers();
-	}
-	public List<Buyer> getBuyersInRole(Role role){
-		return role.getBuyers();
-		
-	}
-	
 	
 }

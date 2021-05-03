@@ -3,8 +3,12 @@ package zoz.bidproject.controller.admin;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,29 +24,29 @@ import zoz.bidproject.service.RoleService;
 public class RoleController {
 
 	@Autowired
-	private RoleService  roleService;
+	private RoleService roleService;
+
 	@GetMapping
 	@RequestMapping("/")
-	public List<Role> getRoles(){
+	public List<Role> getRoles() {
 		return roleService.getAllRoles();
 	}
-	@GetMapping
-	@RequestMapping("/{id}/buyer")
-	public List<Buyer> getbuyers(@PathVariable Integer id){
-		Role role = roleService.getRoleByid(id);
-		return roleService.getBuyersInRole(role);
+
+	@PostMapping
+	@RequestMapping("/new")
+	public Role newRole(@RequestBody Role role) {
+		return roleService.newRole(role);
 	}
-	@GetMapping
-	@RequestMapping("/{id}/seller")
-	public List<Seller> getSellers(@PathVariable Integer id){
-		Role role = roleService.getRoleByid(id);
-		return null;
-		
+	@PutMapping
+	@RequestMapping("/edit")
+	public Role editRole(@RequestBody Role role) {
+		return roleService.newRole(role);
 	}
-	@GetMapping
-	@RequestMapping("/{id}/manager")
-	public List<Manager> getManagers(@PathVariable Integer id){
+	
+	@DeleteMapping
+	@RequestMapping("{id}/delete")
+	public void deleteRole(@PathVariable Integer id) {
 		Role role = roleService.getRoleByid(id);
-		return roleService.getManagersInRole(role);
+		roleService.deleteRole(role);
 	}
 }

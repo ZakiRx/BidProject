@@ -71,6 +71,9 @@ public class SellerService {
 		
 		
 	}
+	public Seller getSellerByUserName(String username) {
+		return sellerRepository.getSellerByUserName(username);
+	}
 	public Seller getSellerByOffer(Offer offer) {
 		Seller seller = offer.getSeller();
 		return seller;

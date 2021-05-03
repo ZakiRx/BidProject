@@ -47,25 +47,6 @@ public class SellerController {
 		return sellerService.getSeller(id);
 	}
 
-	@PostMapping
-	@RequestMapping("/new")
-	public Seller addSeller(@RequestBody Seller Seller) {
-		return sellerService.newSeller(Seller);
-	}
-
-	@PutMapping
-	@RequestMapping("/edit")
-	public Seller editSeller(@RequestBody Seller Seller) {
-		return sellerService.newSeller(Seller);
-	}
-
-	@DeleteMapping
-	@RequestMapping("/delete/{id}")
-	public void deleteSeller(@PathVariable Long id) {
-		Seller seller = sellerService.getSeller(id);
-		sellerService.deleteSeller(seller);
-	}
-
 	@GetMapping
 	@RequestMapping("/{id}/products")
 	public List<Product> getProductsOffer(@PathVariable Long id) {
