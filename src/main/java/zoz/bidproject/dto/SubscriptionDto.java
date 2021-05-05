@@ -7,6 +7,17 @@ public class SubscriptionDto {
 	private Date createdAt;
 	private Date endAt;
 	private Boolean enabled;
+	
+	public SubscriptionDto() {
+		// TODO Auto-generated constructor stub
+	}
+	public SubscriptionDto(Long id, Date createdAt, Date endAt, Boolean enabled) {
+		
+		this.id = id;
+		this.createdAt = createdAt;
+		this.endAt = endAt;
+		this.enabled = enabled;
+	}
 
 	public Long getId() {
 		return id;

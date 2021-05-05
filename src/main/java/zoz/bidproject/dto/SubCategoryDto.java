@@ -1,40 +1,40 @@
 package zoz.bidproject.dto;
 
 public class SubCategoryDto {
+	private Long id;
 	private Long idCategory;
-	private long idSubCategory;
-	private String nameSubcategory;
-	private String slugCategory;
-	private String nameCategory;
+	private String name;
+	
+	
+	public SubCategoryDto() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	public SubCategoryDto(Long id, Long idCategory, String name) {
+		this.id = id;
+		this.idCategory = idCategory;
+		this.name = name;
+	}
+
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
 	public Long getIdCategory() {
 		return idCategory;
 	}
 	public void setIdCategory(Long idCategory) {
 		this.idCategory = idCategory;
 	}
-	public long getIdSubCategory() {
-		return idSubCategory;
+	public String getName() {
+		return name;
 	}
-	public void setIdSubCategory(long idSubCategory) {
-		this.idSubCategory = idSubCategory;
+	public void setName(String name) {
+		this.name = name;
 	}
-	public String getNameSubcategory() {
-		return nameSubcategory;
-	}
-	public void setNameSubcategory(String nameSubcategory) {
-		this.nameSubcategory = nameSubcategory;
-	}
-	public String getSlugCategory() {
-		return slugCategory;
-	}
-	public void setSlugCategory(String slugCategory) {
-		this.slugCategory = slugCategory;
-	}
-	public String getNameCategory() {
-		return nameCategory;
-	}
-	public void setNameCategory(String nameCategory) {
-		this.nameCategory = nameCategory;
-	}
+
+	
 
 }

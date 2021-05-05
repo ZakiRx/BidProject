@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import zoz.bidproject.model.Pack;
 import zoz.bidproject.service.PackService;
 
-@RestController
-@RequestMapping("/pack")
+@RestController("adminPackController")
+@RequestMapping("admin/pack")
 public class PackController {
 
 	@Autowired

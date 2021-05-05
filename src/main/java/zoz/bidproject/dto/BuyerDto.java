@@ -1,32 +1,72 @@
 package zoz.bidproject.dto;
 
+import java.time.LocalDate;
+import java.util.Date;
+
 public class BuyerDto {
-	private Long accountIdBuyer;
-	private double balanceBuyer;
-	private boolean verifiedBuyer;
 
-	public Long getAccountIdBuyer() {
-		return accountIdBuyer;
+	private Long id;
+
+	private String userName;
+
+	private String firstName;
+
+	private String LastName;
+	private LocalDate dateBirth;
+
+
+	public BuyerDto() {
+
 	}
 
-	public void setAccountIdBuyer(Long accountIdBuyer) {
-		this.accountIdBuyer = accountIdBuyer;
+	public BuyerDto(Long id, String userName, String firstName, String lastName, LocalDate dateBirth) {
+		this.id = id;
+		this.userName = userName;
+		this.firstName = firstName;
+		LastName = lastName;
+		this.dateBirth = dateBirth;
+		
 	}
 
-	public double getBalanceBuyer() {
-		return balanceBuyer;
+	public Long getId() {
+		return id;
 	}
 
-	public void setBalanceBuyer(double balanceBuyer) {
-		this.balanceBuyer = balanceBuyer;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
-	public boolean isVerifiedBuyer() {
-		return verifiedBuyer;
+	public String getUserName() {
+		return userName;
 	}
 
-	public void setVerifiedBuyer(boolean verifiedBuyer) {
-		this.verifiedBuyer = verifiedBuyer;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return LastName;
+	}
+
+	public void setLastName(String lastName) {
+		LastName = lastName;
+	}
+
+	public LocalDate getDateBirth() {
+		return dateBirth;
+	}
+
+	public void setDateBirth(LocalDate dateBirth) {
+		this.dateBirth = dateBirth;
+	}
+
 
 }

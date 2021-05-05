@@ -5,13 +5,13 @@ package zoz.bidproject.dto;
  *
  */
 public class OfferDto {
+	private Long id;
 	private String name;
 	private String description;
 	private Double startPrice;
 	private Double augmentationPrice;
 
 	public OfferDto(String name, String description, Double startPrice, Double augmentationPrice) {
-
 		this.name = name;
 		this.description = description;
 		this.startPrice = startPrice;
@@ -19,7 +19,7 @@ public class OfferDto {
 	}
 
 	public OfferDto() {
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	public String getName() {

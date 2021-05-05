@@ -17,7 +17,6 @@ public class PurchaseController {
 	@Autowired
 	private PurchaseService purchaseService;
 	
-	@PostConstruct
 	@RequestMapping("/new")
 	public Purchase newPurchase(@RequestBody Purchase purchase) {
 		return purchaseService.newPurchase(purchase);

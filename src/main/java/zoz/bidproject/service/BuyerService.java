@@ -92,7 +92,7 @@ public class BuyerService {
 	}
 
 	public void deleteBuyer(Buyer buyer) {
-		 Seller seller = sellerService.getSeller(buyer.getAccountId());
+		 Seller seller = sellerService.getSeller(buyer.getId());
 		 sellerService.deleteSeller(seller);
 		 buyerRepository.delete(buyer);
 		

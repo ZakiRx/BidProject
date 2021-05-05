@@ -3,50 +3,40 @@ package zoz.bidproject.dto;
 import java.util.Date;
 
 public class CommentDto {
-	private Long idCmt;
-	private String commentCmt;
-	private Date createdAtCmt;
-	private Date updatedAtCmt;
-	private Boolean actifCmt;
-
-	public Long getIdCmt() {
-		return idCmt;
+	private Long id;
+	private String comment;
+	private Date createdAt;
+	private Date updatedAt;
+	
+	public CommentDto() {
+		// TODO Auto-generated constructor stub
 	}
-
-	public void setIdCmt(Long idCmt) {
-		this.idCmt = idCmt;
+	public Long getId() {
+		return id;
 	}
-
-	public String getCommentCmt() {
-		return commentCmt;
+	public void setId(Long id) {
+		this.id = id;
 	}
-
-	public void setCommentCmt(String commentCmt) {
-		this.commentCmt = commentCmt;
+	public String getComment() {
+		return comment;
 	}
-
-	public Date getCreatedAtCmt() {
-		return createdAtCmt;
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
-
-	public void setCreatedAtCmt(Date createdAtCmt) {
-		this.createdAtCmt = createdAtCmt;
+	public Date getCreatedAt() {
+		return createdAt;
 	}
-
-	public Date getUpdatedAtCmt() {
-		return updatedAtCmt;
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
-
-	public void setUpdatedAtCmt(Date updatedAtCmt) {
-		this.updatedAtCmt = updatedAtCmt;
+	public Date getUpdatedAt() {
+		return updatedAt;
 	}
-
-	public Boolean getActifCmt() {
-		return actifCmt;
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
 	}
+	
 
-	public void setActifCmt(Boolean actifCmt) {
-		this.actifCmt = actifCmt;
-	}
+	
 
 }

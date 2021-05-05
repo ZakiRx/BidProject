@@ -1,6 +1,7 @@
 package zoz.bidproject.model;
 
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -20,13 +21,13 @@ public class BuyerDetails implements UserDetails {
 	private String userName;
 	private String firstName;
 	private String LastName;
-	private Date dateBirth;
+	private LocalDate dateBirth;
 	private String email;
 	private String phoneNumber;
 	private String password;
 	private Boolean enabled;
 	private Boolean active;
-	private Long accountId;
+	private String accountId;
 	private double balance;
 	private boolean verified;
 	private List<Role> roles;

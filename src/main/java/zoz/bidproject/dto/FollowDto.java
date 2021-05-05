@@ -3,23 +3,52 @@ package zoz.bidproject.dto;
 import java.util.Date;
 
 public class FollowDto {
-	private Long idFollow;
-	private Date followedAtFollow;
+	private Long id;
+	private Date followed;
+	private Long idBuyer;
+	private Long idSeller;
 
-	public Long getIdFollow() {
-		return idFollow;
+	
+	public FollowDto() {
+		
+	}
+	public FollowDto(Long id, Date followed, Long idBuyer, Long idSeller) {
+		this.id = id;
+		this.followed = followed;
+		this.idBuyer = idBuyer;
+		this.idSeller = idSeller;
 	}
 
-	public void setIdFollow(Long idFollow) {
-		this.idFollow = idFollow;
+	public Long getId() {
+		return id;
 	}
 
-	public Date getFollowedAtFollow() {
-		return followedAtFollow;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
-	public void setFollowedAtFollow(Date followedAtFollow) {
-		this.followedAtFollow = followedAtFollow;
+	public Date getFollowed() {
+		return followed;
+	}
+
+	public void setFollowed(Date followed) {
+		this.followed = followed;
+	}
+
+	public Long getIdBuyer() {
+		return idBuyer;
+	}
+
+	public void setIdBuyer(Long idBuyer) {
+		this.idBuyer = idBuyer;
+	}
+
+	public Long getIdSeller() {
+		return idSeller;
+	}
+
+	public void setIdSeller(Long idSeller) {
+		this.idSeller = idSeller;
 	}
 
 }

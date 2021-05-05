@@ -21,7 +21,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import zoz.bidproject.converter.UserSignUpDtoConverter;
 import zoz.bidproject.dto.UserAuthenticationDto;
+import zoz.bidproject.dto.UserSignUpDto;
 import zoz.bidproject.model.Buyer;
 import zoz.bidproject.model.Role;
 import zoz.bidproject.repositories.jpa.BuyerRepository;
@@ -39,6 +41,8 @@ public class SecurityController {
 
 	@Autowired
 	private BuyerService buyerService;
+	
+	private UserSignUpDtoConverter userSignUpDtoConverter;
 
 	@PostMapping
 	@RequestMapping("/login")
@@ -70,14 +74,22 @@ public class SecurityController {
 
 	@PostMapping
 	@RequestMapping("/signup")
-	public Buyer signUp(HttpServletResponse response, @RequestBody Buyer buyer) throws IOException {
+	public HttpStatus signUp(HttpServletResponse response, @RequestBody UserSignUpDto user) throws IOException {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		System.out.println(authentication.getPrincipal());
+		
 		if (authentication != null && authentication.isAuthenticated() && !(authentication instanceof AnonymousAuthenticationToken)) {
 			response.sendRedirect("/buyer/profile/");
 			return null;
 		}
-		return buyerService.newBuyer(buyer);
+		userSignUpDtoConverter = new UserSignUpDtoConverter();
+		Buyer buyer=userSignUpDtoConverter.dtoToEntity(user);
+		if(buyer!=null) {
+			buyerService.newBuyer(buyer);
+			return HttpStatus.OK;
+		}else {
+			return HttpStatus.BAD_REQUEST;
+		}
+		
 	}
 
 }

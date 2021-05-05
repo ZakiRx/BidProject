@@ -1,5 +1,6 @@
 package zoz.bidproject.model;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -31,7 +32,7 @@ public abstract class User {
 	private String firstName;
 	@Column(length = 25)
 	private String LastName;
-	private Date dateBirth;
+	private LocalDate dateBirth;
 	private String email;
 	private String phoneNumber;
 	private String password;
@@ -43,7 +44,7 @@ public abstract class User {
 
 	}
 	  @JsonCreator
-	public User(Long id, String userName, String firstName, String lastName, Date dateBirth, String email,
+	public User(Long id, String userName, String firstName, String lastName, LocalDate dateBirth, String email,
 			String phoneNumber, String password, Boolean enabled, Boolean actif) {
 		this.id = id;
 		this.userName = userName;
@@ -89,11 +90,11 @@ public abstract class User {
 		LastName = lastName;
 	}
 
-	public Date getDateBirth() {
+	public LocalDate getDateBirth() {
 		return dateBirth;
 	}
 
-	public void setDateBirth(Date dateBirth) {
+	public void setDateBirth(LocalDate dateBirth) {
 		this.dateBirth = dateBirth;
 	}
 

@@ -6,6 +6,18 @@ public class PackDto {
 	private Integer nbrDays;
 	private String details;
 
+	
+	public PackDto() {
+		// TODO Auto-generated constructor stub
+	}
+	public PackDto(Long id, String name, Integer nbrDays, String details) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.nbrDays = nbrDays;
+		this.details = details;
+	}
+
 	public Long getId() {
 		return id;
 	}

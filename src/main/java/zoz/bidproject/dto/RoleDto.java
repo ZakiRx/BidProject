@@ -1,19 +1,23 @@
 package zoz.bidproject.dto;
 
 public class RoleDto {
-	private Integer idRole;
-	private String nameRole;
-	public Integer getIdRole() {
-		return idRole;
+	private Integer id;
+	private String name;
+
+	public Integer getId() {
+		return id;
 	}
-	public void setIdRole(Integer idRole) {
-		this.idRole = idRole;
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
-	public String getNameRole() {
-		return nameRole;
+
+	public String getName() {
+		return name;
 	}
-	public void setNameRole(String nameRole) {
-		this.nameRole = nameRole;
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 }

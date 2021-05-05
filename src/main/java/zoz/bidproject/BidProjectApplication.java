@@ -1,5 +1,6 @@
 package zoz.bidproject;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,10 +47,10 @@ public class BidProjectApplication {
 		BidService bidService = applicationContext.getBean("bidService", BidService.class);
 		CategoryService categoryService = applicationContext.getBean("categoryService",CategoryService.class);
 		SubCategoryService subCategoryService = applicationContext.getBean("subCategoryService",SubCategoryService.class);
-		Buyer buyer = new Buyer(null, "zaki", "zakaria", "Guemi", new Date(), "zaki@gmail.com", "065231489", "123",
-				true, true, 1542L, 50000, true);
-		Buyer buyer2 = new Buyer(null, "med", "med", "Guemi", new Date(), "med@gmail.com", "063336489", "123",
-				true, true, 1582L, 32600, true);
+		Buyer buyer = new Buyer(null, "zaki", "zakaria", "Guemi", LocalDate.parse("1998-11-11"), "zaki@gmail.com", "065231489", "123",
+				true, true, "1542L", 50000, true);
+		Buyer buyer2 = new Buyer(null, "med", "med", "Guemi", LocalDate.parse("1993-11-17"), "med@gmail.com", "063336489", "123",
+				true, true, "1582L", 32600, true);
 		OfferDto offerDto = new OfferDto("offer1", "no duscription", 100.0, 500.0);
 		Category category = new Category(null,"HardwareSlug1","Hardware PC");
 		SubCategory subCategory=new SubCategory(null, "slugRam", "Ram", category);

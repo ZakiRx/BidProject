@@ -8,9 +8,9 @@ import zoz.bidproject.model.Bid;
 public class BidConvert {
 
 	public BidDto entityToDto(Bid bid) {
-		BidDto buyerDto = new BidDto();
-
-		return buyerDto;
+		BidDto bidDto = new BidDto();
+		
+		return bidDto;
 	}
 
 	public List<BidDto> entityToDto(List<Bid> bids) {
