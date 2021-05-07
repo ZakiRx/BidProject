@@ -2,6 +2,8 @@ package zoz.bidproject.controller;
 
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import zoz.bidproject.converter.OfferConvert;
+import zoz.bidproject.dto.OfferDto;
 import zoz.bidproject.model.Bid;
 import zoz.bidproject.model.Comment;
 import zoz.bidproject.model.Offer;
@@ -37,11 +41,18 @@ public class OfferController {
 	private OrderService orderService;  
 	@Autowired
 	private BidService bidService;
+	private OfferConvert offerConverter;
+	
+	@PostConstruct
+	public void init() {
+		offerConverter= new OfferConvert();
+	}
 	
 	@GetMapping
 	@RequestMapping("/")
-	public List<Offer> getOffers() {
-		return offerService.getAllOffers();
+	public List<OfferDto> getOffers() {
+		List<Offer> offers = offerService.getAllOffers();
+		return offerConverter.entityToDto(offers) ;
 	}
 	@GetMapping
 	@RequestMapping("/{id}")
@@ -50,12 +61,14 @@ public class OfferController {
 	}
 	@PostMapping
 	@RequestMapping("/new")
-	public Offer newOffer(@RequestBody Offer offer) {
+	public Offer newOffer(@RequestBody OfferDto offerDto) {
+		Offer offer= offerConverter.dtoToEntity(offerDto);
 		return offerService.saveOffre(offer);
 	}
 	@PutMapping
 	@RequestMapping("/edit")
-	public Offer editOffer(@RequestBody Offer offer) {
+	public Offer editOffer(@RequestBody OfferDto offerDto) {
+		Offer offer= offerConverter.dtoToEntity(offerDto);
 		return offerService.saveOffre(offer);
 	}
 	@DeleteMapping

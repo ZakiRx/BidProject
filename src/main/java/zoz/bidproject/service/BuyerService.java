@@ -81,9 +81,14 @@ public class BuyerService {
 			 role  = new Role(null,"BUYER");
 			 roleService.newRole(role);
 		}
-		addBuyerToRole(buyer, role);
-		String passwordEncode=passwordEncoder.encode(buyer.getPassword());
-		buyer.setPassword(passwordEncode);
+		if( buyer.getRoles()==null ||  buyer.getRoles().isEmpty()) {
+			addBuyerToRole(buyer, role);
+		}
+		
+		if(buyer.getPassword()!=null){
+			String passwordEncode=passwordEncoder.encode(buyer.getPassword());
+			buyer.setPassword(passwordEncode);
+		}
 			buyerRepository.save(buyer);
 			
 		return buyer;

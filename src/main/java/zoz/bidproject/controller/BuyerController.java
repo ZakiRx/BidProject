@@ -3,8 +3,10 @@ package zoz.bidproject.controller;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.ws.rs.core.Response;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import zoz.bidproject.converter.BuyerConverter;
+import zoz.bidproject.dto.BuyerDto;
 import zoz.bidproject.model.Bid;
 import zoz.bidproject.model.Buyer;
 import zoz.bidproject.model.Comment;
@@ -25,6 +29,7 @@ import zoz.bidproject.model.Pack;
 import zoz.bidproject.model.Purchase;
 import zoz.bidproject.model.Seller;
 import zoz.bidproject.model.User;
+import zoz.bidproject.repositories.jpa.BuyerRepository;
 import zoz.bidproject.service.BidService;
 import zoz.bidproject.service.BuyerService;
 import zoz.bidproject.service.CommentService;
@@ -43,27 +48,47 @@ public class BuyerController {
 	@Autowired
 	private PurchaseService purchaseService;
 	private Authentication principal;
+	private BuyerConverter buyerConverter;
 	
+	
+	@PostConstruct
+	public void init() {
+		buyerConverter= new BuyerConverter();
+	}
 	@GetMapping
 	@RequestMapping("/")
-	public Buyer profile() {
+	public BuyerDto profile() {
 		this.principal =SecurityContextHolder.getContext().getAuthentication();
-		System.out.println("user:"+principal.getName());
-		return buyerService.getBuyerByUserName(principal.getName()).get();
+		Buyer buyer = buyerService.getBuyerByUserName(principal.getName()).get();
+		return  buyerConverter.entityToDto(buyer);
+		
 	}
 
 	@GetMapping
 	@RequestMapping("/{id}")
-	public Buyer getBuyer(@PathVariable Long id) {
+	public Object getBuyer(@PathVariable Long id) {
 		Authentication principal=SecurityContextHolder.getContext().getAuthentication();
 		System.out.println("user:"+principal.getName());
-		return buyerService.getBuyer(id);
+        try {
+        	Buyer buyer = buyerService.getBuyer(id);
+        	return  buyerConverter.entityToDto(buyer);
+        }catch(Exception e) {
+        	
+            return "User not found :"+HttpStatus.NOT_FOUND.value();
+            
+        }
+		
+		
+		
 	}
 
 
 	@PutMapping
 	@RequestMapping("/edit")
-	public Buyer editBuyer(@RequestBody Buyer buyer) {
+	public Buyer editBuyer(@RequestBody BuyerDto buyerDto) {
+		Buyer buyer=buyerService.getBuyer(buyerDto.getId());
+		buyer.setFirstName(buyerDto.getFirstName());
+		buyer.setLastName(buyerDto.getLastName());
 		return buyerService.newBuyer(buyer);
 	}
 
