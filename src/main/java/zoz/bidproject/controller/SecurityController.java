@@ -55,7 +55,7 @@ public class SecurityController {
 			if (authentication.isAuthenticated()) {
 
 				String username = user.getUsername();
-				List<Role> roles = buyerService.getBuyerByUserName(username).get().getRoles();
+				List<Role> roles = (List<Role>) buyerService.getBuyerByUserName(username).get().getRoles();
 				json.put("token", jwtProvider.createToken(username, roles));
 				return new ResponseEntity<String>(json.toString(), null, HttpStatus.OK);
 			}

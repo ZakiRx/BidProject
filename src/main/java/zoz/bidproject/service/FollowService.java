@@ -26,7 +26,7 @@ public class FollowService {
 	 * @param follow
 	 * @return follow
 	 */
-	public Follow saveFollow(Follow follow) {
+	public Follow newFollow(Follow follow) {
 		return followRepository.save(follow);
 	}
 	

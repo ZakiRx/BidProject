@@ -28,4 +28,9 @@ public class OrderService {
 	public List<Ordre> getOrdersBySeller(Seller seller) {
 		return seller.getOrdres();
 	}
+	
+	public Ordre newOrder(Ordre order) {
+
+		return orderRepository.save(order);
+	}
 }

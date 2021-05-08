@@ -3,6 +3,7 @@ package zoz.bidproject.converter;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import zoz.bidproject.dto.BuyerDto;
 import zoz.bidproject.dto.RoleDto;
 import zoz.bidproject.dto.SellerDto;
 import zoz.bidproject.model.Role;
@@ -10,7 +11,7 @@ import zoz.bidproject.model.Seller;
 
 public class SellerConvert {
 	public SellerDto entityToDto(Seller seller) {
-		SellerDto sellerDto = new SellerDto();
+		SellerDto sellerDto = new SellerDto(seller.getId(),seller.getUserName(),seller.getFirstName(),seller.getLastName(),seller.getType(),seller.getDateBirth());
 
 		return sellerDto;
 	}

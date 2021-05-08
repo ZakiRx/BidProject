@@ -10,6 +10,6 @@ import zoz.bidproject.model.Ordre;
 
 public interface OrderRepository extends JpaRepository<Ordre, Long> {
 
-	/*@Query("select * from Ordre o inner join Seller s where s.id like :idSeller")
-	public List<Ordre> getOrdreBySeller(@Param(":idSeller") Long idSeller);*/
+	/*@Query("select o from Ordre o inner join Seller s on s.id = :idSeller")
+	public List<Ordre> getOrdreBySeller(@Param("idSeller") Long idSeller);*/
 }

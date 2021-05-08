@@ -156,7 +156,7 @@ public class BuyerService {
 	public Follow followSeller(Long idBuyer, Long idSeller) {
 		Buyer buyer = getBuyer(idBuyer);
 		Seller seller = sellerService.getSeller(idSeller); // should to communicate with the service
-		return followService.saveFollow(new Follow(null, new Date(), buyer, seller));
+		return followService.newFollow(new Follow(null, new Date(), buyer, seller));
 	}
 
 	/**
@@ -172,7 +172,7 @@ public class BuyerService {
 	public void addBuyerToRole(Buyer buyer,Role role) {
 	
 		if(buyer.getRoles()!=null) {
-			List<Role> roles =buyer.getRoles();
+			List<Role> roles =  buyer.getRoles();
 			roles.add(role);
 			buyer.setRoles(roles);
 		}else {

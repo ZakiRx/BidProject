@@ -6,17 +6,18 @@ public class FollowDto {
 	private Long id;
 	private Date followed;
 	private Long idBuyer;
-	private Long idSeller;
+	private String nameBuyer;
+	
 
 	
 	public FollowDto() {
 		
 	}
-	public FollowDto(Long id, Date followed, Long idBuyer, Long idSeller) {
+	public FollowDto(Long id, Date followed, Long idBuyer, String nameBuyer) {
 		this.id = id;
 		this.followed = followed;
 		this.idBuyer = idBuyer;
-		this.idSeller = idSeller;
+		this.nameBuyer = nameBuyer;
 	}
 
 	public Long getId() {
@@ -42,13 +43,13 @@ public class FollowDto {
 	public void setIdBuyer(Long idBuyer) {
 		this.idBuyer = idBuyer;
 	}
-
-	public Long getIdSeller() {
-		return idSeller;
+	public String getNameBuyer() {
+		return nameBuyer;
+	}
+	public void setNameBuyer(String nameBuyer) {
+		this.nameBuyer = nameBuyer;
 	}
 
-	public void setIdSeller(Long idSeller) {
-		this.idSeller = idSeller;
-	}
+	
 
 }

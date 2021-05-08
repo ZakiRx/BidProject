@@ -1,5 +1,6 @@
 package zoz.bidproject.dto;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class SellerDto {
@@ -10,19 +11,20 @@ public class SellerDto {
 	private String firstName;
 
 	private String LastName;
-	private Date dateBirth;
+	private String type;
+	private LocalDate dateBirth;
 
 	public SellerDto() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public SellerDto(Long id, String userName, String firstName, String lastName, Date dateBirth) {
-
+	public SellerDto(Long id, String userName, String firstName, String lastName,String type, LocalDate dateBirth) {
 		this.id = id;
 		this.userName = userName;
 		this.firstName = firstName;
 		LastName = lastName;
 		this.dateBirth = dateBirth;
+		this.type=type;
 	}
 
 	public Long getId() {
@@ -57,12 +59,22 @@ public class SellerDto {
 		LastName = lastName;
 	}
 
-	public Date getDateBirth() {
+	public LocalDate getDateBirth() {
 		return dateBirth;
 	}
 
-	public void setDateBirth(Date dateBirth) {
+	public void setDateBirth(LocalDate dateBirth) {
 		this.dateBirth = dateBirth;
 	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+	
+	
 
 }

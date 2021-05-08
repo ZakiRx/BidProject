@@ -25,10 +25,10 @@ public class OfferDto {
 	private String nameSeller;
 	private List<Comment> comments;
 	private List<Product> products;
-	private List<Bid> bids;
+	private List<BidDto> bids;
 	public OfferDto(Long id, String name, String description, Double startPrice, Double augmentationPrice,
 			Double currentPrice, Date startedAt, Date endAt, Long idSeller, String nameSeller, List<Comment> comments,
-			List<Product> products, List<Bid> bids) {
+			List<Product> products, List<BidDto> bids) {
 		this(name,description,startPrice,augmentationPrice);
 		this.id = id;
 		this.currentPrice = currentPrice;
@@ -148,11 +148,11 @@ public class OfferDto {
 		this.products = products;
 	}
 
-	public List<Bid> getBids() {
+	public List<BidDto> getBids() {
 		return bids;
 	}
 
-	public void setBids(List<Bid> bids) {
+	public void setBids(List<BidDto> bids) {
 		this.bids = bids;
 	}
 	

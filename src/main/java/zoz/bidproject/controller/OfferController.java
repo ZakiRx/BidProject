@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import zoz.bidproject.converter.CommentConvert;
 import zoz.bidproject.converter.OfferConvert;
+import zoz.bidproject.dto.CommentDto;
 import zoz.bidproject.dto.OfferDto;
 import zoz.bidproject.model.Bid;
 import zoz.bidproject.model.Comment;
@@ -41,10 +43,13 @@ public class OfferController {
 	private OrderService orderService;  
 	@Autowired
 	private BidService bidService;
+	
+	private CommentConvert commentConvert;
 	private OfferConvert offerConverter;
 	
 	@PostConstruct
 	public void init() {
+		commentConvert= new CommentConvert();
 		offerConverter= new OfferConvert();
 	}
 	
@@ -80,9 +85,9 @@ public class OfferController {
 	
 	@GetMapping
 	@RequestMapping("/{id}/comments")
-	public List<Comment> getCommentsOffer(@PathVariable Long id) {
+	public List<CommentDto> getCommentsOffer(@PathVariable Long id) {
 		Offer offer = offerService.getOfferById(id);
-		return commentService.getCommentsByOffer(offer);
+		return commentConvert.entityToDto(commentService.getCommentsByOffer(offer));
 	}
 	@GetMapping
 	@RequestMapping("/{id}/products")

@@ -41,7 +41,7 @@ public class SellerService {
 	@Autowired
 	private ProductService productService;
 	@Autowired
-	private OrdreService ordreService;
+	private OrderService ordreService;
 
 	@Autowired
 	private FollowService followService;

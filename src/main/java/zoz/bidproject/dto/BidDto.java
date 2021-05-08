@@ -8,6 +8,20 @@ public class BidDto {
 	private Long idOffer;
 	private String nameOffer;
 
+	
+	public BidDto() {
+		// TODO Auto-generated constructor stub
+	}
+	public BidDto(Long id, Double price, Long idBuyer, String nameBuyer, Long idOffer, String nameOffer) {
+		super();
+		this.id = id;
+		this.price = price;
+		this.idBuyer = idBuyer;
+		this.nameBuyer = nameBuyer;
+		this.idOffer = idOffer;
+		this.nameOffer = nameOffer;
+	}
+
 	public Long getId() {
 		return id;
 	}
