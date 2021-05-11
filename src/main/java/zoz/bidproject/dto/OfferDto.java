@@ -1,7 +1,19 @@
 package zoz.bidproject.dto;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
+
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Future;
+import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
+import org.aspectj.lang.annotation.After;
+
+import com.sun.istack.NotNull;
 
 import zoz.bidproject.model.Bid;
 import zoz.bidproject.model.Comment;
@@ -14,20 +26,29 @@ import zoz.bidproject.model.Product;
  */
 public class OfferDto {
 	private Long id;
+	
+	@NotNull
+	@Size(min=4,max = 40,message = "Name must be btween {min} and {max}")
 	private String name;
+	@NotBlank(message="Description must be not blank")
+	@NotNull
 	private String description;
+	@Min(value = 0,message = "Start price must be greater  than {value}")
 	private Double startPrice;
 	private Double augmentationPrice;
 	private Double currentPrice;
+	@FutureOrPresent(message = "Date not valid")
 	private Date startedAt;
+	@Future
 	private Date endAt;
+	@NotNull
 	private Long idSeller;
 	private String nameSeller;
-	private List<Comment> comments;
+	private List<CommentDto> comments;
 	private List<Product> products;
 	private List<BidDto> bids;
 	public OfferDto(Long id, String name, String description, Double startPrice, Double augmentationPrice,
-			Double currentPrice, Date startedAt, Date endAt, Long idSeller, String nameSeller, List<Comment> comments,
+			Double currentPrice, Date startedAt, Date endAt, Long idSeller, String nameSeller, List<CommentDto> comments,
 			List<Product> products, List<BidDto> bids) {
 		this(name,description,startPrice,augmentationPrice);
 		this.id = id;
@@ -132,11 +153,11 @@ public class OfferDto {
 		this.nameSeller = nameSeller;
 	}
 
-	public List<Comment> getComments() {
+	public List<CommentDto> getComments() {
 		return comments;
 	}
 
-	public void setComments(List<Comment> comments) {
+	public void setComments(List<CommentDto> comments) {
 		this.comments = comments;
 	}
 

@@ -6,7 +6,7 @@ import java.util.Date;
 public class BuyerDto {
 
 	private Long id;
-
+	
 	private String userName;
 
 	private String firstName;

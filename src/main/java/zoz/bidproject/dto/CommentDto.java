@@ -2,12 +2,22 @@ package zoz.bidproject.dto;
 
 import java.util.Date;
 
+import javax.validation.constraints.NotBlank;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.sun.istack.NotNull;
+
 public class CommentDto {
 	private Long id;
+	@NotNull
+	@NotBlank(message = "Comment should not empty")
 	private String comment;
 	private Long idBuyer;
 	private String nameBuyer;
+	@DateTimeFormat
 	private Date createdAt;
+	@DateTimeFormat
 	private Date updatedAt;
 	
 	

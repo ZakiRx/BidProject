@@ -4,13 +4,30 @@ import java.time.LocalDate;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.sun.istack.NotNull;
 
 public class UserSignUpDto {
 	
+	@Column(length = 25)
+	@NotBlank(message = "UserName Not Should be blank ")
+	@NotNull
+	@Size(min = 6,max = 20,message = "Username must be between 6 and 20 charachter")
 	private String userName;
+	@NotNull
+	@Size(min = 6,max = 20,message = "Username must be between 6 and 20 charachter")
 	private String firstName;
+	@NotNull
+	@Size(min = 6,max = 20,message = "Username must be between 6 and 20 charachter")
 	private String LastName;
+	@DateTimeFormat
 	private LocalDate dateBirth;
+	@Email
 	private String email;
 	private String phoneNumber;
 	private String password;

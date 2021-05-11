@@ -28,7 +28,6 @@ import zoz.bidproject.repositories.jpa.SellerRepository;
  *
  */
 @Service
-
 public class SellerService {
 
 	@Autowired
@@ -45,11 +44,6 @@ public class SellerService {
 
 	@Autowired
 	private FollowService followService;
-
-	
-	
-	
-	
 	public List<Seller>  getSellers(){
 		return sellerRepository.findAll();
 	}

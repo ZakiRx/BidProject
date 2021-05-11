@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -16,6 +17,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,6 +34,7 @@ import zoz.bidproject.service.BuyerService;
 import zoz.bidproject.service.RoleService;
 
 @RestController
+@Validated
 public class SecurityController {
 
 	@Autowired
@@ -46,7 +49,7 @@ public class SecurityController {
 
 	@PostMapping
 	@RequestMapping("/login")
-	public ResponseEntity<String> login(@RequestBody UserAuthenticationDto user) {
+	public ResponseEntity<String> login(@Valid @RequestBody UserAuthenticationDto user) {
 		JSONObject json = new JSONObject();
 		try {
 			Authentication authentication = authenticationManager
@@ -59,13 +62,13 @@ public class SecurityController {
 				json.put("token", jwtProvider.createToken(username, roles));
 				return new ResponseEntity<String>(json.toString(), null, HttpStatus.OK);
 			}
-		} catch (JSONException e) {
+		} catch (JSONException e ) {
 			try {
 				json.put("exception", e.getMessage());
 				return new ResponseEntity<String>(json.toString(), null, HttpStatus.UNAUTHORIZED);
 			} catch (JSONException e1) {
 				e1.printStackTrace();
-				return null;
+				return null; 
 			}
 		}
 		return null;
@@ -74,7 +77,7 @@ public class SecurityController {
 
 	@PostMapping
 	@RequestMapping("/signup")
-	public HttpStatus signUp(HttpServletResponse response, @RequestBody UserSignUpDto user) throws IOException {
+	public HttpStatus signUp(HttpServletResponse response, @Valid @RequestBody UserSignUpDto user) throws IOException {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		
 		if (authentication != null && authentication.isAuthenticated() && !(authentication instanceof AnonymousAuthenticationToken)) {

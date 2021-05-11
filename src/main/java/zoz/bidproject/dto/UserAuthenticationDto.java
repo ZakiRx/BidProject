@@ -1,8 +1,19 @@
 
 package zoz.bidproject.dto;
 
+
+import javax.validation.constraints.NotBlank;
+
+
+import com.sun.istack.NotNull;
+
 public class UserAuthenticationDto {
+	
+	@NotBlank(message = "Username Not Should be blank ")
+	@NotNull
 	private String username;
+	@NotBlank(message = "Password Not Should be blank ")
+	@NotNull
 	private String password;
 	
 	public UserAuthenticationDto() {

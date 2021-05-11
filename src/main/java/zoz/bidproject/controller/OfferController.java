@@ -3,6 +3,7 @@ package zoz.bidproject.controller;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,6 +32,7 @@ import zoz.bidproject.service.ProductService;
 
 @RestController
 @RequestMapping("/offer")
+
 public class OfferController {
 
 	@Autowired
@@ -66,7 +68,7 @@ public class OfferController {
 	}
 	@PostMapping
 	@RequestMapping("/new")
-	public Offer newOffer(@RequestBody OfferDto offerDto) {
+	public Offer newOffer(@Valid @RequestBody OfferDto offerDto) {
 		Offer offer= offerConverter.dtoToEntity(offerDto);
 		return offerService.saveOffre(offer);
 	}

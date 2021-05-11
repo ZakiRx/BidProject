@@ -1,11 +1,25 @@
 package zoz.bidproject.dto;
 
+import javax.validation.constraints.NotBlank;
+
+import com.sun.istack.NotNull;
+
 public class BidDto {
 	private Long id;
+	@NotNull
+	@NotBlank
 	private Double price;
+	@NotNull
+	@NotBlank
 	private Long idBuyer;
+	@NotNull
+	@NotBlank
 	private String nameBuyer;
+	@NotNull
+	@NotBlank
 	private Long idOffer;
+	@NotNull
+	@NotBlank
 	private String nameOffer;
 
 	
