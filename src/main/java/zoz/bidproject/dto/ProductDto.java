@@ -2,13 +2,27 @@ package zoz.bidproject.dto;
 
 import java.util.Date;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.sun.istack.NotNull;
+
 public class ProductDto {
 	private Long id;
+	@NotBlank
+	@NotNull
+	@Size(min = 0,max = 30)
 	private String name;
+	@NotBlank
+	@NotNull
 	private String description;
 	private String image;
 	private String images;
+	@DateTimeFormat
 	private Date createdAt;
+	@DateTimeFormat
 	private Date updatedAt;
 	private Boolean virified;
 	private String tags;

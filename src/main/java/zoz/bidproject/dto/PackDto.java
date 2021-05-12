@@ -1,15 +1,25 @@
 package zoz.bidproject.dto;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+
+import com.sun.istack.NotNull;
+
 public class PackDto {
 	private Long id;
+	@NotNull
+	@NotBlank(message = "name package must be not blank")
 	private String name;
+	@Min(value = 0)
 	private Integer nbrDays;
+	@NotBlank
+	@NotNull
 	private String details;
 
-	
 	public PackDto() {
 		// TODO Auto-generated constructor stub
 	}
+
 	public PackDto(Long id, String name, Integer nbrDays, String details) {
 		super();
 		this.id = id;

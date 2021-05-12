@@ -1,7 +1,13 @@
 package zoz.bidproject.dto;
 
+import javax.validation.constraints.NotBlank;
+
+import com.sun.istack.NotNull;
+
 public class RoleDto {
 	private Integer id;
+	@NotBlank
+	@NotNull
 	private String name;
 
 	public Integer getId() {

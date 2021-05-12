@@ -3,15 +3,25 @@ package zoz.bidproject.dto;
 import java.time.LocalDate;
 import java.util.Date;
 
+import javax.validation.constraints.NotBlank;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.sun.istack.NotNull;
+
 public class SellerDto {
 	private Long id;
-
+	@NotBlank
+	@NotNull
 	private String userName;
-
+	@NotBlank
+	@NotNull
 	private String firstName;
-
+	@NotBlank
+	@NotNull
 	private String LastName;
 	private String type;
+	 @DateTimeFormat
 	private LocalDate dateBirth;
 
 	public SellerDto() {

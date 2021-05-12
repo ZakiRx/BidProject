@@ -2,9 +2,13 @@ package zoz.bidproject.dto;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class SubscriptionDto {
 	private Long id;
+	@DateTimeFormat
 	private Date createdAt;
+	 @DateTimeFormat
 	private Date endAt;
 	private Boolean enabled;
 	

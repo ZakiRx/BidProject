@@ -1,8 +1,16 @@
 package zoz.bidproject.dto;
 
+import javax.validation.constraints.NotBlank;
+
+import com.sun.istack.NotNull;
+
 public class SubCategoryDto {
 	private Long id;
+	@NotBlank
+	@NotNull
 	private Long idCategory;
+	@NotBlank
+	@NotNull
 	private String name;
 	
 	

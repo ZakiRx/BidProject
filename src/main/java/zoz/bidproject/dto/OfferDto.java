@@ -35,6 +35,7 @@ public class OfferDto {
 	private String description;
 	@Min(value = 0,message = "Start price must be greater  than {value}")
 	private Double startPrice;
+	@Min(value = 0,message = "Start price must be greater  than {value}")
 	private Double augmentationPrice;
 	private Double currentPrice;
 	@FutureOrPresent(message = "Date not valid")

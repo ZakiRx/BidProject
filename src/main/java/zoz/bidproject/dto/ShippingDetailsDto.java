@@ -1,14 +1,32 @@
 package zoz.bidproject.dto;
 
+import javax.validation.constraints.NotBlank;
+
+import com.sun.istack.NotNull;
+
 public class ShippingDetailsDto {
 
 	private Long id;
+	@NotBlank
+	@NotNull
 	private String billingEmail;
+	@NotBlank
+	@NotNull
 	private String billingName;
+	@NotBlank
+	@NotNull
 	private String country;
+	@NotBlank
+	@NotNull
 	private String billingAdress;
+	@NotBlank
+	@NotNull
 	private String billingCity;
+	@NotBlank
+	@NotNull
 	private String billingPostalCode;
+	@NotBlank
+	@NotNull
 	private String billingPhone;
 	private Boolean shipped;
 

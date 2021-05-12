@@ -29,8 +29,13 @@ public class UserSignUpDto {
 	private LocalDate dateBirth;
 	@Email
 	private String email;
+	@NotBlank
 	private String phoneNumber;
+	@NotBlank
+	@NotNull
 	private String password;
+	@NotBlank
+	@NotNull
 	private String confirmePassword;
 	
 	

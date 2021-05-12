@@ -13,6 +13,8 @@ public class CommentDto {
 	@NotNull
 	@NotBlank(message = "Comment should not empty")
 	private String comment;
+	@NotNull
+	@NotBlank
 	private Long idBuyer;
 	private String nameBuyer;
 	@DateTimeFormat

@@ -1,9 +1,19 @@
 package zoz.bidproject.dto;
 
+import javax.validation.constraints.NotBlank;
+
+import com.sun.istack.NotNull;
+
 public class ShipingProofDto {
 	private Long id;
+	@NotBlank
+	@NotNull
 	private String image;
+	@NotBlank
+	@NotNull
 	private String trackNumber;
+	@NotBlank
+	@NotNull
 	private String numPackage;
 	private Boolean verified;
 
