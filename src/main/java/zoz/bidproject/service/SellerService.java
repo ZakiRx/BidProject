@@ -59,7 +59,7 @@ public class SellerService {
 			Seller seller = sellerRepository.getOne(id);
 			return seller;
 		}catch (Exception e) {
-			System.out.println("Seller not found with this id");
+			System.out.println("Seller not found with this id"+e.getMessage());
 			return null;
 		}
 		

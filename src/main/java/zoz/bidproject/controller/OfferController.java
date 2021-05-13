@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import zoz.bidproject.converter.BidConvert;
 import zoz.bidproject.converter.CommentConvert;
 import zoz.bidproject.converter.OfferConvert;
+import zoz.bidproject.dto.BidDto;
 import zoz.bidproject.dto.CommentDto;
 import zoz.bidproject.dto.OfferDto;
 import zoz.bidproject.model.Bid;
@@ -29,10 +31,10 @@ import zoz.bidproject.service.CommentService;
 import zoz.bidproject.service.OfferService;
 import zoz.bidproject.service.OrderService;
 import zoz.bidproject.service.ProductService;
+import zoz.bidproject.service.SellerService;
 
 @RestController
 @RequestMapping("/offer")
-
 public class OfferController {
 
 	@Autowired
@@ -45,14 +47,18 @@ public class OfferController {
 	private OrderService orderService;  
 	@Autowired
 	private BidService bidService;
+	@Autowired
+	private SellerService sellerService;
 	
 	private CommentConvert commentConvert;
 	private OfferConvert offerConverter;
+	private BidConvert bidConvert;
 	
 	@PostConstruct
 	public void init() {
 		commentConvert= new CommentConvert();
 		offerConverter= new OfferConvert();
+		bidConvert = new BidConvert();
 	}
 	
 	@GetMapping
@@ -63,13 +69,15 @@ public class OfferController {
 	}
 	@GetMapping
 	@RequestMapping("/{id}")
-	public Offer getOffer(@PathVariable Long id) {
-		return offerService.getOfferById(id);
+	public OfferDto getOffer(@PathVariable Long id) {
+		return offerConverter.entityToDto(offerService.getOfferById(id)) ;
 	}
 	@PostMapping
 	@RequestMapping("/new")
 	public Offer newOffer(@Valid @RequestBody OfferDto offerDto) {
+		
 		Offer offer= offerConverter.dtoToEntity(offerDto);
+		offer.setSeller(sellerService.getSeller(offerDto.getIdSeller()));
 		return offerService.saveOffre(offer);
 	}
 	@PutMapping
@@ -105,9 +113,10 @@ public class OfferController {
 	}
 	@GetMapping
 	@RequestMapping("/{id}/bid")
-	public List<Bid>  getBids(@PathVariable Long id){
+	public List<BidDto>  getBids(@PathVariable Long id){
 		Offer offer=offerService.getOfferById(id);
-		return bidService.getBidsByOffer(offer);
+	
+		return  bidConvert.entityToDto(bidService.getBidsByOffer(offer));
 	}
 	
 }

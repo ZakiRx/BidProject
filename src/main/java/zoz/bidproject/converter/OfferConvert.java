@@ -5,7 +5,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import zoz.bidproject.dto.BidDto;
 import zoz.bidproject.dto.CommentDto;
@@ -37,8 +36,10 @@ public class OfferConvert {
 	}
 
 	public Offer dtoToEntity(OfferDto offerDto) {
-		Seller seller = sellerService.getSeller(offerDto.getIdSeller());
-		Offer offer = new Offer(null,offerDto.getName(),offerDto.getDescription(),offerDto.getStartPrice(),offerDto.getAugmentationPrice(),offerDto.getStartedAt(),offerDto.getEndAt(),false,false,seller);
+		System.out.println(offerDto.getIdSeller());
+		Seller seller = new Seller();
+		seller.setId(offerDto.getIdSeller());
+		Offer offer = new Offer(offerDto.getId(),offerDto.getName(),offerDto.getDescription(),offerDto.getStartPrice(),offerDto.getAugmentationPrice(),offerDto.getStartedAt(),offerDto.getEndAt(),false,false,seller);
 		return offer;
 	}
 

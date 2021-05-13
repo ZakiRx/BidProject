@@ -37,8 +37,6 @@ public class UserSignUpDto {
 	@NotBlank
 	@NotNull
 	private String confirmePassword;
-	
-	
 	public UserSignUpDto() {
 		// TODO Auto-generated constructor stub
 	}

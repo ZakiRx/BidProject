@@ -1,6 +1,7 @@
 package zoz.bidproject;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+import com.pusher.rest.Pusher;
 
 import zoz.bidproject.config.BeansConfig;
 import zoz.bidproject.dto.OfferDto;
@@ -159,6 +162,7 @@ public class BidProjectApplication {
 		purchaseService.newPurchase(purchase);
 		
 		
+
 		
 		
 		//must be exception
