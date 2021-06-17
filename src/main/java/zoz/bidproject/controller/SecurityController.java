@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
@@ -18,6 +19,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +35,7 @@ import zoz.bidproject.security.JwtProvider;
 import zoz.bidproject.service.BuyerService;
 import zoz.bidproject.service.RoleService;
 
+
 @RestController
 @Validated
 public class SecurityController {
@@ -44,12 +47,12 @@ public class SecurityController {
 
 	@Autowired
 	private BuyerService buyerService;
-	
+
 	private UserSignUpDtoConverter userSignUpDtoConverter;
 
 	@PostMapping
 	@RequestMapping("/login")
-	public ResponseEntity<String> login(@Valid @RequestBody UserAuthenticationDto user) {
+	public ResponseEntity<String> login(@Valid @RequestBody UserAuthenticationDto user,HttpServletResponse response) {
 		JSONObject json = new JSONObject();
 		try {
 			Authentication authentication = authenticationManager
@@ -59,16 +62,24 @@ public class SecurityController {
 
 				String username = user.getUsername();
 				List<Role> roles = (List<Role>) buyerService.getBuyerByUserName(username).get().getRoles();
-				json.put("token", jwtProvider.createToken(username, roles));
+				String token = jwtProvider.createToken(username, roles);
+				json.put("token", token);
+				final Cookie cookie = new Cookie("auth", token);
+	            cookie.setHttpOnly(true);
+	            cookie.setMaxAge(Integer.MAX_VALUE);
+	            cookie.setPath("/");
+	            response.addCookie(cookie);
+
 				return new ResponseEntity<String>(json.toString(), null, HttpStatus.OK);
 			}
-		} catch (JSONException e ) {
+		} catch (JSONException e) {
 			try {
 				json.put("exception", e.getMessage());
 				return new ResponseEntity<String>(json.toString(), null, HttpStatus.UNAUTHORIZED);
 			} catch (JSONException e1) {
 				e1.printStackTrace();
-				return null; 
+				
+				return null;
 			}
 		}
 		return null;
@@ -77,22 +88,24 @@ public class SecurityController {
 
 	@PostMapping
 	@RequestMapping("/signup")
-	public ResponseEntity<Buyer> signUp(HttpServletResponse response, @Valid @RequestBody UserSignUpDto user) throws IOException {
+	public ResponseEntity<Buyer> signUp(HttpServletResponse response, @Valid @RequestBody UserSignUpDto user)
+			throws IOException {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		
-		if (authentication != null && authentication.isAuthenticated() && !(authentication instanceof AnonymousAuthenticationToken)) {
+
+		if (authentication != null && authentication.isAuthenticated()
+				&& !(authentication instanceof AnonymousAuthenticationToken)) {
 			response.sendRedirect("/buyer/");
 			return null;
 		}
 		userSignUpDtoConverter = new UserSignUpDtoConverter();
-		Buyer buyer=userSignUpDtoConverter.dtoToEntity(user);
-		if(buyer!=null) {
+		Buyer buyer = userSignUpDtoConverter.dtoToEntity(user);
+		if (buyer != null) {
 			buyerService.newBuyer(buyer);
-			  return new ResponseEntity<Buyer>(buyer, HttpStatus.OK);
-		}else {
-		 return new ResponseEntity<Buyer>(buyer, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<Buyer>(buyer, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<Buyer>(buyer, HttpStatus.BAD_REQUEST);
 		}
-		
+
 	}
 
 }
