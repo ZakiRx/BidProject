@@ -37,7 +37,7 @@ import zoz.bidproject.service.PackService;
 import zoz.bidproject.service.PurchaseService;
 
 @RestController
-@RequestMapping("/buyer/profile")
+@RequestMapping("/buyer")
 public class BuyerController {
 	@Autowired
 	private BuyerService buyerService;

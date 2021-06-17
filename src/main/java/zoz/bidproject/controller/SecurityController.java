@@ -77,20 +77,20 @@ public class SecurityController {
 
 	@PostMapping
 	@RequestMapping("/signup")
-	public HttpStatus signUp(HttpServletResponse response, @Valid @RequestBody UserSignUpDto user) throws IOException {
+	public ResponseEntity<Buyer> signUp(HttpServletResponse response, @Valid @RequestBody UserSignUpDto user) throws IOException {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		
 		if (authentication != null && authentication.isAuthenticated() && !(authentication instanceof AnonymousAuthenticationToken)) {
-			response.sendRedirect("/buyer/profile/");
+			response.sendRedirect("/buyer/");
 			return null;
 		}
 		userSignUpDtoConverter = new UserSignUpDtoConverter();
 		Buyer buyer=userSignUpDtoConverter.dtoToEntity(user);
 		if(buyer!=null) {
 			buyerService.newBuyer(buyer);
-			return HttpStatus.OK;
+			  return new ResponseEntity<Buyer>(buyer, HttpStatus.OK);
 		}else {
-			return HttpStatus.BAD_REQUEST;
+		 return new ResponseEntity<Buyer>(buyer, HttpStatus.BAD_REQUEST);
 		}
 		
 	}

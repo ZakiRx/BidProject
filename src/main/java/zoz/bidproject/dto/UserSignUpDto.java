@@ -20,10 +20,10 @@ public class UserSignUpDto {
 	@Size(min = 6,max = 20,message = "Username must be between 6 and 20 charachter")
 	private String userName;
 	@NotNull
-	@Size(min = 6,max = 20,message = "Username must be between 6 and 20 charachter")
+	@Size(min = 6,max = 20,message = "FirstName must be between 6 and 20 charachter")
 	private String firstName;
 	@NotNull
-	@Size(min = 6,max = 20,message = "Username must be between 6 and 20 charachter")
+	@Size(min = 6,max = 20,message = "LastName must be between 6 and 20 charachter")
 	private String LastName;
 	@DateTimeFormat
 	private LocalDate dateBirth;
@@ -34,7 +34,7 @@ public class UserSignUpDto {
 	@NotBlank
 	@NotNull
 	private String password;
-	@NotBlank
+	@NotBlank(message = "confirme password vide !!!!")
 	@NotNull
 	private String confirmePassword;
 	public UserSignUpDto() {
