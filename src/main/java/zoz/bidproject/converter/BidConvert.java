@@ -3,11 +3,6 @@ package zoz.bidproject.converter;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.annotation.PostConstruct;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
 
 import zoz.bidproject.dto.BidDto;
 import zoz.bidproject.model.Bid;
@@ -30,11 +25,9 @@ public class BidConvert {
 	}
 
 	public Bid dtoToEntity(BidDto bidDto) {
-		Buyer buyer = new Buyer();
-				buyer.setId(bidDto.getIdBuyer());
 		Offer offer = new Offer();
 				offer.setId(bidDto.getIdOffer());
-		Bid bid = new Bid(bidDto.getId(), bidDto.getPrice(), buyer, offer);
+		Bid bid = new Bid(bidDto.getId(), bidDto.getPrice(),null,offer);
 		return bid;
 	}
 

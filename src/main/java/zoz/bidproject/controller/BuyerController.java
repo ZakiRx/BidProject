@@ -57,10 +57,10 @@ public class BuyerController {
 	}
 	@GetMapping
 	@RequestMapping("/")
-	public BuyerDto profile() {
+	public Buyer profile() {
 		this.principal =SecurityContextHolder.getContext().getAuthentication();
-		Buyer buyer = buyerService.getBuyerByUserName(principal.getName()).get();
-		return  buyerConverter.entityToDto(buyer);
+		Buyer buyer = buyerService.getBuyerByUserName(principal.getName());
+		return  buyer;
 		
 	}
 

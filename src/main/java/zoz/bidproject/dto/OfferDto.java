@@ -10,11 +10,9 @@ import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import javax.validation.constraints.NotNull;
 
 import org.aspectj.lang.annotation.After;
-
-import com.sun.istack.NotNull;
-
 import zoz.bidproject.model.Bid;
 import zoz.bidproject.model.Comment;
 import zoz.bidproject.model.Product;
@@ -34,6 +32,7 @@ public class OfferDto {
 	@NotNull
 	private String description;
 	@Min(value = 0,message = "Start price must be greater  than {value}")
+	@NotNull(message = "set start Price")
 	private Double startPrice;
 	@Min(value = 0,message = "Start price must be greater  than {value}")
 	private Double augmentationPrice;

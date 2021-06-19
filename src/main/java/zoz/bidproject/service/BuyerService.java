@@ -63,7 +63,7 @@ public class BuyerService {
 	public Buyer getBuyer(Long id) {
 		return buyerRepository.getOne(id);
 	}
-	public Optional<Buyer> getBuyerByUserName(String username) {
+	public Buyer getBuyerByUserName(String username) {
 		return buyerRepository.findOneByUsername(username);
 	}
 	

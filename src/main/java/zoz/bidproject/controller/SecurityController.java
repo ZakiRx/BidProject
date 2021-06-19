@@ -35,7 +35,6 @@ import zoz.bidproject.security.JwtProvider;
 import zoz.bidproject.service.BuyerService;
 import zoz.bidproject.service.RoleService;
 
-
 @RestController
 @Validated
 public class SecurityController {
@@ -52,7 +51,7 @@ public class SecurityController {
 
 	@PostMapping
 	@RequestMapping("/login")
-	public ResponseEntity<String> login(@Valid @RequestBody UserAuthenticationDto user,HttpServletResponse response) {
+	public ResponseEntity<String> login(@Valid @RequestBody UserAuthenticationDto user, HttpServletResponse response) {
 		JSONObject json = new JSONObject();
 		try {
 			Authentication authentication = authenticationManager
@@ -61,14 +60,15 @@ public class SecurityController {
 			if (authentication.isAuthenticated()) {
 
 				String username = user.getUsername();
-				List<Role> roles = (List<Role>) buyerService.getBuyerByUserName(username).get().getRoles();
+				List<Role> roles = (List<Role>) buyerService.getBuyerByUserName(username).getRoles();
 				String token = jwtProvider.createToken(username, roles);
 				json.put("token", token);
 				final Cookie cookie = new Cookie("auth", token);
-	            cookie.setHttpOnly(true);
-	            cookie.setMaxAge(Integer.MAX_VALUE);
-	            cookie.setPath("/");
-	            response.addCookie(cookie);
+				cookie.setHttpOnly(true);
+				cookie.setMaxAge(Integer.MAX_VALUE);
+				cookie.setPath("/");
+
+				response.addCookie(cookie);
 
 				return new ResponseEntity<String>(json.toString(), null, HttpStatus.OK);
 			}
@@ -78,7 +78,7 @@ public class SecurityController {
 				return new ResponseEntity<String>(json.toString(), null, HttpStatus.UNAUTHORIZED);
 			} catch (JSONException e1) {
 				e1.printStackTrace();
-				
+
 				return null;
 			}
 		}

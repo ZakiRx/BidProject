@@ -37,7 +37,7 @@ public class CommentController {
 	@RequestMapping("/edit")
 	public Comment editComment(@RequestBody Comment comment) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if(buyerService.getBuyerByUserName(authentication.getName()).get().getId()==comment.getBuyer().getId()){
+		if(buyerService.getBuyerByUserName(authentication.getName()).getId()==comment.getBuyer().getId()){
 		  return commentService.saveComment(comment);
 		}
 		return null;
@@ -47,7 +47,7 @@ public class CommentController {
 	public void deleteComment(@PathVariable Long id) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		Comment comment = commentService.getComment(id);
-		if(buyerService.getBuyerByUserName(authentication.getName()).get().getId()==comment.getBuyer().getId()){
+		if(buyerService.getBuyerByUserName(authentication.getName()).getId()==comment.getBuyer().getId()){
 			commentService.deleteComment(comment);
 		}
 	}

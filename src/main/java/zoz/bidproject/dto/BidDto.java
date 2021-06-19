@@ -9,11 +9,7 @@ public class BidDto {
 	@NotNull
 	@NotBlank
 	private Double price;
-	@NotNull
-	@NotBlank
 	private Long idBuyer;
-	@NotNull
-	@NotBlank
 	private String nameBuyer;
 	@NotNull
 	@NotBlank

@@ -36,10 +36,7 @@ public class OfferConvert {
 	}
 
 	public Offer dtoToEntity(OfferDto offerDto) {
-		System.out.println(offerDto.getIdSeller());
-		Seller seller = new Seller();
-		seller.setId(offerDto.getIdSeller());
-		Offer offer = new Offer(offerDto.getId(),offerDto.getName(),offerDto.getDescription(),offerDto.getStartPrice(),offerDto.getAugmentationPrice(),offerDto.getStartedAt(),offerDto.getEndAt(),false,false,seller);
+		Offer offer = new Offer(offerDto.getId(),offerDto.getName(),offerDto.getDescription(),offerDto.getStartPrice(),offerDto.getAugmentationPrice(),offerDto.getStartedAt(),offerDto.getEndAt(),false,false,null);
 		return offer;
 	}
 

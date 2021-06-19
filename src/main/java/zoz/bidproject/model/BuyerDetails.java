@@ -85,4 +85,5 @@ public class BuyerDetails implements UserDetails {
 		return true;
 	}
 	
+	
 }
