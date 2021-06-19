@@ -10,7 +10,7 @@ import zoz.bidproject.model.Buyer;
 public class BuyerConverter {
 
 	public BuyerDto entityToDto(Buyer buyer) {
-		BuyerDto buyerDto = new BuyerDto();
+		BuyerDto buyerDto = new BuyerDto(buyer.getId(),buyer.getUserName(),buyer.getFirstName(),buyer.getLastName(),buyer.getDateBirth());
 
 		return buyerDto;
 	}
@@ -22,6 +22,11 @@ public class BuyerConverter {
 
 	public Buyer dtoToEntity(BuyerDto buyerDto) {
 		Buyer buyer = new Buyer();
+		buyer.setId(buyerDto.getId());
+		buyer.setUserName(buyerDto.getUserName());
+		buyer.setFirstName(buyerDto.getFirstName());
+		buyer.setLastName(buyerDto.getLastName());
+		buyer.setDateBirth(buyerDto.getDateBirth());
 		return buyer;
 	}
 

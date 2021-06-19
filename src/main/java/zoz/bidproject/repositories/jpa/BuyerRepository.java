@@ -1,6 +1,6 @@
 package zoz.bidproject.repositories.jpa;
 
-import java.util.Optional;
+
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import zoz.bidproject.model.Buyer;
-import zoz.bidproject.model.User;
 
 @Repository
 public interface BuyerRepository extends JpaRepository<Buyer, Long> {
@@ -20,5 +19,6 @@ public interface BuyerRepository extends JpaRepository<Buyer, Long> {
 	void editTypeAccount(@Param("typeAccount") String type, @Param("idBuyer") Long id);
 	
 	@Query("select b from Buyer b where b.userName like :username")
-	Optional<Buyer> findOneByUsername(@Param("username")String username);
+	Buyer findOneByUsername(@Param("username")String username);
+	
 }

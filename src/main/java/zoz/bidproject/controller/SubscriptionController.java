@@ -1,6 +1,7 @@
 package zoz.bidproject.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,6 +25,20 @@ public class SubscriptionController {
 	private BuyerService buyerService;
 	@Autowired
 	private SellerService sellerService;
+	
+	@GetMapping
+	@RequestMapping("/")
+	
+	public Subscription getSubscription() {
+		String username=SecurityContextHolder.getContext().getAuthentication().getName();
+		Seller seller = sellerService.getSellerByUserName(username);
+		try {
+			return subscriptionService.getSubscription(seller);
+		} catch (Exception e) {
+			
+			return null;
+		}
+	}
 	@PostMapping
 	@RequestMapping("/new")
 	public Subscription newSubscription(@RequestBody Subscription subscription) {

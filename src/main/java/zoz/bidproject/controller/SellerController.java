@@ -2,24 +2,27 @@ package zoz.bidproject.controller;
 
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import zoz.bidproject.model.Bid;
-import zoz.bidproject.model.Buyer;
-import zoz.bidproject.model.Offer;
+import zoz.bidproject.converter.FollowConvert;
+import zoz.bidproject.converter.OrderConvert;
+import zoz.bidproject.converter.SellerConvert;
+import zoz.bidproject.dto.FollowDto;
+import zoz.bidproject.dto.OrderDto;
+import zoz.bidproject.dto.SellerDto;
+import zoz.bidproject.model.Follow;
 import zoz.bidproject.model.Ordre;
 import zoz.bidproject.model.Product;
 import zoz.bidproject.model.Seller;
-import zoz.bidproject.service.BidService;
-import zoz.bidproject.service.BuyerService;
+import zoz.bidproject.service.FollowService;
 import zoz.bidproject.service.OrderService;
 import zoz.bidproject.service.ProductService;
 import zoz.bidproject.service.SellerService;
@@ -33,37 +36,30 @@ public class SellerController {
 	private ProductService productService;
 	@Autowired
 	private OrderService orderService;
+	
+	@Autowired
+	private FollowService followService;
+	
+	private FollowConvert followConvert;
+	private SellerConvert sellerConvert;
+	private OrderConvert orderConvert ;
 
-
+	@PostConstruct
+	public void init() {
+		followConvert= new FollowConvert();
+		sellerConvert= new SellerConvert();
+		orderConvert= new OrderConvert();
+	}
 	@GetMapping
 	@RequestMapping("/")
-	public List<Seller> getSellers() {
-		return sellerService.getSellers();
+	public List<SellerDto> getSellers() {
+		return sellerConvert.entityToDto(sellerService.getSellers()) ;
 	}
 
 	@GetMapping
 	@RequestMapping("/{id}")
-	public Seller getSeller(@PathVariable Long id) {
-		return sellerService.getSeller(id);
-	}
-
-	@PostMapping
-	@RequestMapping("/new")
-	public Seller addSeller(@RequestBody Seller Seller) {
-		return sellerService.newSeller(Seller);
-	}
-
-	@PutMapping
-	@RequestMapping("/edit")
-	public Seller editSeller(@RequestBody Seller Seller) {
-		return sellerService.newSeller(Seller);
-	}
-
-	@DeleteMapping
-	@RequestMapping("/delete/{id}")
-	public void deleteSeller(@PathVariable Long id) {
-		Seller seller = sellerService.getSeller(id);
-		sellerService.deleteSeller(seller);
+	public SellerDto getSeller(@PathVariable Long id) {
+		return sellerConvert.entityToDto(sellerService.getSeller(id));
 	}
 
 	@GetMapping
@@ -75,9 +71,18 @@ public class SellerController {
 
 	@GetMapping
 	@RequestMapping("/{id}/order")
-	public List<Ordre> getOrders(@PathVariable Long id) {
+	public List<OrderDto> getOrders(@PathVariable Long id) {
 		Seller seller = sellerService.getSeller(id);
-		return orderService.getOrdersBySeller(seller);
+		return  orderConvert.entityToDto(orderService.getOrdersBySeller(seller));
+	}
+	
+
+	@GetMapping
+	@RequestMapping("/{id}/followers")
+	public List<FollowDto> getFollowers(@PathVariable Long id) {
+		Seller seller = sellerService.getSeller(id);
+		List<Follow> follows=followService.getFollowersBySeller(seller);
+		return followConvert.entityToDto(follows);
 	}
 	
 

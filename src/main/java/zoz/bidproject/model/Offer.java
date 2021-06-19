@@ -17,6 +17,7 @@ import javax.persistence.OneToOne;
 import org.hibernate.annotations.Proxy;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sun.istack.NotNull;
 
 @Entity
 @Proxy(lazy = false)
@@ -25,6 +26,7 @@ public class Offer {
 	private Long id;
 	private String name;
 	 @Column(columnDefinition = "text")
+	 @NotNull
 	private String description;
 	private Double startPrice;
 	private Double currentPrice;

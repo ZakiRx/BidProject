@@ -1,7 +1,7 @@
 package zoz.bidproject.model;
 
-import java.util.ArrayList;
-import java.util.Date;
+
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -25,7 +25,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class Buyer extends User {
 
-	private Long accountId;
+	private String accountId;
 	private double balance;
 	private boolean verified;
 	@Column(name = "type", insertable = false, updatable = false)
@@ -49,12 +49,12 @@ public class Buyer extends User {
 	@JsonIgnore
 	private List<Bid> bids;
 
+	
 	public Buyer() {
-
+		// TODO Auto-generated constructor stub
 	}
-
-	public Buyer(Long id, String userName, String firstName, String lastName, Date dateBirth, String email,
-			String phoneNumber, String password, Boolean enabled, Boolean actif, Long accountId, double balance,
+	public Buyer(Long id, String userName, String firstName, String lastName, LocalDate dateBirth, String email,
+			String phoneNumber, String password, Boolean enabled, Boolean actif, String accountId, double balance,
 			boolean verified) {
 		super(id, userName, firstName, lastName, dateBirth, email, phoneNumber, password, enabled, actif);
 		this.accountId = accountId;
@@ -62,11 +62,11 @@ public class Buyer extends User {
 		this.verified = verified;
 	}
 
-	public Long getAccountId() {
+	public String getAccountId() {
 		return accountId;
 	}
 
-	public void setAccountId(Long accountId) {
+	public void setAccountId(String accountId) {
 		this.accountId = accountId;
 	}
 

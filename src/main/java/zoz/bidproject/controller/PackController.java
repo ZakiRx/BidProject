@@ -35,21 +35,5 @@ public class PackController {
 		return packService.getPack(id);
 	}
 
-	@PostMapping
-	@RequestMapping("/new")
-	public Pack addPack(@RequestBody Pack pack) {
-		return packService.newPack(pack);
-	}
-
-	@PutMapping
-	@RequestMapping("/edit")
-	public Pack editPack(@RequestBody Pack pack) {
-		return packService.newPack(pack);
-	}
-
-	@DeleteMapping
-	@RequestMapping("/delete")
-	public Boolean editPack(@PathVariable Long id) {
-		return packService.deletePack(id);
-	}
+	
 }

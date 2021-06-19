@@ -10,7 +10,7 @@ import zoz.bidproject.model.Ordre;
 
 public class OrderConvert {
 	public OrderDto entityToDto(Ordre order) {
-		OrderDto orderDto = new OrderDto();
+		OrderDto orderDto = new OrderDto(order.getId(),order.getCreatedAt(),order.getUpdatedAt(),order.getPurchase().getShippingDetails().getId(),order.getPurchase().getId());
 
 		return orderDto;
 	}

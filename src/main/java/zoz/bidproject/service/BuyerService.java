@@ -3,12 +3,10 @@ package zoz.bidproject.service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -50,7 +48,8 @@ public class BuyerService {
 
 	@Autowired
 	private SubscriptionService subscriptionService;
-	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 	
 	public List<Buyer> getBuyers() {
 		return buyerRepository.findAll();
@@ -64,6 +63,9 @@ public class BuyerService {
 	public Buyer getBuyer(Long id) {
 		return buyerRepository.getOne(id);
 	}
+	public Buyer getBuyerByUserName(String username) {
+		return buyerRepository.findOneByUsername(username);
+	}
 	
 	/**
 	 * @author Zaki_Guemi
@@ -76,9 +78,14 @@ public class BuyerService {
 			 role  = new Role(null,"BUYER");
 			 roleService.newRole(role);
 		}
-		addBuyerToRole(buyer, role);
-		String passwordEncode=passwordEncoder().encode(buyer.getPassword());
-		buyer.setPassword(passwordEncode);
+		if( buyer.getRoles()==null ||  buyer.getRoles().isEmpty()) {
+			addBuyerToRole(buyer, role);
+		}
+		
+		if(buyer.getPassword()!=null){
+			String passwordEncode=passwordEncoder.encode(buyer.getPassword());
+			buyer.setPassword(passwordEncode);
+		}
 			buyerRepository.save(buyer);
 			
 		return buyer;
@@ -87,7 +94,7 @@ public class BuyerService {
 	}
 
 	public void deleteBuyer(Buyer buyer) {
-		 Seller seller = sellerService.getSeller(buyer.getAccountId());
+		 Seller seller = sellerService.getSeller(buyer.getId());
 		 sellerService.deleteSeller(seller);
 		 buyerRepository.delete(buyer);
 		
@@ -146,7 +153,7 @@ public class BuyerService {
 	public Follow followSeller(Long idBuyer, Long idSeller) {
 		Buyer buyer = getBuyer(idBuyer);
 		Seller seller = sellerService.getSeller(idSeller); // should to communicate with the service
-		return followService.saveFollow(new Follow(null, new Date(), buyer, seller));
+		return followService.newFollow(new Follow(null, new Date(), buyer, seller));
 	}
 
 	/**
@@ -162,7 +169,7 @@ public class BuyerService {
 	public void addBuyerToRole(Buyer buyer,Role role) {
 	
 		if(buyer.getRoles()!=null) {
-			List<Role> roles =buyer.getRoles();
+			List<Role> roles =  buyer.getRoles();
 			roles.add(role);
 			buyer.setRoles(roles);
 		}else {
@@ -179,11 +186,17 @@ public class BuyerService {
 		buyerRepository.editTypeAccount(type, buyer.getId());
 	}
 	
-
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
+	
+	public void disableAccount(Buyer buyer) {
+		buyer.setEnabled(false);
+		buyerRepository.save(buyer);
 	}
+	public List<Buyer> getBuyersByRole(Role role){
+		return role.getBuyers();
+	}
+	
+
+	
 	
 
 }

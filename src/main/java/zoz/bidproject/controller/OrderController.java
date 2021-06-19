@@ -15,6 +15,6 @@ import zoz.bidproject.service.OrderService;
 public class OrderController {
 
 	@Autowired
-	private OrderService orderServidce;  
+	private OrderService orderService;  
 	
 }

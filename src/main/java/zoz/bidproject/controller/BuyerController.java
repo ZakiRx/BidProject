@@ -2,7 +2,14 @@ package zoz.bidproject.controller;
 
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+import javax.ws.rs.core.Response;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,16 +20,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import zoz.bidproject.converter.BuyerConverter;
+import zoz.bidproject.dto.BuyerDto;
 import zoz.bidproject.model.Bid;
 import zoz.bidproject.model.Buyer;
 import zoz.bidproject.model.Comment;
 import zoz.bidproject.model.Pack;
+import zoz.bidproject.model.Purchase;
 import zoz.bidproject.model.Seller;
 import zoz.bidproject.model.User;
+import zoz.bidproject.repositories.jpa.BuyerRepository;
 import zoz.bidproject.service.BidService;
 import zoz.bidproject.service.BuyerService;
 import zoz.bidproject.service.CommentService;
 import zoz.bidproject.service.PackService;
+import zoz.bidproject.service.PurchaseService;
 
 @RestController
 @RequestMapping("/buyer")
@@ -33,28 +45,50 @@ public class BuyerController {
 	private CommentService commentService;
 	@Autowired
 	private BidService bidService;
-
+	@Autowired
+	private PurchaseService purchaseService;
+	private Authentication principal;
+	private BuyerConverter buyerConverter;
+	
+	
+	@PostConstruct
+	public void init() {
+		buyerConverter= new BuyerConverter();
+	}
 	@GetMapping
 	@RequestMapping("/")
-	public List<Buyer> getBuyers() {
-		return buyerService.getBuyers();
+	public Buyer profile() {
+		this.principal =SecurityContextHolder.getContext().getAuthentication();
+		Buyer buyer = buyerService.getBuyerByUserName(principal.getName());
+		return  buyer;
+		
 	}
 
 	@GetMapping
 	@RequestMapping("/{id}")
-	public Buyer getBuyer(@PathVariable Long id) {
-		return buyerService.getBuyer(id);
+	public Object getBuyer(@PathVariable Long id) {
+		Authentication principal=SecurityContextHolder.getContext().getAuthentication();
+		System.out.println("user:"+principal.getName());
+        try {
+        	Buyer buyer = buyerService.getBuyer(id);
+        	return  buyerConverter.entityToDto(buyer);
+        }catch(Exception e) {
+        	
+            return "User not found :"+HttpStatus.NOT_FOUND.value();
+            
+        }
+		
+		
+		
 	}
 
-	@PostMapping
-	@RequestMapping("/new")
-	public Buyer addBuyer(@RequestBody Buyer buyer) {
-		return buyerService.newBuyer(buyer);
-	}
 
 	@PutMapping
 	@RequestMapping("/edit")
-	public Buyer editBuyer(@RequestBody Buyer buyer) {
+	public Buyer editBuyer(@RequestBody BuyerDto buyerDto) {
+		Buyer buyer=buyerService.getBuyer(buyerDto.getId());
+		buyer.setFirstName(buyerDto.getFirstName());
+		buyer.setLastName(buyerDto.getLastName());
 		return buyerService.newBuyer(buyer);
 	}
 
@@ -77,6 +111,12 @@ public class BuyerController {
 	public List<Bid> getBids(@PathVariable Long id) {
 		Buyer buyer = buyerService.getBuyer(id);
 		return bidService.getBidsByBuyer(buyer);
+	}
+	@GetMapping
+	@RequestMapping("/{id}/purchase")
+	public List<Purchase> getPurchases(@PathVariable Long id) {
+		Buyer buyer = buyerService.getBuyer(id);
+		return purchaseService.getPurchasesByBuyer(buyer);
 	}
 
 }

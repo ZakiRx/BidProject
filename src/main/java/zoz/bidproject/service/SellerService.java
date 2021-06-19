@@ -28,7 +28,6 @@ import zoz.bidproject.repositories.jpa.SellerRepository;
  *
  */
 @Service
-
 public class SellerService {
 
 	@Autowired
@@ -41,15 +40,10 @@ public class SellerService {
 	@Autowired
 	private ProductService productService;
 	@Autowired
-	private OrdreService ordreService;
+	private OrderService ordreService;
 
 	@Autowired
 	private FollowService followService;
-
-	
-	
-	
-	
 	public List<Seller>  getSellers(){
 		return sellerRepository.findAll();
 	}
@@ -65,11 +59,14 @@ public class SellerService {
 			Seller seller = sellerRepository.getOne(id);
 			return seller;
 		}catch (Exception e) {
-			System.out.println("Seller not found with this id");
+			System.out.println("Seller not found with this id"+e.getMessage());
 			return null;
 		}
 		
 		
+	}
+	public Seller getSellerByUserName(String username) {
+		return sellerRepository.getSellerByUserName(username);
 	}
 	public Seller getSellerByOffer(Offer offer) {
 		Seller seller = offer.getSeller();

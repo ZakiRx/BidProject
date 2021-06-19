@@ -1,5 +1,6 @@
 package zoz.bidproject.model;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -11,29 +12,50 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToMany;
 import javax.persistence.MappedSuperclass;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.DiscriminatorFormula;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.sun.istack.NotNull;
 
 
 @MappedSuperclass
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+
 
 public abstract class User {
 
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@Column(length = 25)
+	@NotBlank(message = "UserName Not Should be blank ")
+	@NotNull
+	@Size(min = 3,max = 20,message = "Username must be between 6 and 20 charachter")
 	private String userName;
+	
 	@Column(length = 25)
+	@NotBlank(message = "FirstName Not Should be blank ")
+	@NotNull
+	@Size(min = 3,max = 25,message = "firstName must be between 6 and 20 charachter")
 	private String firstName;
 	@Column(length = 25)
+	@NotBlank(message = "LastName Not Should be blank ")
+	@NotNull
+	@Size(min = 3,max = 25,message = "lastName must be between 6 and 20 charachter")
 	private String LastName;
-	private Date dateBirth;
+	//@DateTimeFormat(pattern = "mm-dd-yyyy")
+	private LocalDate dateBirth;
+	@Email(message = "Email non valid")
 	private String email;
+	@NotBlank(message = "Password Not Should be blank ")
+	@NotNull
 	private String phoneNumber;
+
 	private String password;
 	private Boolean enabled;
 	private Boolean active;
@@ -43,7 +65,7 @@ public abstract class User {
 
 	}
 	  @JsonCreator
-	public User(Long id, String userName, String firstName, String lastName, Date dateBirth, String email,
+	public User(Long id, String userName, String firstName, String lastName, LocalDate dateBirth, String email,
 			String phoneNumber, String password, Boolean enabled, Boolean actif) {
 		this.id = id;
 		this.userName = userName;
@@ -89,11 +111,11 @@ public abstract class User {
 		LastName = lastName;
 	}
 
-	public Date getDateBirth() {
+	public LocalDate getDateBirth() {
 		return dateBirth;
 	}
 
-	public void setDateBirth(Date dateBirth) {
+	public void setDateBirth(LocalDate dateBirth) {
 		this.dateBirth = dateBirth;
 	}
 

@@ -7,14 +7,14 @@ import zoz.bidproject.model.Follow;
 
 public class FollowConvert {
 	public FollowDto entityToDto(Follow follow) {
-		FollowDto followDto = new FollowDto();
+		FollowDto followDto = new FollowDto(follow.getId(),follow.getFollowedAt(),follow.getBuyer().getId(),follow.getBuyer().getUserName());
 
 		return followDto;
 	}
 
 	public List<FollowDto> entityToDto(List<Follow> follows) {
 
-		return follows.stream().map(b -> entityToDto(b)).collect(Collectors.toList());
+		return follows.stream().map(f -> entityToDto(f)).collect(Collectors.toList());
 	}
 
 	public Follow dtoToEntity(FollowDto followDto) {

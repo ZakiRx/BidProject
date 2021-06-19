@@ -3,6 +3,7 @@ package zoz.bidproject.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,10 +19,10 @@ public class Role {
 	private Integer id;
 	private String nameRole;
 	@JsonIgnore
-	@ManyToMany(mappedBy = "roles")
+	@ManyToMany(mappedBy = "roles",cascade = CascadeType.ALL)
 	private List<Buyer> buyers;
 	@JsonIgnore
-	@ManyToMany(mappedBy = "roles")
+	@ManyToMany(mappedBy = "roles",cascade = CascadeType.ALL)
 	private List<Manager> managers;
 
 	public Role() {

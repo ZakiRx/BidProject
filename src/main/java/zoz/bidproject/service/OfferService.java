@@ -47,6 +47,16 @@ public class OfferService {
 	public List<Offer> getAllOffresBySeller(Seller seller){
 		return seller.getOffres();
 	}
+	public  Boolean verifedOffer(Offer offer) {
+		try {
+			offer.setVerified(true);
+			  offerRepository.save(offer);
+			  return true;
+		}catch (Exception e) {
+			return false;
+		}
+		
+	}
 	/**
 	 * 
 	 * @param offer

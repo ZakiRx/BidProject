@@ -1,6 +1,7 @@
 package zoz.bidproject.model;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -8,9 +9,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import org.hibernate.annotations.Proxy;
+import org.springframework.context.annotation.Lazy;
+
 @Entity
+
 public class Ordre {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -22,6 +28,7 @@ public class Ordre {
 	private Seller seller;
 	@OneToOne(mappedBy = "ordre")
 	private Purchase purchase;
+	
 	
 	public Ordre() {
 		

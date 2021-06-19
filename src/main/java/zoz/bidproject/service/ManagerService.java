@@ -14,16 +14,23 @@ public class ManagerService {
 
 	@Autowired
 	private ManagerRepository managerRepository;
-	public List<Manager> getAllManagers(){
-		return  managerRepository.findAll();
+
+	public List<Manager> getAllManagers() {
+		return managerRepository.findAll();
 	}
-	public List<Manager> getManagersByRole(Role role){
-	  return role.getManagers();
+
+	public List<Manager> getManagersByRole(Role role) {
+		return role.getManagers();
 	}
-	
+
+	public Manager getManager(Long id) {
+		return managerRepository.getOne(id);
+	}
+
 	public Manager newManager(Manager manager) {
 		return managerRepository.save(manager);
 	}
+
 	public void deleteManger(Manager manager) {
 		managerRepository.delete(manager);
 	}

@@ -30,6 +30,21 @@ public class Purchase {
 	public Purchase() {
 		
 	}
+	
+	public Purchase(Long id, Date createdAt, Date updatedAt, Boolean state, String error, Buyer buyer, Offer offer,
+			ShippingDetails shippingDetails, Ordre ordre) {
+		super();
+		this.id = id;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
+		this.state = state;
+		this.error = error;
+		this.buyer = buyer;
+		this.offer = offer;
+		this.shippingDetails = shippingDetails;
+		this.ordre = ordre;
+	}
+
 	public Long getId() {
 		return id;
 	}
