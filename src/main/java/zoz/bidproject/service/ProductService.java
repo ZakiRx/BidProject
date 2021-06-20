@@ -1,9 +1,12 @@
 package zoz.bidproject.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+
 import org.springframework.stereotype.Service;
 
 import zoz.bidproject.model.Category;
@@ -20,8 +23,15 @@ public class ProductService {
 	private ProductRepository productRepository;
 	@Autowired
 	private SellerService sellerService;
-	
+	@PreAuthorize("hasAnyAuthority('SELLER', 'ADMIN') && #product.offer.seller.userName==authentication.name")
 	public Product saveProduct(Product product) {
+		product.setCreatedAt(new Date());
+		product.setUpdatedAt(new Date());
+		return productRepository.save(product);
+	}
+	@PreAuthorize("hasAnyAuthority('SELLER', 'ADMIN') && #product.offer.seller.userName==authentication.name")
+	public Product editProduct(Product product) {
+		product.setUpdatedAt(new Date());
 		return productRepository.save(product);
 	}
 	public List<Product> saveProducts(List<Product> products) {

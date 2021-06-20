@@ -9,6 +9,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import com.pusher.rest.Pusher;
 
@@ -44,6 +45,7 @@ import zoz.bidproject.service.SubCategoryService;
 import zoz.bidproject.service.SubscriptionService;
 
 @SpringBootApplication
+
 public class BidProjectApplication {
 
 	public static void main(String[] args) {

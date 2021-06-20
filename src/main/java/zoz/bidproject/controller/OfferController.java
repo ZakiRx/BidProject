@@ -3,7 +3,7 @@ package zoz.bidproject.controller;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.security.RolesAllowed;
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.codehaus.jettison.json.JSONException;
@@ -11,6 +11,7 @@ import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -44,6 +45,7 @@ import zoz.bidproject.service.SellerService;
 
 @RestController
 @RequestMapping("/offer")
+@Transactional
 public class OfferController {
 
 	@Autowired
@@ -74,17 +76,23 @@ public class OfferController {
 	
 	@GetMapping
 	@RequestMapping("/")
-	public List<OfferDto> getOffers() {
-		List<Offer> offers = offerService.getAllOffers();
-		return offerConverter.entityToDto(offers) ;
+	public ResponseEntity<Object> getOffers() throws JSONException {
+		try {
+			List<Offer> offers = offerService.getEnabledAndVerifiedOffers();
+			System.out.println("offers :"+offers);
+			return new ResponseEntity<Object>( offerConverter.entityToDto(offers) ,HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<Object>( (new JSONObject().put("message","Offers Not Found")).toString() ,HttpStatus.NOT_FOUND);
+		}
+		
 	}
 	@GetMapping
 	@RequestMapping("/{id}")
 	public ResponseEntity<Object> getOffer(@PathVariable Long id) throws JSONException {
 		try {
-			Offer offer =offerService.getOfferById(id);
+			Offer offer =offerService.getEnabledAndVerifiedOffer(id);
 			
-			return new ResponseEntity<Object>( offer ,HttpStatus.OK);
+			return new ResponseEntity<Object>( offerConverter.entityToDto(offer) ,HttpStatus.OK);
 		}catch (Exception e) {
 			return new ResponseEntity<Object>( (new JSONObject().put("message","Offer Not Found")).toString() ,HttpStatus.NOT_FOUND);
 		}
@@ -115,12 +123,16 @@ public class OfferController {
 	}
 	@DeleteMapping
 	@RequestMapping(path = "/delete/{id}",method = RequestMethod.DELETE)
-	public ResponseEntity<Object> deleteOffer(@PathVariable Long id) throws JSONException {
-		Offer offer = offerService.getOfferById(id);
-		 offerService.deleteOffre(offer);
-		 JSONObject jsonObject = new JSONObject();
-		 jsonObject.put("message", "Offer :"+offer.getName()+" Has Been Deleted");
-		 return new ResponseEntity<Object>( jsonObject.toString() ,HttpStatus.OK);
+	@PostAuthorize("hasAuthority('SELLER') && returnObject.nameSeller==authentication.name")
+	public OfferDto deleteOffer(@PathVariable Long id) throws JSONException {
+		try {
+			 Offer offer = offerService.getOfferById(id);
+			 offerService.deleteOffre(offer);
+			 return offerConverter.entityToDto(offer);
+		}catch (Exception e) {
+			return null;
+		}
+	
 	}
 	
 	@GetMapping

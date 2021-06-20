@@ -26,13 +26,14 @@ public class ProductDto {
 	private Date updatedAt;
 	private Boolean virified;
 	private String tags;
+	private Long idOffer;
 	private Long idSeller;
 	private String nameSeller;
 	public ProductDto() {
 		// TODO Auto-generated constructor stub
 	}
 	public ProductDto(Long id, String name, String description, String image, String images, Date createdAt,
-			Date updatedAt, Boolean virified, String tags, Long idSeller,String nameSeller) {
+			Date updatedAt, Boolean virified, String tags, Long idSeller,String nameSeller,Long idOffer) {
 
 		this.id = id;
 		this.name = name;
@@ -45,6 +46,7 @@ public class ProductDto {
 		this.tags = tags;
 		this.idSeller = idSeller;
 		this.nameSeller=nameSeller;
+		this.idOffer=idOffer;
 	}
 	public Long getId() {
 		return id;
@@ -111,6 +113,12 @@ public class ProductDto {
 	}
 	public void setNameSeller(String nameSeller) {
 		this.nameSeller = nameSeller;
+	}
+	public Long getIdOffer() {
+		return idOffer;
+	}
+	public void setIdOffer(Long idOffer) {
+		this.idOffer = idOffer;
 	}
 	
 

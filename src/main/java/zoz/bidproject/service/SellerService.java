@@ -117,7 +117,7 @@ public class SellerService {
 		System.out.println(subscriptionService.checkSubscription(seller));
 		if(seller!=null && subscriptionService.checkSubscription(seller)) {
 			Offer offer = new Offer(null, offerDto.getName(), offerDto.getDescription(), offerDto.getStartPrice(),
-					offerDto.getAugmentationPrice(), new Date(), new Date(), false, false, seller);
+					offerDto.getAugmentationPrice(), new Date(), new Date(), true, true, seller);
 			saveOffer(offer);
 			return offer; 
 		}

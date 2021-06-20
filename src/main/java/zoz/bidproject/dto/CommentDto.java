@@ -13,10 +13,10 @@ public class CommentDto {
 	@NotNull
 	@NotBlank(message = "Comment should not empty")
 	private String comment;
-	@NotNull
-	@NotBlank
 	private Long idBuyer;
 	private String nameBuyer;
+	@NotNull
+	private Long idOffer;
 	@DateTimeFormat
 	private Date createdAt;
 	@DateTimeFormat
@@ -27,7 +27,7 @@ public class CommentDto {
 	public CommentDto() {
 		// TODO Auto-generated constructor stub
 	}
-	public CommentDto(Long id, String comment, Date createdAt, Date updatedAt,Long idBuyer,String nameBuyer) {
+	public CommentDto(Long id, String comment, Date createdAt, Date updatedAt,Long idBuyer,String nameBuyer,Long idOffer) {
 		
 		this.id = id;
 		this.comment = comment;
@@ -35,6 +35,7 @@ public class CommentDto {
 		this.updatedAt = updatedAt;
 		this.idBuyer=idBuyer;
 		this.nameBuyer=nameBuyer;
+		this.idOffer=idOffer;
 	}
 	public Long getId() {
 		return id;
@@ -72,6 +73,13 @@ public class CommentDto {
 	public void setNameBuyer(String nameBuyer) {
 		this.nameBuyer = nameBuyer;
 	}
+	public Long getIdOffer() {
+		return idOffer;
+	}
+	public void setIdOffer(Long idOffer) {
+		this.idOffer = idOffer;
+	}
+	
 	
 	
 
