@@ -29,10 +29,11 @@ public class JwtFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		
-		String token = request.getHeader("Authorization");
+		String token = null;
 		Cookie[] cookies = request.getCookies();
 		for (Cookie cookie : cookies) {
-			System.out.println(cookie.getName()+":"+cookie.getValue());
+			if("auth".equals(cookie.getName()))
+			token=cookie.getValue();
 		}
 		
 		if(token!=null) {
