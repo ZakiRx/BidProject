@@ -5,12 +5,13 @@ import java.util.Date;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
-
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import io.jsonwebtoken.Claims;
@@ -23,11 +24,17 @@ public class JwtFilter extends OncePerRequestFilter {
 		this.jwtProvider = jwtProvider;
 	}
 
+	
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		
 		String token = request.getHeader("Authorization");
+		Cookie[] cookies = request.getCookies();
+		for (Cookie cookie : cookies) {
+			System.out.println(cookie.getName()+":"+cookie.getValue());
+		}
+		
 		if(token!=null) {
 			Claims claims = jwtProvider.getClaimsFromToken(token);
 			if(claims!= null && !claims.getExpiration().before(new Date())) {
