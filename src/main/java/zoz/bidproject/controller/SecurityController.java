@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
@@ -23,9 +24,11 @@ import org.springframework.validation.annotation.Validated;
 
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -39,7 +42,7 @@ import zoz.bidproject.security.JwtProvider;
 import zoz.bidproject.service.BuyerService;
 
 @RestController
-@Validated
+@RequestMapping("/")
 public class SecurityController {
 
 	@Autowired
@@ -51,8 +54,9 @@ public class SecurityController {
 	private UserSignUpDtoConverter userSignUpDtoConverter;
 
 	
+	
 	@PostMapping
-	@RequestMapping("/login")
+	@RequestMapping("login")
 	public ResponseEntity<String> login(@Valid @RequestBody UserAuthenticationDto user, HttpServletResponse response) {
 		JSONObject json = new JSONObject();
 		try {
@@ -89,7 +93,7 @@ public class SecurityController {
 	}
 
 	@PostMapping
-	@RequestMapping("/signup")
+	@RequestMapping("signup")
 	public ResponseEntity<Buyer> signUp(HttpServletResponse response, @Valid @RequestBody UserSignUpDto user)
 			throws IOException {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -109,7 +113,32 @@ public class SecurityController {
 		}
 
 	}
+	@PostMapping
+	@RequestMapping(path="logoff",method = RequestMethod.POST)
+	public ResponseEntity<Object> logOut(HttpServletRequest request, HttpServletResponse response)
+			throws JSONException {
+		System.out.println("test");
+		Cookie[] cookies = request.getCookies();
+		
+		JSONObject json = null;
+		for (Cookie cookie : cookies) {
+			if ("auth".equals(cookie.getName())) {
+				System.out.println("test");
+				cookie.setValue("");
+				cookie.setPath("/");
+				cookie.setMaxAge(0);
+				response.addCookie(cookie);
+				json = new JSONObject().put("message", "logout succeded");
+				return new ResponseEntity<Object>(json.toString(), null, HttpStatus.OK);
+
+			}
+		}
+		System.out.println("test");
+		json = new JSONObject().put("message", "logout not succeded");
+		return new ResponseEntity<Object>(json.toString(), null, HttpStatus.BAD_GATEWAY);
+
+	}
+	
+	
 
 }
-
-
