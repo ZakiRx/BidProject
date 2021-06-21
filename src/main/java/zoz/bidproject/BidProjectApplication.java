@@ -9,6 +9,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.pusher.rest.Pusher;
 
@@ -45,6 +48,8 @@ import zoz.bidproject.service.SubscriptionService;
 
 @SpringBootApplication
 public class BidProjectApplication {
+	
+	
 
 	public static void main(String[] args) {
 		ApplicationContext applicationContext = SpringApplication.run(BidProjectApplication.class, args);

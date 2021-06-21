@@ -11,6 +11,8 @@ import javax.validation.Valid;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -20,10 +22,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import zoz.bidproject.converter.UserSignUpDtoConverter;
 import zoz.bidproject.dto.UserAuthenticationDto;
@@ -43,12 +48,11 @@ public class SecurityController {
 	private AuthenticationManager authenticationManager;
 	@Autowired
 	private JwtProvider jwtProvider;
-
 	@Autowired
 	private BuyerService buyerService;
-
 	private UserSignUpDtoConverter userSignUpDtoConverter;
 
+	
 	@PostMapping
 	@RequestMapping("/login")
 	public ResponseEntity<String> login(@Valid @RequestBody UserAuthenticationDto user, HttpServletResponse response) {
@@ -109,3 +113,5 @@ public class SecurityController {
 	}
 
 }
+
+
