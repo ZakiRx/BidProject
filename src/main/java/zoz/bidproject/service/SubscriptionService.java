@@ -1,5 +1,7 @@
 package zoz.bidproject.service;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -40,7 +42,14 @@ public class SubscriptionService {
 	
 	public Subscription newSubscription(Pack pack, Buyer buyer) {
 		Seller seller = new Seller(buyer);
-		Subscription subscription = new Subscription(null, new Date(), new Date(), true, seller, pack);
+		//End Subscripe By Pack
+
+		Date today = new Date();
+		Calendar c = Calendar.getInstance(); 
+		c.setTime(today); 
+		c.add(Calendar.DATE, pack.getNbrDays());
+		today = c.getTime();
+		Subscription subscription = new Subscription(null, new Date(), today, true, seller, pack);
 		seller.setSubscription(subscription);
 		
 		Role role = roleService.getRoleByName("SELLER");

@@ -7,7 +7,7 @@ import zoz.bidproject.model.Comment;
 
 public class CommentConvert {
 	public CommentDto entityToDto(Comment comment) {
-		CommentDto commentDto = new CommentDto(comment.getId(),comment.getComment(),comment.getCreatedAt(),comment.getUpdatedAt(),comment.getBuyer().getId(),comment.getBuyer().getUserName());
+		CommentDto commentDto = new CommentDto(comment.getId(),comment.getComment(),comment.getCreatedAt(),comment.getUpdatedAt(),comment.getBuyer().getId(),comment.getBuyer().getUserName(),comment.getOffer().getId());
 
 		return commentDto;
 	}
@@ -18,7 +18,7 @@ public class CommentConvert {
 	}
 
 	public Comment dtoToEntity(CommentDto commentDto) {
-		Comment comment = new Comment();
+		Comment comment = new Comment(commentDto.getComment());
 		return comment;
 	}
 

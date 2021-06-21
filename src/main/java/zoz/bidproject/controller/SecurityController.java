@@ -3,7 +3,6 @@ package zoz.bidproject.controller;
 import java.io.IOException;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -21,6 +20,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
+
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,10 +35,8 @@ import zoz.bidproject.dto.UserAuthenticationDto;
 import zoz.bidproject.dto.UserSignUpDto;
 import zoz.bidproject.model.Buyer;
 import zoz.bidproject.model.Role;
-import zoz.bidproject.repositories.jpa.BuyerRepository;
 import zoz.bidproject.security.JwtProvider;
 import zoz.bidproject.service.BuyerService;
-import zoz.bidproject.service.RoleService;
 
 @RestController
 @Validated
