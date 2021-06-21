@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 import org.springframework.stereotype.Service;
@@ -77,5 +78,10 @@ public class ProductService {
 	public Product getProduct(Long id) {
 		
 		return productRepository.getOne(id);
+	}
+	
+	@PostAuthorize("hasAnyAuthority('SELLER', 'ADMIN') && #product.offer.seller.userName==authentication.name")
+	public void deleteProduct(Product product) {
+		productRepository.delete(product);
 	}
 }

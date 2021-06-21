@@ -91,7 +91,6 @@ public class OfferController {
 	public ResponseEntity<Object> getOffer(@PathVariable Long id) throws JSONException {
 		try {
 			Offer offer =offerService.getEnabledAndVerifiedOffer(id);
-			
 			return new ResponseEntity<Object>( offerConverter.entityToDto(offer) ,HttpStatus.OK);
 		}catch (Exception e) {
 			return new ResponseEntity<Object>( (new JSONObject().put("message","Offer Not Found")).toString() ,HttpStatus.NOT_FOUND);
@@ -137,13 +136,13 @@ public class OfferController {
 	
 	@GetMapping
 	@RequestMapping("/{id}/comments")
-	public List<CommentDto> getCommentsOffer(@PathVariable Long id) {
+	public List<CommentDto> getCommentsOffer(@PathVariable("id") Long id) {
 		Offer offer = offerService.getOfferById(id);
 		return commentConvert.entityToDto(commentService.getCommentsByOffer(offer));
 	}
 	@GetMapping
 	@RequestMapping("/{id}/products")
-	public List<Product> getProductsOffer(Long id) {
+	public List<Product> getProductsOffer(@PathVariable("id")Long id) {
 		Offer offer = offerService.getOfferById(id);
 		return productService.getProductsByOffre(offer);
 	}

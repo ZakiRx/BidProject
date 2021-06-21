@@ -4,8 +4,14 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -60,6 +66,9 @@ public class ProductController {
 	public ProductDto newProduct(@RequestBody ProductDto productDto){
 		 Product product = productConvert.dtoToEntity(productDto);
 		 Offer offer = offerService.getOfferById(productDto.getIdOffer());
+		 if(offer ==null) {
+			 return null;
+		 }
 		 product.setOffre(offer);
 		 return productConvert.entityToDto(productService.saveProduct(product));
 	}
@@ -75,5 +84,17 @@ public class ProductController {
 		 product.setName(productDto.getName());
 		
 		 return productConvert.entityToDto(productService.saveProduct(product));
+	}
+	@DeleteMapping
+	@RequestMapping(path = "/delete/{id}",method = RequestMethod.DELETE)
+	public ResponseEntity<Object> deleteProduct(@PathVariable("id") Long id){
+		
+		 try {
+			 Product product = productService.getProduct(id);
+			 productService.deleteProduct(product);
+			return new ResponseEntity<Object>((new JSONObject().put("message", "Product "+product.getName()+" Has been deleted").toString()),HttpStatus.OK);
+		} catch (JSONException e) {
+			return null;
+		}
 	}
 }

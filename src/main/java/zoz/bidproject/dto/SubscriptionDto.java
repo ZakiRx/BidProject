@@ -6,21 +6,23 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 public class SubscriptionDto {
 	private Long id;
+	private Long packId; 
 	@DateTimeFormat
 	private Date createdAt;
-	 @DateTimeFormat
+	@DateTimeFormat
 	private Date endAt;
 	private Boolean enabled;
 	
 	public SubscriptionDto() {
 		// TODO Auto-generated constructor stub
 	}
-	public SubscriptionDto(Long id, Date createdAt, Date endAt, Boolean enabled) {
+	public SubscriptionDto(Long id, Date createdAt, Date endAt, Boolean enabled,long packId) {
 		
 		this.id = id;
 		this.createdAt = createdAt;
 		this.endAt = endAt;
 		this.enabled = enabled;
+		this.packId=packId;
 	}
 
 	public Long getId() {
@@ -54,5 +56,12 @@ public class SubscriptionDto {
 	public void setEnabled(Boolean enabled) {
 		this.enabled = enabled;
 	}
+	public Long getPackId() {
+		return packId;
+	}
+	public void setPackId(Long packId) {
+		this.packId = packId;
+	}
+	
 
 }
