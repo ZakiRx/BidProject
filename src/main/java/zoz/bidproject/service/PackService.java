@@ -24,8 +24,8 @@ public class PackService {
 	public Pack getPack(Long id) {
 		return packRepository.getOne(id);
 	}
-	public Boolean deletePack(Long id) {
-		Pack pack=getPack(id);
+	public Boolean deletePack(Pack pack) {
+		
 		if(pack !=null) {
 			 packRepository.delete(pack);
 			 return true;

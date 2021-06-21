@@ -12,7 +12,6 @@ import zoz.bidproject.model.Pack;
 public class PackConvert {
 	public PackDto entityToDto(Pack pack) {
 		PackDto packDto = new PackDto();
-
 		return packDto;
 	}
 
@@ -22,7 +21,7 @@ public class PackConvert {
 	}
 
 	public Pack dtoToEntity(PackDto packDto) {
-		Pack pack = new Pack();
+		Pack pack = new Pack(packDto.getId(), packDto.getName(), packDto.getNbrDays(), packDto.getDetails());
 		return pack;
 	}
 

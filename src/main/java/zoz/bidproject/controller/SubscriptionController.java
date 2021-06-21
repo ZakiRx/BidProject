@@ -1,6 +1,10 @@
 package zoz.bidproject.controller;
 
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,17 +50,20 @@ public class SubscriptionController {
 	}
 	@PostMapping
 	@RequestMapping("/new")
-	@PreAuthorize("hasAnyAuthority('SELLER', 'BUYER')")
-	public Subscription newSubscription(@RequestBody SubscriptionDto subscriptionDto) {
+	@PreAuthorize("hasAnyAuthority('SELLER','BUYER')")
+	public ResponseEntity<Object> newSubscription(@RequestBody SubscriptionDto subscriptionDto) throws JSONException {
 		String username=SecurityContextHolder.getContext().getAuthentication().getName();
 		Buyer buyer = buyerService.getBuyerByUserName(username);
 		Pack pack = packService.getPack(subscriptionDto.getPackId());
-		return subscriptionService.newSubscription(pack, buyer);
+		subscriptionService.newSubscription(pack, buyer);
+		return new ResponseEntity<Object>((new JSONObject().put("message", "your subscription has ben added end at +"+pack.getNbrDays() +" Days")).toString(),HttpStatus.OK);
 	}
 	@PostMapping
 	@RequestMapping("/disable")
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public Subscription disableSubscription() {
-		Seller seller = sellerService.getSeller(1L); //get in session
+		String username=SecurityContextHolder.getContext().getAuthentication().getName();
+		Seller seller = sellerService.getSellerByUserName(username);
 		Subscription subscription;
 		try {
 			subscription = subscriptionService.getSubscription(seller);

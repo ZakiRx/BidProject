@@ -21,7 +21,9 @@ import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
 
 import zoz.bidproject.model.Offer;
+import zoz.bidproject.model.Seller;
 import zoz.bidproject.service.OfferService;
+import zoz.bidproject.service.SellerService;
 
 @Configuration
 @EnableScheduling
@@ -30,6 +32,8 @@ public class SchedulingConfig {
 
 	@Autowired
 	private OfferService offerService;
+	@Autowired
+	private SellerService sellerService;
 	private Logger logger;
 	
 	@PostConstruct
@@ -55,7 +59,7 @@ public class SchedulingConfig {
 	}
 	@Async
 	@Scheduled(cron = "0 0 * * *  ?") 
-	public void disablefferEnded() throws ParseException {
+	public void disableofferEnded() throws ParseException {
 	
 		List<Offer> offers = offerService.getAllOffers();
 		SimpleDateFormat simpleDateFormat =new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -63,9 +67,25 @@ public class SchedulingConfig {
 			
 			Date dateNow=simpleDateFormat.parse(simpleDateFormat.format(new Date()));
 			Date dateEndOffer= simpleDateFormat.parse(simpleDateFormat.format(offer.getEndAt()));
-			if( dateEndOffer.before(dateNow)) {
+			if( dateEndOffer.before(dateNow) && offer.getEnabled()) {
 				offerService.disableOffer(offer);
 				logger.info("Offer :"+offer.getName()+" ended");
+			}
+		}
+	}
+	@Async
+	@Scheduled(cron = "0 0 * * *  ?") 
+	public void disableSubscription() throws ParseException {
+	
+		List<Seller> sellers = sellerService.getSellers();
+		SimpleDateFormat simpleDateFormat =new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		for (Seller seller : sellers) {
+			
+			Date dateNow=simpleDateFormat.parse(simpleDateFormat.format(new Date()));
+			Date dateEndSubscribe= simpleDateFormat.parse(simpleDateFormat.format(seller.getSubscription().getEndAt()));
+			if( dateEndSubscribe.before(dateNow) && seller.getSubscription().isEnabled() ) {
+				seller.getSubscription().setEnabled(false);
+				logger.info("Subscription of user  :"+seller.getUserName()+" Has ended");
 			}
 		}
 	}

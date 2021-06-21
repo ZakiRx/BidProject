@@ -47,9 +47,5 @@ public class PackController {
 		return packService.newPack(pack);
 	}
 
-	@DeleteMapping
-	@RequestMapping("/delete")
-	public Boolean editPack(@PathVariable Long id) {
-		return packService.deletePack(id);
-	}
+	
 }

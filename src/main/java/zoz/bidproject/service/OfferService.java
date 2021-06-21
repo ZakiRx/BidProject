@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import zoz.bidproject.model.Offer;
@@ -100,17 +101,41 @@ public class OfferService {
 	 * @param offer
 	 * @return offer
 	 */
+	@PreAuthorize("hasAnyAuthority('SELLER', 'ADMIN') && #offer.seller.userName==authentication.name")
 	public Offer saveOffre(Offer offer) {
 		return offerRepository.save(offer);
 	}
-
+	@PreAuthorize("hasAnyAuthority('SELLER', 'ADMIN') && #offer.seller.userName==authentication.name")
 	public void deleteOffre(Offer offer) {
 		offerRepository.delete(offer);
 	}
 
+	@PreAuthorize("hasAnyAuthority('SELLER', 'ADMIN') && #offer.seller.userName==authentication.name")
 	public Boolean disableOffer(Offer offer) {
 		try {
 			offer.setEnabled(false);
+			offerRepository.save(offer);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+
+	}
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public Boolean enableOffer(Offer offer) {
+		try {
+			offer.setEnabled(true);
+			offerRepository.save(offer);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+
+	}
+	@PreAuthorize("hasAnyAuthority('ADMIN') && #offer.seller.userName==authentication.name")
+	public Boolean verifiedOffer(Offer offer) {
+		try {
+			offer.setVerified(true);
 			offerRepository.save(offer);
 			return true;
 		} catch (Exception e) {
