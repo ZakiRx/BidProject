@@ -55,16 +55,19 @@ public class CheckoutController {
 		
 		String username =SecurityContextHolder.getContext().getAuthentication().getName();
 		Buyer buyer =buyerService.getBuyerByUserName(username);
-		
 		info.setDescription("Debosit Client "+buyer.getEmail());
+		info.setStripeEmail(buyer.getEmail());
         info.setCurrency(StripeRequestInfo.Currency.EUR);
         System.out.println(info.getAmount()+"-"+info.getStripeToken());
         Charge charge = (Charge) paymentService.payment(info);
 		JSONObject json = new JSONObject();
 		json.put("info",charge.toString());
+		if("succeeded".equals(charge.getStatus())) {
+			System.out.println("debot");
+			buyerService.debositToAccount(charge.getAmount()/100, buyer);
+		}
 		return new ResponseEntity<Object>(json.toString(),HttpStatus.ACCEPTED);
 	}
-	
 	@ExceptionHandler(StripeException.class)
     public ResponseEntity<Object> handleError(StripeException ex) {
 		JSONObject json = new JSONObject();
