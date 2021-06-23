@@ -12,11 +12,13 @@ public class SubscriptionDto {
 	@DateTimeFormat
 	private Date endAt;
 	private Boolean enabled;
+	private String nameSeller;
+	private String token;
 	
 	public SubscriptionDto() {
 		// TODO Auto-generated constructor stub
 	}
-	public SubscriptionDto(Long id, Date createdAt, Date endAt, Boolean enabled,long packId) {
+	public SubscriptionDto(Long id, Date createdAt, Date endAt, Boolean enabled,Long packId) {
 		
 		this.id = id;
 		this.createdAt = createdAt;
@@ -62,6 +64,19 @@ public class SubscriptionDto {
 	public void setPackId(Long packId) {
 		this.packId = packId;
 	}
+	public String getToken() {
+		return token;
+	}
+	public void setToken(String token) {
+		this.token = token;
+	}
+	public String getNameSeller() {
+		return nameSeller;
+	}
+	public void setNameSeller(String nameSeller) {
+		this.nameSeller = nameSeller;
+	}
+	
 	
 
 }

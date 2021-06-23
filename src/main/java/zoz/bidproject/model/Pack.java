@@ -18,7 +18,8 @@ public class Pack {
 	private String name;
 	private Integer nbrDays;
 	private String details;
-	
+	private String planId;
+	private Long price;
 	@OneToMany(mappedBy = "pack")
 	@JsonIgnore
 	private List<Subscription> subcriptions;
@@ -75,4 +76,23 @@ public class Pack {
 		this.nbrDays = nbrDays;
 	}
 
+	public Long getPrice() {
+		return price;
+	}
+
+	public void setPrice(Long price) {
+		this.price = price;
+	}
+
+	public String getPlanId() {
+		return planId;
+	}
+
+	public void setPlanId(String planId) {
+		this.planId = planId;
+	}
+	
+	
+
+	
 }

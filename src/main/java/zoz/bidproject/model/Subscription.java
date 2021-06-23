@@ -16,6 +16,7 @@ public class Subscription {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private Date createdAt;
+	private Date updatedAt;
 	private Date endAt;
 	private Boolean enabled;
 	@OneToOne
@@ -58,6 +59,19 @@ public class Subscription {
 
 	public void setEndAt(Date endAt) {
 		this.endAt = endAt;
+	}
+	
+
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+	public Boolean getEnabled() {
+		return enabled;
 	}
 
 	public Boolean isEnabled() {

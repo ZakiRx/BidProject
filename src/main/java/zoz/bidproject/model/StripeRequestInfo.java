@@ -1,6 +1,6 @@
 package zoz.bidproject.model;
 
-
+import java.util.Map;
 
 public class StripeRequestInfo {
 	public enum Currency {
@@ -12,6 +12,7 @@ public class StripeRequestInfo {
 	private Currency currency;
 	private String stripeEmail;
 	private String stripeToken;
+	private Map<String,String> metadata;
 	public String getDescription() {
 		return description;
 	}
@@ -42,6 +43,13 @@ public class StripeRequestInfo {
 	public void setStripeToken(String stripeToken) {
 		this.stripeToken = stripeToken;
 	}
+	public Map<String, String> getMetadata() {
+		return metadata;
+	}
+	public void setMetadata(Map<String, String> metadata) {
+		this.metadata = metadata;
+	}
+	
 	
 	
 }

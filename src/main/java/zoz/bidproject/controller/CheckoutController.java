@@ -1,5 +1,9 @@
 package zoz.bidproject.controller;
 
+import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.http.protocol.HTTP;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -50,23 +54,35 @@ public class CheckoutController {
 	}
 	@RequestMapping("/charge")
 	@PostMapping
-	@PreAuthorize("hasAuthority('BUYER')")
-	public ResponseEntity<Object> charge(@RequestBody StripeRequestInfo info) throws JSONException, StripeException {
+	
+	public ResponseEntity<Object> charge(@RequestBody StripeRequestInfo info) throws JSONException, StripeException, IllegalArgumentException, IllegalAccessException {
 		
 		String username =SecurityContextHolder.getContext().getAuthentication().getName();
-		Buyer buyer =buyerService.getBuyerByUserName(username);
+		Buyer buyer =buyerService.getBuyerByUserName("med");
 		info.setDescription("Debosit Client "+buyer.getEmail());
 		info.setStripeEmail(buyer.getEmail());
         info.setCurrency(StripeRequestInfo.Currency.EUR);
-        System.out.println(info.getAmount()+"-"+info.getStripeToken());
+        Map<String,String> metadata = new HashMap<String, String>();
+		metadata.put("username",buyer.getUserName());
+		metadata.put("First Name",buyer.getFirstName());
+		metadata.put("Last Name",buyer.getLastName());
+		metadata.put("Phone",buyer.getPhoneNumber());
+		metadata.put("Date Birth",buyer.getDateBirth().toString());
+		info.setMetadata(metadata);
         Charge charge = (Charge) paymentService.payment(info);
 		JSONObject json = new JSONObject();
-		json.put("info",charge.toString());
+		json.put("info",charge.getStatus().toString());
 		if("succeeded".equals(charge.getStatus())) {
-			System.out.println("debot");
+			
 			buyerService.debositToAccount(charge.getAmount()/100, buyer);
+			
+				
+			
+			return new ResponseEntity<Object>(json.toString(),HttpStatus.ACCEPTED);
+		}else {
+			return new ResponseEntity<Object>(json.toString(),HttpStatus.NOT_ACCEPTABLE);
 		}
-		return new ResponseEntity<Object>(json.toString(),HttpStatus.ACCEPTED);
+		
 	}
 	@ExceptionHandler(StripeException.class)
     public ResponseEntity<Object> handleError(StripeException ex) {

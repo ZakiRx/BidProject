@@ -22,6 +22,7 @@ public class PackConvert {
 
 	public Pack dtoToEntity(PackDto packDto) {
 		Pack pack = new Pack(packDto.getId(), packDto.getName(), packDto.getNbrDays(), packDto.getDetails());
+		pack.setPrice(packDto.getPrice());
 		return pack;
 	}
 

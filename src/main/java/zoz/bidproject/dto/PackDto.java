@@ -16,6 +16,10 @@ public class PackDto {
 	@NotNull
 	private String details;
 
+	@NotNull
+	@Min(value = 1)
+	private Long price;
+
 	public PackDto() {
 		// TODO Auto-generated constructor stub
 	}
@@ -60,4 +64,13 @@ public class PackDto {
 		this.details = details;
 	}
 
+	public Long getPrice() {
+		return price;
+	}
+
+	public void setPrice(Long price) {
+		this.price = price;
+	}
+
+	
 }
