@@ -26,6 +26,8 @@ public class BidService {
 	private OfferService offerService;
 	@Autowired
 	private BuyerRepository buyerRepository;
+	@Autowired 
+	private Pusher pusher;
 
 	public List<Bid> getBidsByOffer(Offer offer) {
 		return offer.getBids();
@@ -74,7 +76,7 @@ public class BidService {
 		BidConvert bidConvert = new BidConvert();
 
 		// Test Pusher
-		Pusher pusher = new Pusher("1194761", "f856f46602ee2819adc2", "846108e333cd4a552490");
+		Pusher pusher = new Pusher("1194761","f856f46602ee2819adc2", "846108e333cd4a552490");
 		pusher.setCluster("eu");
 		pusher.setEncrypted(true);
 		BidDto bidDto = bidConvert.entityToDto(bid);

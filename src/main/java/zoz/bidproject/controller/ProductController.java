@@ -85,18 +85,40 @@ public class ProductController {
 	}
 	
 	@PostMapping
-	@RequestMapping(path = "/{id}",method = RequestMethod.POST)
-	public void uploadImageProduct(@RequestParam("file") MultipartFile file,@PathVariable("id") Long id) throws URISyntaxException, IOException {
+	@RequestMapping(path = "/image/{id}",method = RequestMethod.POST)
+	public void uploadImageProduct(@RequestParam("file") MultipartFile file,@RequestParam("files") MultipartFile files[],@PathVariable("id") Long id) throws URISyntaxException, IOException {
 		Product product = productService.getProduct(id);
 		if(product != null &&  product.getOffer().getSeller().getUserName().equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
-			 File image = new File( "src/main/resources/images/products/"+file.getOriginalFilename());
-			 image.createNewFile();
-			 FileOutputStream stream = new FileOutputStream(image);
-			 stream.write(file.getBytes());
-			 stream.close();
+			
+			//add image principal
+			String imageName=product.getName()+"_"+product.getId()+"_"+file.getOriginalFilename();
+			if(file.getOriginalFilename().lastIndexOf(".jpg")!=-1 || file.getOriginalFilename().lastIndexOf(".png")!=-1  ) {
+				 File image = new File( "src/main/resources/images/products/"+imageName);
+				 image.createNewFile();
+				 FileOutputStream stream = new FileOutputStream(image);
+				 stream.write(file.getBytes());
+				 product.setImage(imageName);
+				 stream.close();
+				 
+				 //add images for product
+				 String images="";
+				 for (MultipartFile fileG  : files) {
+						String imageNameG=product.getName()+"_"+product.getId()+"_"+file.getOriginalFilename();
+						File imageG = new File( "src/main/resources/images/products/"+imageNameG);
+						 image.createNewFile();
+						 FileOutputStream streamG = new FileOutputStream(imageG);
+						 streamG.write(file.getBytes());
+						 streamG.close();
+						 images+=imageNameG+",";
+					}
+				 product.setImages(images);
+				 productService.saveProduct(product);
+			}
+			
 		}
 		
 	}
+
 
 	@PutMapping
 	@RequestMapping(path = "/edit/{id}", method = RequestMethod.PUT)
@@ -108,7 +130,7 @@ public class ProductController {
 		product.setImages(productDto.getImages());
 		product.setTags(productDto.getTags());
 		product.setName(productDto.getName());
-
+		
 		return productConvert.entityToDto(productService.saveProduct(product));
 	}
 
