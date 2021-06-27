@@ -21,9 +21,9 @@ public class Purchase {
 	private Buyer buyer;
 	@OneToOne
 	private Offer offer;
-	@OneToOne(mappedBy = "purchase")
-	private ShippingDetails shippingDetails;
 	@OneToOne
+	private ShippingDetails shippingDetails;
+	@OneToOne(mappedBy = "purchase")
 	private Ordre ordre;
 	
 

@@ -19,6 +19,9 @@ public class PurchaseService {
 	@Autowired
 	private OrderService orderService;
 	
+	public Purchase getPurchasesById(long id){
+		 return purchaseRepository.getOne(id);
+	}
 	public List<Purchase> getPurchasesByBuyer(Buyer buyer){
 		return buyer.getPurchases();
 	}

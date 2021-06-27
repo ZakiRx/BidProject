@@ -7,7 +7,7 @@ import zoz.bidproject.model.ShippingDetails;
 import zoz.bidproject.repositories.jpa.ShippingDetailsRepository;
 
 @Service
-public class ShppingDetailsService {
+public class ShippingDetailsService {
 
 	@Autowired
 	private ShippingDetailsRepository detailsRepository;
@@ -15,6 +15,9 @@ public class ShppingDetailsService {
 	
 	public ShippingDetails newShippingDetails(ShippingDetails shippingDetails) {
 		return detailsRepository.save(shippingDetails);
+	}
+	public ShippingDetails getShippingDetails(Long id) {
+		return detailsRepository.getOne(id);
 	}
 	
 	

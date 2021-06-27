@@ -50,13 +50,17 @@ public class BidService {
 					if (offer.getCurrentPrice() < bid.getPrice()) {
 						bids = offer.getBids();
 						Buyer currentBuyer =bid.getBuyer();
-						Buyer lastBuyerBid = bids.get((bids.size() - 1)).getBuyer();
-						double priceLastBid=bids.get((bids.size() - 1)).getPrice();
-						if(lastBuyerBid!=null) {
-							returnMoney(lastBuyerBid,priceLastBid);
+						if(bids.size()!=0) {
+							Buyer lastBuyerBid = bids.get((bids.size() - 1)).getBuyer();
+							double priceLastBid=bids.get((bids.size() - 1)).getPrice();
+							if(lastBuyerBid!=null) {
+								returnMoney(lastBuyerBid,priceLastBid);
+								buyerRepository.save(lastBuyerBid);
+							}
 						}
+						
 						currentBuyer.setBalance(currentBuyer.getBalance()-bid.getPrice());
-						buyerRepository.save(lastBuyerBid);
+						
 						buyerRepository.save(currentBuyer);
 						bids.add(bid);
 					} else {
@@ -84,7 +88,7 @@ public class BidService {
 		pusher.trigger("add-Bid-Offer-"+bid.getOffer().getId(), event, Collections.singletonMap("Bid", bidDto));
 		// update current Price
 		offer.setCurrentPrice(bid.getPrice());
-		offerService.saveOffre(offer);
+		offerService.updatePriceOffer(offer);
 		
 		return newBid;
 	}

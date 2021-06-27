@@ -28,6 +28,8 @@ public class ShippingDetailsDto {
 	@NotBlank
 	@NotNull
 	private String billingPhone;
+	@NotNull
+	private Long idPurchase;
 	private Boolean shipped;
 
 	public Long getId() {
@@ -101,5 +103,14 @@ public class ShippingDetailsDto {
 	public void setShipped(Boolean shipped) {
 		this.shipped = shipped;
 	}
+
+	public Long getIdPurchase() {
+		return idPurchase;
+	}
+
+	public void setIdPurchase(Long idPurchase) {
+		this.idPurchase = idPurchase;
+	}
+	
 
 }

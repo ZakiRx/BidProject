@@ -19,6 +19,14 @@ public class ShippingDetailsConvert {
 
 	public ShippingDetails dtoToEntity(ShippingDetailsDto shippingDetailsDto) {
 		ShippingDetails shippingDetails = new ShippingDetails();
+		shippingDetails.setBillingAdress(shippingDetailsDto.getBillingAdress());
+		shippingDetails.setBillingCity(shippingDetailsDto.getBillingCity());
+		shippingDetails.setBillingEmail(shippingDetailsDto.getBillingEmail());
+		shippingDetails.setBillingName(shippingDetailsDto.getBillingName());
+		shippingDetails.setBillingPhone(shippingDetailsDto.getBillingPhone());
+		shippingDetails.setBillingPostalCode(shippingDetailsDto.getBillingPostalCode());
+		shippingDetails.setCountry(shippingDetailsDto.getCountry());
+		shippingDetails.setShipped(false);
 		return shippingDetails;
 	}
 

@@ -105,12 +105,15 @@ public class OfferService {
 	public Offer saveOffre(Offer offer) {
 		return offerRepository.save(offer);
 	}
+	public Offer updatePriceOffer(Offer offer) {
+		return offerRepository.save(offer);
+	}
 	@PreAuthorize("hasAnyAuthority('SELLER', 'ADMIN') && #offer.seller.userName==authentication.name")
 	public void deleteOffre(Offer offer) {
 		offerRepository.delete(offer);
 	}
 
-	@PreAuthorize("hasAnyAuthority('SELLER', 'ADMIN') && #offer.seller.userName==authentication.name")
+	//@PreAuthorize("hasAnyAuthority('SELLER', 'ADMIN') && #offer.seller.userName==authentication.name")
 	public Boolean disableOffer(Offer offer) {
 		try {
 			offer.setEnabled(false);

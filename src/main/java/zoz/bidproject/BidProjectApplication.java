@@ -46,7 +46,7 @@ import zoz.bidproject.service.PackService;
 import zoz.bidproject.service.PurchaseService;
 import zoz.bidproject.service.RoleService;
 import zoz.bidproject.service.SellerService;
-import zoz.bidproject.service.ShppingDetailsService;
+import zoz.bidproject.service.ShippingDetailsService;
 import zoz.bidproject.service.SubCategoryService;
 import zoz.bidproject.service.SubscriptionService;
 
@@ -70,7 +70,7 @@ public class BidProjectApplication {
 		CommentService commentService=applicationContext.getBean("commentService", CommentService.class);
 		FollowService followService=applicationContext.getBean("followService", FollowService.class);
 		OrderService ordreService=applicationContext.getBean("orderService", OrderService.class);
-		ShppingDetailsService shppingDetailsService = applicationContext.getBean("shppingDetailsService",ShppingDetailsService.class);
+		ShippingDetailsService shippingDetailsService = applicationContext.getBean("shippingDetailsService",ShippingDetailsService.class);
 		PurchaseService purchaseService =applicationContext.getBean("purchaseService",PurchaseService.class);
 		BidService bidService = applicationContext.getBean("bidService", BidService.class);
 		CategoryService categoryService = applicationContext.getBean("categoryService",CategoryService.class);
@@ -161,7 +161,7 @@ public class BidProjectApplication {
 		//4:add purchase to shippingDetails
 		shippingDetails.setPurchase(purchase);
 		//5:add shippingDetails to DB
-		shppingDetailsService.newShippingDetails(shippingDetails);
+		shippingDetailsService.newShippingDetails(shippingDetails);
 		//6:add Order with purchase info 
 		Ordre order = new Ordre(null, new Date(), new Date(), offer.getSeller(), purchase);
 		

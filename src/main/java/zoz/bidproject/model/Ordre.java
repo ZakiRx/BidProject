@@ -16,17 +16,16 @@ import org.hibernate.annotations.Proxy;
 import org.springframework.context.annotation.Lazy;
 
 @Entity
-
 public class Ordre {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private Date createdAt;
 	private Date updatedAt;
-	@OneToOne(mappedBy = "ordre")
+	@OneToOne
 	private ShippingProof shippingProof;
 	@ManyToOne
 	private Seller seller;
-	@OneToOne(mappedBy = "ordre")
+	@OneToOne
 	private Purchase purchase;
 	
 	

@@ -11,6 +11,8 @@ import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -20,9 +22,12 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
 
+import zoz.bidproject.model.Buyer;
 import zoz.bidproject.model.Offer;
+import zoz.bidproject.model.Purchase;
 import zoz.bidproject.model.Seller;
 import zoz.bidproject.service.OfferService;
+import zoz.bidproject.service.PurchaseService;
 import zoz.bidproject.service.SellerService;
 
 @Configuration
@@ -34,6 +39,8 @@ public class SchedulingConfig {
 	private OfferService offerService;
 	@Autowired
 	private SellerService sellerService;
+	@Autowired
+	private PurchaseService purchaseService;
 	private Logger logger;
 	
 	@PostConstruct
@@ -88,5 +95,31 @@ public class SchedulingConfig {
 				logger.info("Subscription of user  :"+seller.getUserName()+" Has ended");
 			}
 		}
+	}
+	
+	@Async
+	@Scheduled(fixedDelayString = "PT10S")
+	public ResponseEntity<Object> notifBuyerShippingInfo() throws ParseException {
+	
+		List<Offer> offers = offerService.getEnabledAndVerifiedOffers();
+		SimpleDateFormat simpleDateFormat =new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		for (Offer offer : offers) {
+
+			Date dateNow=simpleDateFormat.parse(simpleDateFormat.format(new Date()));
+			Date dateEndOffer= simpleDateFormat.parse(simpleDateFormat.format(offer.getEndAt()));
+			if( dateEndOffer.before(dateNow) && offer.getEnabled() && offer.getBids().size()!=0) {
+				offerService.disableOffer(offer);
+				//get last buyer (winner)
+				Buyer winner =offer.getBids().get(offer.getBids().size()-1).getBuyer();
+				//2: accepted the purchase but without Order and shippingDetails
+				Purchase purchase=new Purchase(null, new Date(), new Date(), false, null, winner, offer, null, null);
+				//3:add purchase to database
+				purchaseService.newPurchase(purchase);
+				logger.info("Your Purshase has been added  :"+purchase.getId()+" please set your shipping info");
+				return new ResponseEntity<Object>("Your Purshase has been added  :"+purchase.getId()+" please set your shipping info",HttpStatus.OK);
+			}
+			
+		}
+		return null;
 	}
 }
