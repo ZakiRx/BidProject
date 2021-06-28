@@ -124,7 +124,7 @@ public class SchedulingConfig {
 				purchaseService.newPurchase(purchase);
 				logger.info("Your Purshase has been added  :"+purchase.getId()+" please set your shipping info");
 				String event = "insert-shipping-info";
-				pusher.trigger("buyer-"+winner.getId(), event, Collections.singletonMap("message", "please set your shipping info"));
+				pusher.trigger("buyer-"+winner.getId(), event, Collections.singletonMap("message", "please set your shipping info /shippingInfo/"+purchase.getId()+"/new"));
 				return new ResponseEntity<Object>("Your Purshase has been added  :"+purchase.getId()+" please set your shipping info",HttpStatus.OK);
 			}
 			

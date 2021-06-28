@@ -64,9 +64,9 @@ public class ShippingDetailsController {
 		return shippingDetails;
 	}
 	@PostMapping
-	@RequestMapping(path="/new",method = RequestMethod.POST)
+	@RequestMapping(path="/{idPurchase}/new",method = RequestMethod.POST)
 	@PreAuthorize("hasAuthority('BUYER')")
-	public ResponseEntity<Object> newShppingDetails(@RequestBody ShippingDetailsDto shippingDetailsDto) throws JSONException {
+	public ResponseEntity<Object> newShppingDetails(@RequestBody ShippingDetailsDto shippingDetailsDto,@PathVariable("idPurchase") Long idPurchase) throws JSONException {
 		
 		String username =SecurityContextHolder.getContext().getAuthentication().getName();
 		Buyer buyer =buyerService.getBuyerByUserName(username);
@@ -76,7 +76,7 @@ public class ShippingDetailsController {
 		ShippingDetails shippingDetails =shippingDetailsConvert.dtoToEntity(shippingDetailsDto);
 		JSONObject jsonObject = new JSONObject();
 		for(Purchase purchase : purchases) {
-			if(purchase.getId()==shippingDetailsDto.getIdPurchase()) {
+			if(purchase.getId()==idPurchase) {
 				shippingDetails.setPurchase(purchase);
 				ShippingDetails details = shippingDetailsService.newShippingDetails(shippingDetails);
 				purchase.setShippingDetails(details);
