@@ -80,9 +80,7 @@ public class BidService {
 		BidConvert bidConvert = new BidConvert();
 
 		// Test Pusher
-		Pusher pusher = new Pusher("1194761","f856f46602ee2819adc2", "846108e333cd4a552490");
-		pusher.setCluster("eu");
-		pusher.setEncrypted(true);
+		
 		BidDto bidDto = bidConvert.entityToDto(bid);
 		String event = "newBid";
 		pusher.trigger("add-Bid-Offer-"+bid.getOffer().getId(), event, Collections.singletonMap("Bid", bidDto));

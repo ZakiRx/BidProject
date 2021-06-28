@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<head>
+  <title>Pusher Buyer</title>
+  <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
+ 
+</head>
+<body>
+  <h1>Pusher Test</h1>
+  <div>
+   
+  </div>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+
+    // Enable pusher logging - don't include this in production
+    Pusher.logToConsole = true;
+
+    var pusher = new Pusher('f856f46602ee2819adc2', {
+      cluster: 'eu'
+    });
+
+    var channel = pusher.subscribe('buyer-2');
+    channel.bind('insert-shipping-info', function(data) {
+      /*when need to return list of bids*/
+    //   data.Bid.map(bid=>(
+    //     $("div").append(`<p>buyer:${bid.nameBuyer}--->Bid:${bid.price}</p`)
+    //   ))
+    // 
+    let bid=data.Bid;
+    $("div").append(`<p>good news :${data.message}</p`);
+    });
+  </script>
+</body>

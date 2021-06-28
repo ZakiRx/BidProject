@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -16,6 +17,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
+
+import com.pusher.rest.Pusher;
 
 import java.util.logging.Logger;
 
@@ -41,6 +44,8 @@ public class SchedulingConfig {
 	private SellerService sellerService;
 	@Autowired
 	private PurchaseService purchaseService;
+	@Autowired
+	private Pusher pusher;
 	private Logger logger;
 	
 	@PostConstruct
@@ -59,7 +64,7 @@ public class SchedulingConfig {
 			Date dateStartOffer= simpleDateFormat.parse(simpleDateFormat.format(offer.getStartedAt()));
 	
 			if( (offer.getProducts()==null || offer.getProducts().size()==0) && dateStartOffer.before(dateNow)) {
-				offerService.deleteOffre(offer);
+				offerService.autoDeleteOffre(offer);
 				logger.info("Offer :"+offer.getName()+" Deleted");
 			}
 		}
@@ -75,7 +80,7 @@ public class SchedulingConfig {
 			Date dateNow=simpleDateFormat.parse(simpleDateFormat.format(new Date()));
 			Date dateEndOffer= simpleDateFormat.parse(simpleDateFormat.format(offer.getEndAt()));
 			if( dateEndOffer.before(dateNow) && offer.getEnabled()) {
-				offerService.disableOffer(offer);
+				offerService.autoDisableOffer(offer);
 				logger.info("Offer :"+offer.getName()+" ended");
 			}
 		}
@@ -92,6 +97,7 @@ public class SchedulingConfig {
 			Date dateEndSubscribe= simpleDateFormat.parse(simpleDateFormat.format(seller.getSubscription().getEndAt()));
 			if( dateEndSubscribe.before(dateNow) && seller.getSubscription().isEnabled() ) {
 				seller.getSubscription().setEnabled(false);
+				sellerService.newSeller(seller);
 				logger.info("Subscription of user  :"+seller.getUserName()+" Has ended");
 			}
 		}
@@ -108,7 +114,8 @@ public class SchedulingConfig {
 			Date dateNow=simpleDateFormat.parse(simpleDateFormat.format(new Date()));
 			Date dateEndOffer= simpleDateFormat.parse(simpleDateFormat.format(offer.getEndAt()));
 			if( dateEndOffer.before(dateNow) && offer.getEnabled() && offer.getBids().size()!=0) {
-				offerService.disableOffer(offer);
+				System.out.println("nice");
+				offerService.autoDisableOffer(offer);
 				//get last buyer (winner)
 				Buyer winner =offer.getBids().get(offer.getBids().size()-1).getBuyer();
 				//2: accepted the purchase but without Order and shippingDetails
@@ -116,6 +123,8 @@ public class SchedulingConfig {
 				//3:add purchase to database
 				purchaseService.newPurchase(purchase);
 				logger.info("Your Purshase has been added  :"+purchase.getId()+" please set your shipping info");
+				String event = "insert-shipping-info";
+				pusher.trigger("buyer-"+winner.getId(), event, Collections.singletonMap("message", "please set your shipping info"));
 				return new ResponseEntity<Object>("Your Purshase has been added  :"+purchase.getId()+" please set your shipping info",HttpStatus.OK);
 			}
 			

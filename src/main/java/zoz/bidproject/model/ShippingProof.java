@@ -14,6 +14,11 @@ public class ShippingProof {
 	private String trackNumber;
 	private String numPackage;
 	private Boolean verified;
+	
+	
+	public ShippingProof() {
+		
+	}
 	@OneToOne
 	private Ordre ordre;
 	public Long getId() {

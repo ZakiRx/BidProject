@@ -1,5 +1,7 @@
 package zoz.bidproject.controller;
 
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,12 +23,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pusher.rest.Pusher;
+
 import zoz.bidproject.converter.ShippingDetailsConvert;
 import zoz.bidproject.dto.ShippingDetailsDto;
 import zoz.bidproject.model.Buyer;
+import zoz.bidproject.model.Ordre;
 import zoz.bidproject.model.Purchase;
 import zoz.bidproject.model.ShippingDetails;
 import zoz.bidproject.service.BuyerService;
+import zoz.bidproject.service.OrderService;
 import zoz.bidproject.service.PurchaseService;
 import zoz.bidproject.service.ShippingDetailsService;
 
@@ -40,6 +46,10 @@ public class ShippingDetailsController {
 	private PurchaseService purchaseService;
 	@Autowired 
 	private BuyerService buyerService;
+	@Autowired 
+	private OrderService orderService;
+	@Autowired
+	private Pusher pusher;
 	private ShippingDetailsConvert shippingDetailsConvert;
 	
 	@PostConstruct
@@ -69,7 +79,13 @@ public class ShippingDetailsController {
 			if(purchase.getId()==shippingDetailsDto.getIdPurchase()) {
 				shippingDetails.setPurchase(purchase);
 				ShippingDetails details = shippingDetailsService.newShippingDetails(shippingDetails);
+				purchase.setShippingDetails(details);
+				purchaseService.newPurchase(purchase);
 				jsonObject.put("success", "Your shipping details has been added");
+				Ordre order = new Ordre(null, new Date(), new Date(), purchase.getOffre().getSeller(), purchase);
+				orderService.newOrder(order);
+				String event = "order-added";
+				pusher.trigger("seller-"+order.getSeller().getId(), event, Collections.singletonMap("message", "One Order has been added check your  orders and complete shipping proof"));
 				return new ResponseEntity<Object>(jsonObject.toString(),HttpStatus.CREATED);
 			}
 		}

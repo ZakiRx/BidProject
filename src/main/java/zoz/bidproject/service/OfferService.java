@@ -112,9 +112,24 @@ public class OfferService {
 	public void deleteOffre(Offer offer) {
 		offerRepository.delete(offer);
 	}
+	//  consume by cron job
+	public void autoDeleteOffre(Offer offer) {
+		offerRepository.delete(offer);
+	}
 
-	//@PreAuthorize("hasAnyAuthority('SELLER', 'ADMIN') && #offer.seller.userName==authentication.name")
+	@PreAuthorize("hasAnyAuthority('SELLER', 'ADMIN') && #offer.seller.userName==authentication.name")
 	public Boolean disableOffer(Offer offer) {
+		try {
+			offer.setEnabled(false);
+			offerRepository.save(offer);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+
+	}
+	//  consume by cron job
+	public Boolean autoDisableOffer(Offer offer) {
 		try {
 			offer.setEnabled(false);
 			offerRepository.save(offer);
