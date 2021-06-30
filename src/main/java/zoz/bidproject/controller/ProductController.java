@@ -59,9 +59,9 @@ public class ProductController {
 
 	@GetMapping
 	@RequestMapping("/")
-	public List<Product> getProducts(@PathVariable Long id) {
-		Category category = categoryService.getCategory(id);
-		return productService.getProductsByCategory(category);
+	public List<Product> getProducts() {
+		
+		return productService.getProducts();
 	}
 
 	@GetMapping
@@ -122,7 +122,7 @@ public class ProductController {
 
 	@PutMapping
 	@RequestMapping(path = "/edit/{id}", method = RequestMethod.PUT)
-	@PreAuthorize("hasAnyAuthority('SELLER', 'ADMIN') && #productDto.nameSeller==authentication.name")
+	@PreAuthorize("hasAuthority('ADMIN') || hasAuthority('SELLER') && #productDto.nameSeller==authentication.name")
 	public ProductDto editProduct(@RequestBody ProductDto productDto, @PathVariable("id") Long id) {
 		Product product = productService.getProduct(id);
 		product.setDescription(productDto.getDescription());
@@ -136,6 +136,7 @@ public class ProductController {
 
 	@DeleteMapping
 	@RequestMapping(path = "/delete/{id}", method = RequestMethod.DELETE)
+	@PreAuthorize("hasAuthority('ADMIN') || hasAuthority('SELLER') && #productDto.nameSeller==authentication.name")
 	public ResponseEntity<Object> deleteProduct(@PathVariable("id") Long id) {
 
 		try {

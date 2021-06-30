@@ -137,7 +137,7 @@ public class OfferController {
 
 	@DeleteMapping
 	@RequestMapping(path = "/delete/{id}", method = RequestMethod.DELETE)
-	@PostAuthorize("hasAuthority('SELLER') && returnObject.nameSeller==authentication.name")
+	@PostAuthorize("hasAuthority('ADMIN') || hasAuthority('SELLER') && returnObject.nameSeller==authentication.name")
 	public OfferDto deleteOffer(@PathVariable Long id) throws JSONException {
 		try {
 			Offer offer = offerService.getOfferById(id);

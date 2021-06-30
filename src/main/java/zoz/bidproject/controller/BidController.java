@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import javax.annotation.PostConstruct;
 
+import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,7 @@ import zoz.bidproject.converter.BidConvert;
 import zoz.bidproject.dto.BidDto;
 import zoz.bidproject.model.Bid;
 import zoz.bidproject.model.Buyer;
+import zoz.bidproject.model.Offer;
 import zoz.bidproject.security.JwtProvider;
 import zoz.bidproject.service.BidService;
 import zoz.bidproject.service.BuyerService;
@@ -52,8 +54,14 @@ public class BidController {
 			String userName=authentication.getName();
 			Buyer buyer=buyerService.getBuyerByUserName(userName);
 			bid.setBuyer(buyer);
-			bid.setOffer(offerService.getOfferById(bidDto.getIdOffer()));
-			return new ResponseEntity<Object>(bidConvert.entityToDto(bidService.newBid(bid)) ,HttpStatus.ACCEPTED);
+			Offer offer=offerService.getOfferById(bidDto.getIdOffer());
+			if(offer.getEnabled() && offer.getVerified()) {
+				bid.setOffer(offer);
+				return new ResponseEntity<Object>(bidConvert.entityToDto(bidService.newBid(bid)) ,HttpStatus.ACCEPTED);
+			}
+			return new ResponseEntity<Object>(new JSONObject().put("message","offer ended or not verified").toString(),HttpStatus.NOT_FOUND);
+			
+			
 			
 		} catch (Exception e) {
 			

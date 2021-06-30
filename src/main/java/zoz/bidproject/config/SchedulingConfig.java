@@ -29,6 +29,7 @@ import zoz.bidproject.model.Buyer;
 import zoz.bidproject.model.Offer;
 import zoz.bidproject.model.Purchase;
 import zoz.bidproject.model.Seller;
+import zoz.bidproject.service.BuyerService;
 import zoz.bidproject.service.OfferService;
 import zoz.bidproject.service.PurchaseService;
 import zoz.bidproject.service.SellerService;
@@ -44,6 +45,8 @@ public class SchedulingConfig {
 	private SellerService sellerService;
 	@Autowired
 	private PurchaseService purchaseService;
+	@Autowired
+	private BuyerService buyerService;
 	@Autowired
 	private Pusher pusher;
 	private Logger logger;
@@ -122,9 +125,14 @@ public class SchedulingConfig {
 				Purchase purchase=new Purchase(null, new Date(), new Date(), false, null, winner, offer, null, null);
 				//3:add purchase to database
 				purchaseService.newPurchase(purchase);
+				// add money to seller
+				Seller seller=offer.getSeller();
+				seller.setBalance(seller.getBalance()+offer.getCurrentPrice());
+				sellerService.newSeller(seller);
+				buyerService.newBuyer(winner);
 				logger.info("Your Purshase has been added  :"+purchase.getId()+" please set your shipping info");
 				String event = "insert-shipping-info";
-				pusher.trigger("buyer-"+winner.getId(), event, Collections.singletonMap("message", "please set your shipping info /shippingInfo/"+purchase.getId()+"/new"));
+				pusher.trigger("buyer-"+winner.getId(), event, Collections.singletonMap("message", "please set your shipping info /shippingDetails/"+purchase.getId()+"/new"));
 				return new ResponseEntity<Object>("Your Purshase has been added  :"+purchase.getId()+" please set your shipping info",HttpStatus.OK);
 			}
 			

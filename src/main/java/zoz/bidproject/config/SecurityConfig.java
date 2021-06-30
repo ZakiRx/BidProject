@@ -38,8 +38,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.antMatchers("/bid/**").hasAuthority("BUYER")
 		.anyRequest().authenticated();
 		http.apply(new JwtConfigurer(jwtProvider));
+		
 	}
-
 	
 	@Bean
 	public PasswordEncoder passwordEncoder() {

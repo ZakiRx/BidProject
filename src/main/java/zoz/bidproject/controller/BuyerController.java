@@ -13,6 +13,7 @@ import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -69,6 +70,15 @@ public class BuyerController {
 		return  buyer;
 		
 	}
+	@GetMapping
+	@RequestMapping("/purchases")
+	public List<Purchase> getPurchasesBuyerConnected() {
+		this.principal =SecurityContextHolder.getContext().getAuthentication();
+		Buyer buyer = buyerService.getBuyerByUserName(principal.getName());
+		
+		return  purchaseService.getPurchasesByBuyer(buyer);
+		
+	}
 
 	@GetMapping
 	@RequestMapping("/{id}")
@@ -105,6 +115,7 @@ public class BuyerController {
 
 	@GetMapping
 	@RequestMapping("/{id}/comments")
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public List<Comment> getComments(@PathVariable Long id) {
 		Buyer buyer = buyerService.getBuyer(id);
 		return commentService.getCommentsByBuyer(buyer);
@@ -112,12 +123,14 @@ public class BuyerController {
 
 	@GetMapping
 	@RequestMapping("/{id}/bid")
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public List<Bid> getBids(@PathVariable Long id) {
 		Buyer buyer = buyerService.getBuyer(id);
 		return bidService.getBidsByBuyer(buyer);
 	}
 	@GetMapping
 	@RequestMapping("/{id}/purchase")
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public List<Purchase> getPurchases(@PathVariable Long id) {
 		Buyer buyer = buyerService.getBuyer(id);
 		return purchaseService.getPurchasesByBuyer(buyer);

@@ -7,8 +7,8 @@ public class FollowDto {
 	private Date followed;
 	private Long idBuyer;
 	private String nameBuyer;
-	
-
+	private Long idSeller;
+	private String nameSeller;
 	
 	public FollowDto() {
 		
@@ -49,6 +49,19 @@ public class FollowDto {
 	public void setNameBuyer(String nameBuyer) {
 		this.nameBuyer = nameBuyer;
 	}
+	public Long getIdSeller() {
+		return idSeller;
+	}
+	public void setIdSeller(Long idSeller) {
+		this.idSeller = idSeller;
+	}
+	public String getNameSeller() {
+		return nameSeller;
+	}
+	public void setNameSeller(String nameSeller) {
+		this.nameSeller = nameSeller;
+	}
+	
 
 	
 

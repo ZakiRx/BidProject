@@ -5,7 +5,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -63,24 +63,27 @@ public class SellerController {
 	}
 
 	@GetMapping
-	@RequestMapping("/{id}/products")
-	public List<Product> getProductsOffer(@PathVariable Long id) {
-		Seller seller = sellerService.getSeller(id);
+	@RequestMapping("/products")
+	public List<Product> getProductsOffer() {
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		Seller seller = sellerService.getSellerByUserName(username);
 		return productService.getProductsBySeller(seller);
 	}
 
 	@GetMapping
-	@RequestMapping("/{id}/order")
-	public List<OrderDto> getOrders(@PathVariable Long id) {
-		Seller seller = sellerService.getSeller(id);
+	@RequestMapping("/order")
+	public List<OrderDto> getOrders() {
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		Seller seller = sellerService.getSellerByUserName(username);
 		return  orderConvert.entityToDto(orderService.getOrdersBySeller(seller));
 	}
 	
 
 	@GetMapping
-	@RequestMapping("/{id}/followers")
-	public List<FollowDto> getFollowers(@PathVariable Long id) {
-		Seller seller = sellerService.getSeller(id);
+	@RequestMapping("/followers")
+	public List<FollowDto> getFollowers() {
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		Seller seller = sellerService.getSellerByUserName(username);
 		List<Follow> follows=followService.getFollowersBySeller(seller);
 		return followConvert.entityToDto(follows);
 	}

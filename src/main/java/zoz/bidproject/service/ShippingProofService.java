@@ -21,5 +21,9 @@ public class ShippingProofService {
 		return proofRepository.findAll().stream().filter(p->p.getVerified()==false).collect(Collectors.toList());
 	}
 	
+	public ShippingProof getShippingProof(Long id) {
+		return proofRepository.getOne(id);
+	}
+	
 
 }

@@ -64,7 +64,7 @@ public class CommentController {
 
 	@DeleteMapping
 	@RequestMapping("/delete/{id}")
-	@PostAuthorize("hasAuthority('ADMIN') || #comment.offer.seller.userName==authentication.name || (hasAuthority('BUYER') && returnObject.nameBuyer==authentication.name)")
+	@PostAuthorize("hasAuthority('ADMIN') || (hasAuthority('BUYER') && returnObject.nameBuyer==authentication.name)")
 	public CommentDto deleteComment(@PathVariable Long id) {
 		Comment comment = commentService.getComment(id);
 		commentService.deleteComment(comment);
