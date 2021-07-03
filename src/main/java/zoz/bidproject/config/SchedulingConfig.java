@@ -84,6 +84,8 @@ public class SchedulingConfig {
 			Date dateEndOffer= simpleDateFormat.parse(simpleDateFormat.format(offer.getEndAt()));
 			if( dateEndOffer.before(dateNow) && offer.getEnabled()) {
 				offerService.autoDisableOffer(offer);
+				String event = "disable-offer-ended";
+				pusher.trigger("offer-"+offer.getId(), event, Collections.singletonMap("message", "offer ended"));
 				logger.info("Offer :"+offer.getName()+" ended");
 			}
 		}
