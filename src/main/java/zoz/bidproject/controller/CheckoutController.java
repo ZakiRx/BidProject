@@ -51,7 +51,7 @@ public class CheckoutController {
 		JSONObject json = new JSONObject();
 		json.put("publicKey",stripePublicKey);
 		json.put("currency", StripeRequestInfo.Currency.USD);
-		json.put("amount", amount*100);
+		json.put("amount", amount);
 		return new ResponseEntity<Object>(json.toString(),HttpStatus.ACCEPTED);
 	}
 	@RequestMapping("/charge")
