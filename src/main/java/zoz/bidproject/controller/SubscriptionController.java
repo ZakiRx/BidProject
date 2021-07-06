@@ -26,6 +26,7 @@ import zoz.bidproject.dto.SubscriptionDto;
 import zoz.bidproject.model.Buyer;
 import zoz.bidproject.model.Pack;
 import zoz.bidproject.model.Seller;
+import zoz.bidproject.model.StripeRequestInfo;
 import zoz.bidproject.model.Subscription;
 import zoz.bidproject.service.BuyerService;
 import zoz.bidproject.service.PackService;
@@ -50,6 +51,17 @@ public class SubscriptionController {
 	private SellerService sellerService;
 	@Autowired
 	private StripeService stripeService;
+	@Value("${STRIPE_PUBLIC_KEY}")
+	private String stripePublicKey;
+	
+	@GetMapping
+	@RequestMapping("/keyStripe")
+	@PreAuthorize("hasAuthority('BUYER')")
+	public ResponseEntity<Object> getPublicKeyStripe() throws JSONException {
+		JSONObject json = new JSONObject();
+		json.put("publicKey",stripePublicKey);
+		return new ResponseEntity<Object>(json.toString(),HttpStatus.ACCEPTED);
+	}
 	
 	@GetMapping
 	@RequestMapping("/")
@@ -65,7 +77,7 @@ public class SubscriptionController {
 	}
 	@PostMapping
 	@RequestMapping("/new")
-	//@PreAuthorize("hasAnyAuthority('SELLER','BUYER')")
+	@PreAuthorize("hasAnyAuthority('SELLER','BUYER')")
 	public ResponseEntity<Object> newSubscription(@RequestBody SubscriptionDto subscriptionDto) throws JSONException {
 		String username=SecurityContextHolder.getContext().getAuthentication().getName();
 		Buyer buyer = buyerService.getBuyerByUserName("med");

@@ -86,7 +86,9 @@ public class StripeService implements PaymentService {
 	            Map<String, Object> params = new HashMap<>();
 	            params.put("customer", customerId);
 	            params.put("items", items);
+	            
 	            Subscription sub = Subscription.create(params);
+	            
 	        
 	            id = sub.getId();
 	        } catch (Exception ex) {
@@ -98,7 +100,7 @@ public class StripeService implements PaymentService {
 	        String id = null;
 	        try {
 	            String username = SecurityContextHolder.getContext().getAuthentication().getName();
-	            Buyer buyer = buyerService.getBuyerByUserName("med");
+	            Buyer buyer = buyerService.getBuyerByUserName(username);
 	            Map<String, Object> customerParams = new HashMap<>();
 	            // add customer unique id here to track them in your web application
 	            customerParams.put("description", "Customer for " + buyer.getEmail());

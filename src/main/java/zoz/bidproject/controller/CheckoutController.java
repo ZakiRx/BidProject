@@ -60,7 +60,7 @@ public class CheckoutController {
 	public ResponseEntity<Object> charge(@RequestBody StripeRequestInfo info) throws JSONException, StripeException, IllegalArgumentException, IllegalAccessException {
 		
 		String username =SecurityContextHolder.getContext().getAuthentication().getName();
-		Buyer buyer =buyerService.getBuyerByUserName("med");
+		Buyer buyer =buyerService.getBuyerByUserName(username);
 		info.setDescription("Debosit Client "+buyer.getEmail());
 		info.setStripeEmail(buyer.getEmail());
         info.setCurrency(StripeRequestInfo.Currency.EUR);
