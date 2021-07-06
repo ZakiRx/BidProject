@@ -109,7 +109,7 @@ public class SchedulingConfig {
 	}
 	
 	@Async
-	@Scheduled(fixedDelayString = "PT10S")
+	@Scheduled(fixedDelayString = "PT1S")
 	public ResponseEntity<Object> notifBuyerShippingInfo() throws ParseException {
 	
 		List<Offer> offers = offerService.getEnabledAndVerifiedOffers();
@@ -119,19 +119,26 @@ public class SchedulingConfig {
 			Date dateNow=simpleDateFormat.parse(simpleDateFormat.format(new Date()));
 			Date dateEndOffer= simpleDateFormat.parse(simpleDateFormat.format(offer.getEndAt()));
 			if( dateEndOffer.before(dateNow) && offer.getEnabled() && offer.getBids().size()!=0) {
-				System.out.println("nice");
+				
 				offerService.autoDisableOffer(offer);
 				//get last buyer (winner)
 				Buyer winner =offer.getBids().get(offer.getBids().size()-1).getBuyer();
+				
 				//2: accepted the purchase but without Order and shippingDetails
 				Purchase purchase=new Purchase(null, new Date(), new Date(), false, null, winner, offer, null, null);
+				
 				//3:add purchase to database
 				purchaseService.newPurchase(purchase);
+				
 				// add money to seller
 				Seller seller=offer.getSeller();
+				
 				seller.setBalance(seller.getBalance()+offer.getCurrentPrice());
+				
 				sellerService.newSeller(seller);
+				
 				buyerService.newBuyer(winner);
+				
 				logger.info("Your Purshase has been added  :"+purchase.getId()+" please set your shipping info");
 				String event = "insert-shipping-info";
 				pusher.trigger("buyer-"+winner.getId(), event, Collections.singletonMap("message", "please set your shipping info /shippingDetails/"+purchase.getId()+"/new"));

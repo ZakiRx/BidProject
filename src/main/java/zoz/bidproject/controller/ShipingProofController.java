@@ -75,6 +75,7 @@ public class ShipingProofController {
 			FileOutputStream stream = new FileOutputStream(image);
 			stream.write(file.getBytes());
 			proof.setImage(imageName);
+			proofService.newShippingProof(proof);
 			stream.close();
 		}
 	}

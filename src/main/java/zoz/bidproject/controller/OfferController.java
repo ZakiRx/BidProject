@@ -90,6 +90,7 @@ public class OfferController {
 
 	@GetMapping
 	@RequestMapping("/{id}")
+	@PreAuthorize("permitAll()")
 	public ResponseEntity<Object> getOffer(@PathVariable Long id) throws JSONException {
 		try {
 			Offer offer = offerService.getEnabledAndVerifiedOffer(id);
