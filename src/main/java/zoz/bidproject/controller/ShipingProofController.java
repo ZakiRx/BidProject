@@ -81,17 +81,17 @@ public class ShipingProofController {
 	}
 	@PreAuthorize("hasAuthority('ADMIN')")
 	@PostMapping
-	@RequestMapping(path = "/enable",method = RequestMethod.POST)
-	public ResponseEntity<Object> acceptProof(@RequestBody ShippingProof shippingProof) throws JSONException {
+	@RequestMapping(path = "/{id}/accepte",method = RequestMethod.POST)
+	public ResponseEntity<Object> acceptProof(@PathVariable("id") Long id) throws JSONException {
 		List<ShippingProof> proofs = proofService.getShippingProofsNotVerified();
 		JSONObject jsonObject = new JSONObject();
 		for(ShippingProof proof:proofs) {
-			if(proof.getId()==1) {
+			if(proof.getId()==id) {
 				proof.setVerified(true);
-				jsonObject.put("success", "Shipping proof for order: "+shippingProof.getOrdre().getId()+" accepted");
-				shippingProof.getOrdre().getPurchase().getShippingDetails().setShipped(true);
-				shippingProof.getOrdre().getPurchase().setState(true);
-				proofService.newShippingProof(shippingProof);
+				jsonObject.put("success", "Shipping proof for order: "+proof.getOrdre().getId()+" accepted");
+				proof.getOrdre().getPurchase().getShippingDetails().setShipped(true);
+				proof.getOrdre().getPurchase().setState(true);
+				proofService.newShippingProof(proof);
 				return new ResponseEntity<Object>(jsonObject.toString(),HttpStatus.CREATED);
 			}
 		}

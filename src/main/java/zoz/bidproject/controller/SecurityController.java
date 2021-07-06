@@ -41,6 +41,11 @@ import zoz.bidproject.model.Role;
 import zoz.bidproject.security.JwtProvider;
 import zoz.bidproject.service.BuyerService;
 
+/**
+ * 
+ * @author Guemi_Zakaria
+ *
+ */
 @RestController
 @RequestMapping("/")
 public class SecurityController {
@@ -69,6 +74,7 @@ public class SecurityController {
 				List<Role> roles = (List<Role>) buyerService.getBuyerByUserName(username).getRoles();
 				String token = jwtProvider.createToken(username, roles);
 				json.put("token", token);
+				
 				final Cookie cookie = new Cookie("auth", token);
 				cookie.setHttpOnly(true);
 				cookie.setMaxAge(Integer.MAX_VALUE);
@@ -84,7 +90,6 @@ public class SecurityController {
 				return new ResponseEntity<String>(json.toString(), null, HttpStatus.UNAUTHORIZED);
 			} catch (JSONException e1) {
 				e1.printStackTrace();
-
 				return null;
 			}
 		}

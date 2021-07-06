@@ -49,7 +49,9 @@ public class CheckoutController {
 	public ResponseEntity<Object> checkout(@PathVariable("amount") Float amount) throws JSONException {
 		
 		JSONObject json = new JSONObject();
-		json.put("info",("{publicKey:"+stripePublicKey+", currency :"+StripeRequestInfo.Currency.USD+",amount:"+amount*100+"}"));
+		json.put("publicKey",stripePublicKey);
+		json.put("currency", StripeRequestInfo.Currency.USD);
+		json.put("amount", amount*100);
 		return new ResponseEntity<Object>(json.toString(),HttpStatus.ACCEPTED);
 	}
 	@RequestMapping("/charge")

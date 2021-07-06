@@ -82,6 +82,7 @@ public class ShippingDetailsController {
 				purchase.setShippingDetails(details);
 				purchaseService.newPurchase(purchase);
 				jsonObject.put("success", "Your shipping details has been added");
+				
 				Ordre order = new Ordre(null, new Date(), new Date(), purchase.getOffre().getSeller(), purchase);
 				orderService.newOrder(order);
 				String event = "order-added";
