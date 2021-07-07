@@ -20,6 +20,7 @@ import zoz.bidproject.model.Pack;
 import zoz.bidproject.model.Role;
 import zoz.bidproject.model.Seller;
 import zoz.bidproject.model.Subscription;
+import zoz.bidproject.model.Transaction;
 import zoz.bidproject.repositories.jpa.PackRepository;
 import zoz.bidproject.repositories.jpa.SellerRepository;
 import zoz.bidproject.repositories.jpa.SubscriptionRepository;
@@ -40,6 +41,8 @@ public class SubscriptionService {
 	private SellerService sellerService;
 	@Autowired
 	private BuyerService buyerService;
+	@Autowired
+	private TransactionService transactionService;
 	
 	public Subscription newSubscription(Pack pack, Buyer buyer) {
 		Seller seller = new Seller(buyer);
@@ -61,7 +64,12 @@ public class SubscriptionService {
 		buyerService.addBuyerToRole(buyer, role);
 		buyerService.editTypeAccount("Seller", buyer);
 		subscriptionRepository.save(subscription);
-		
+		Transaction transaction = new Transaction();
+		transaction.setDateStart(subscription.getCreatedAt());
+		transaction.setDateEnd(subscription.getEndAt());
+		transaction.setDescription("subscripe with Pack "+pack.getName());
+		transaction.setPrice(pack.getPrice());
+		transaction.setBuyer(buyer);
 		return subscription;
 	}
 

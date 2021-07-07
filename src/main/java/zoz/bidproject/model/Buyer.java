@@ -48,6 +48,10 @@ public class Buyer extends User {
 	@OneToMany(mappedBy = "buyer", cascade = CascadeType.ALL)
 	@JsonIgnore
 	private List<Bid> bids;
+	
+	@OneToMany(mappedBy = "buyer")
+	@JsonIgnore
+	private List<Transaction>transactions;
 
 	
 	public Buyer() {
@@ -141,5 +145,12 @@ public class Buyer extends User {
 	public void setType(String type) {
 		this.type = type;
 	}
+	public List<Transaction> getTransactions() {
+		return transactions;
+	}
+	public void setTransactions(List<Transaction> transactions) {
+		this.transactions = transactions;
+	}
+	
 
 }

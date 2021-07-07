@@ -69,6 +69,7 @@ public class PackController {
 
 	@PostMapping
 	@RequestMapping(path = "/new", method = RequestMethod.POST)
+	@PreAuthorize("hasAnyAuthority('SELLER','ADMIN')")
 	public ResponseEntity<Object> newPack(@RequestBody PackDto packDto) throws StripeException, JSONException {
 		System.out.println(packDto.getName());
 		Pack pack = new Pack(packDto.getId(), packDto.getName(), packDto.getNbrDays(), packDto.getDetails());
