@@ -14,7 +14,7 @@ import zoz.bidproject.service.BuyerService;
 import zoz.bidproject.service.TransactionService;
 
 @RestController
-@RequestMapping("/trancation")
+@RequestMapping("/transaction")
 public class TransactionController {
 
 	@Autowired

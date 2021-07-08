@@ -12,6 +12,11 @@ import zoz.bidproject.model.Pack;
 public class PackConvert {
 	public PackDto entityToDto(Pack pack) {
 		PackDto packDto = new PackDto();
+		packDto.setName(pack.getName());
+		packDto.setNbrDays(pack.getNbrDays());
+		packDto.setDetails(pack.getDetails());
+		packDto.setId(pack.getId());
+		packDto.setPrice(pack.getPrice());
 		return packDto;
 	}
 

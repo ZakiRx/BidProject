@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 public class Pack {
@@ -21,9 +22,7 @@ public class Pack {
 	private String planId;
 	private Long price;
 	@OneToMany(mappedBy = "pack")
-	@JsonIgnore
 	private List<Subscription> subcriptions;
-
 	public Pack() {
 
 	}

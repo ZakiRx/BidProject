@@ -39,16 +39,16 @@ public class PackController {
 	private PackService packService;
 	@Autowired
 	private StripeService stripeService;
-	private PackConvert PackConvert;
+	private PackConvert packConvert;
 
 	@PostConstruct
 	public void init() {
-
+		packConvert = new PackConvert();
 	}
 
 	@GetMapping
 	@RequestMapping("/")
-	public List<Pack> getPacks() throws StripeException {
+	public List<PackDto> getPacks() throws StripeException {
 		/*Map<String, Object> params = new HashMap<>();
 		params.put("limit", 3);
 
@@ -58,13 +58,13 @@ public class PackController {
 			System.out.println(plan.getId());
 			System.out.println(plan.getProduct());
 		}*/
-		return packService.getPacks();
+		return packConvert.entityToDto(packService.getPacks());
 	}
 
 	@GetMapping
 	@RequestMapping("/{id}")
-	public Pack getPack(@PathVariable Long id) {
-		return packService.getPack(id);
+	public PackDto getPack(@PathVariable Long id) {
+		return packConvert.entityToDto(packService.getPack(id));
 	}
 
 	@PostMapping
@@ -96,8 +96,8 @@ public class PackController {
 
 	@PutMapping
 	@RequestMapping(path = "/{id}/delete", method = RequestMethod.DELETE)
-	@PreAuthorize("hasAuthority('ADMIN')")
-	public ResponseEntity<Object> deletePack(PackDto packDto, @PathVariable("id") Long id) throws JSONException {
+	
+	public ResponseEntity<Object> deletePack(@PathVariable("id") Long id) throws JSONException {
 		Pack pack = packService.getPack(id);
 		packService.deletePack(pack);
 		return new ResponseEntity<Object>((new JSONObject().put("message", "pack has been deleted")).toString(),
