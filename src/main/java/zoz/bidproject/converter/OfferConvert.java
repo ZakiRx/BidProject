@@ -14,19 +14,24 @@ import zoz.bidproject.model.Seller;
 import zoz.bidproject.service.SellerService;
 
 public class OfferConvert {
+
 	private SellerService sellerService;
 	private BidConvert bidConvert;
 	private CommentConvert commentConvert;
+
 	public OfferConvert() {
-		bidConvert= new BidConvert();
-		commentConvert= new CommentConvert();
-		sellerService= new SellerService();
+		bidConvert = new BidConvert();
+		commentConvert = new CommentConvert();
+		sellerService = new SellerService();
 	}
+
 	public OfferDto entityToDto(Offer offer) {
-		List<BidDto> bids= bidConvert.entityToDto(offer.getBids());
-		List<CommentDto> comments =commentConvert.entityToDto(offer.getComment());
-		OfferDto offerDto = new OfferDto(offer.getId(),offer.getName(),offer.getDescription(),offer.getStartPrice(),offer.getAugmentationPrice(),offer.getCurrentPrice(),offer.getStartedAt(),offer.getEndAt(),offer.getSeller().getId(),offer.getSeller().getUserName(),comments,offer.getProducts(),bids);
-		
+		List<BidDto> bids = bidConvert.entityToDto(offer.getBids());
+		List<CommentDto> comments = commentConvert.entityToDto(offer.getComment());
+		OfferDto offerDto = new OfferDto(offer.getId(), offer.getName(), offer.getDescription(), offer.getStartPrice(),
+				offer.getAugmentationPrice(), offer.getCurrentPrice(), offer.getStartedAt(), offer.getEndAt(),
+				offer.getSeller().getId(), offer.getSeller().getUserName(), comments, offer.getProducts(), bids);
+
 		return offerDto;
 	}
 
@@ -36,8 +41,10 @@ public class OfferConvert {
 	}
 
 	public Offer dtoToEntity(OfferDto offerDto) {
-		Offer offer = new Offer(offerDto.getId(),offerDto.getName(),offerDto.getDescription(),offerDto.getStartPrice(),offerDto.getAugmentationPrice(),offerDto.getStartedAt(),offerDto.getEndAt(),false,false,null);
-		offer.setCurrentPrice(offerDto.getCurrentPrice()==null?0:offerDto.getCurrentPrice());
+		Offer offer = new Offer(offerDto.getId(), offerDto.getName(), offerDto.getDescription(),
+				offerDto.getStartPrice(), offerDto.getAugmentationPrice(), offerDto.getStartedAt(), offerDto.getEndAt(),
+				false, false, null);
+		offer.setCurrentPrice(offerDto.getCurrentPrice() == null ? 0 : offerDto.getCurrentPrice());
 		return offer;
 	}
 
