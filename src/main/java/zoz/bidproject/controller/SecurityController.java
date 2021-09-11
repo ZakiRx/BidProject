@@ -54,7 +54,6 @@ public class SecurityController {
 					.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
 
 			if (authentication.isAuthenticated()) {
-
 				String username = user.getUsername();
 				List<Role> roles = (List<Role>) buyerService.getBuyerByUserName(username).getRoles();
 				String token = jwtProvider.createToken(username, roles);

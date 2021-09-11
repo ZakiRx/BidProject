@@ -12,6 +12,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.sun.istack.NotNull;
 
+import zoz.bidproject.validator.age.Age;
+
 public class UserSignUpDto {
 	
 	@Column(length = 25)
@@ -24,8 +26,8 @@ public class UserSignUpDto {
 	private String firstName;
 	@NotNull
 	@Size(min = 6,max = 20,message = "LastName must be between 6 and 20 charachter")
-	private String LastName;
-	@DateTimeFormat
+	private String lastName;
+	@Age
 	private LocalDate dateBirth;
 	@Email
 	private String email;
@@ -44,7 +46,7 @@ public class UserSignUpDto {
 			String phoneNumber, String password, String confirmePassword) {
 		this.userName = userName;
 		this.firstName = firstName;
-		LastName = lastName;
+		this.lastName = lastName;
 		this.dateBirth = dateBirth;
 		this.email = email;
 		this.phoneNumber = phoneNumber;
@@ -64,10 +66,10 @@ public class UserSignUpDto {
 		this.firstName = firstName;
 	}
 	public String getLastName() {
-		return LastName;
+		return lastName;
 	}
 	public void setLastName(String lastName) {
-		LastName = lastName;
+		this.lastName = lastName;
 	}
 	public LocalDate getDateBirth() {
 		return dateBirth;

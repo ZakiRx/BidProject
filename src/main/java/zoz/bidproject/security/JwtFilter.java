@@ -55,6 +55,7 @@ public class JwtFilter extends OncePerRequestFilter {
 			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		     //response.getWriter().write("token not found"+HttpServletResponse.SC_UNAUTHORIZED);
 		}
+		response.reset();
 		System.out.println("Create Token  When Send request from /login | check Autorize in header Http when send other request  ");
 		filterChain.doFilter(request, response);
 		

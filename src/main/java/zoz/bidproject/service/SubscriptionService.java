@@ -42,8 +42,7 @@ public class SubscriptionService {
 	
 	public Subscription newSubscription(Pack pack, Buyer buyer) {
 		Seller seller = new Seller(buyer);
-		//End Subscripe By Pack
-
+		//End Subscribe By Pack
 		Date today = new Date();
 		Calendar c = Calendar.getInstance(); 
 		c.setTime(today); 

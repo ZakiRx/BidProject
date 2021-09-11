@@ -1,7 +1,5 @@
 package zoz.bidproject.controller;
 
-
-
 import javax.annotation.PostConstruct;
 import javax.validation.Valid;
 
